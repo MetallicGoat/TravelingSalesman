@@ -12,6 +12,7 @@ public class DesktopLauncher {
 
 		// Christian
 		config.setResizable(false);
+		config.setWindowedMode(1200, 800);
 
 		new Lwjgl3Application(new TravelingSalesman(), config);
 	}
