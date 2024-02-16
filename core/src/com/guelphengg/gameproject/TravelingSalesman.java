@@ -12,7 +12,7 @@ public class TravelingSalesman extends ApplicationAdapter {
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");
+		img = new Texture("20230808.jpg");
 	}
 
 	@Override
