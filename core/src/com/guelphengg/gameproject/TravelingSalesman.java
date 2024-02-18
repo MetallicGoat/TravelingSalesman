@@ -1,19 +1,33 @@
 package com.guelphengg.gameproject;
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.graphics.Color;
+
+import java.awt.*;
+
 
 public class TravelingSalesman extends ApplicationAdapter {
-	SpriteBatch batch, img2;
+	SpriteBatch batch;
 	public OrthographicCamera cam = new OrthographicCamera();
-
 	private int widthScreen, heightScreen;
 	private int widthImage, heightImage;
+	BitmapFont font;
+	FileHandle text;
+	Files.FileType textType;
+
+	Player player2 = new Player("Mark", 100, 100, false);
 	Texture img;
 	
 	@Override
@@ -22,19 +36,48 @@ public class TravelingSalesman extends ApplicationAdapter {
 		heightScreen = Gdx.graphics.getHeight();
 		batch = new SpriteBatch();
 		img = new Texture("20230808.jpg");
-		img2 = new SpriteBatch();
-
-		widthImage = img.getWidth();
-		heightImage = img.getHeight();
+		text = new FileHandle("Super Cosmic Personal Use.ttf");
+		font = new BitmapFont();
 	}
 
+	public class Rectangle extends Actor {
+
+		private Texture texture;
+
+		public Rectangle(float x, float y, float width, float height, Color color) {
+			createTexture((int)width, (int)height, color);
+			setX(x);
+			setY(y);
+			setWidth(width);
+			setHeight(height);
+		}
+
+		private void createTexture(int width, int height, Color color) {
+			Pixmap pixmap = new Pixmap(width, height, Pixmap.Format.RGBA8888);
+			pixmap.setColor(color);
+			pixmap.fillRectangle(0, 0, width, height);
+			texture = new Texture(pixmap);
+			pixmap.dispose();
+		}
+
+		@Override
+		public void draw(Batch batch, float parentAlpha) {
+			Color color = getColor();
+			batch.setColor(color.r, color.g, color.b, color.a * parentAlpha);
+			batch.draw(texture, getX(), getY(), getWidth(), getHeight());
+		}
+	}
 	@Override
 	public void render () {
 		ScreenUtils.clear(0, 0, 0, 1);
 		cam.update();
 		batch.begin();
 		batch.draw(img, 0, 0, widthScreen, heightScreen);
-		batch.end();
+
+		Rectangle rectangle = new Rectangle(widthScreen-210, heightScreen-200, 250, 100, Color.BLUE);
+		rectangle.draw(batch, (float)1);
+		font.draw(batch, "Player 2 Strength: ".concat(String.valueOf(player2.getStrength())), rectangle.getX()+rectangle.getWidth()/4, rectangle.getY()+rectangle.getHeight()/2);
+        batch.end();
 	}
 	
 	@Override
@@ -43,18 +86,4 @@ public class TravelingSalesman extends ApplicationAdapter {
 		img.dispose();
 	}
 
-	public void move(){
-		if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-			cam.translate(-3, 0, 0);
-		}
-		if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-			cam.translate(3, 0, 0);
-		}
-		if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-			cam.translate(0, -3, 0);
-		}
-		if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-			cam.translate(0, 3, 0);
-		}
-	}
 }
