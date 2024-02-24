@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.graphics.Color;
 
@@ -29,7 +30,9 @@ public class TravelingSalesman extends ApplicationAdapter {
 
 	Player player2 = new Player("Mark", 100, 100, false);
 	Texture img;
-	
+
+	private static TravelingSalesman instance;
+
 	@Override
 	public void create () {
 		widthScreen = Gdx.graphics.getWidth();
@@ -38,13 +41,18 @@ public class TravelingSalesman extends ApplicationAdapter {
 		img = new Texture("20230808.jpg");
 		text = new FileHandle("Super Cosmic Personal Use.ttf");
 		font = new BitmapFont();
+		instance = this;
+
+		// Start listening for input
+		Gdx.input.setInputProcessor(new InputListener());
+
+		// Initialize the scene manager
+		SceneManager.init();
 	}
 
-	
 	@Override
 	public void render () {
 		ScreenUtils.clear(0, 0, 0, 1);
-		cam.update();
 		batch.begin();
 		batch.draw(img, 0, 0, widthScreen, heightScreen);
 
@@ -52,12 +60,18 @@ public class TravelingSalesman extends ApplicationAdapter {
 		rectangle.draw(batch, (float)1);
 		font.draw(batch, "Player 2 Strength: ".concat(String.valueOf(player2.getStrength())), rectangle.getX()+rectangle.getWidth()/4, rectangle.getY()+rectangle.getHeight()/2);
         batch.end();
+
+		SceneManager.getCurrentScene().render();
 	}
 	
 	@Override
-	public void dispose () {
-		batch.dispose();
-		img.dispose();
+	public void dispose() {
+		SceneManager.dispose();
+        batch.dispose();
+        img.dispose();
 	}
 
+	public static TravelingSalesman getInstance(){
+		return instance;
+	}
 }
