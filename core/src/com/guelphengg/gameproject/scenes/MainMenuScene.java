@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.guelphengg.gameproject.GameManager;
 import com.guelphengg.gameproject.SceneManager;
+import com.guelphengg.gameproject.TravelingSalesman;
 
 public class MainMenuScene extends Scene {
 
@@ -43,6 +44,7 @@ public class MainMenuScene extends Scene {
     switch (key){
       case Input.Keys.SPACE: {
         GameManager.startGame();
+
         break;
       }
     }

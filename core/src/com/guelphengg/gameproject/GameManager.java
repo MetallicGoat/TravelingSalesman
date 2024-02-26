@@ -9,6 +9,7 @@ public class GameManager {
 
   public static void startGame() {
     SceneManager.setCurrentSceneType(SceneType.GAME_SCENE);
+
   }
 
   public static void gameInput(int keyCode) {
