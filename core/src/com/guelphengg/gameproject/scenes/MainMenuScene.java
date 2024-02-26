@@ -4,6 +4,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.guelphengg.gameproject.Accessor;
 import com.guelphengg.gameproject.GameManager;
 import com.guelphengg.gameproject.SceneManager;
 
@@ -42,7 +43,7 @@ public class MainMenuScene extends Scene {
   public void onKeyDown(int key) {
     switch (key){
       case Input.Keys.SPACE: {
-        GameManager.startGame();
+        Accessor.getGameManager().startGame();
         break;
       }
     }

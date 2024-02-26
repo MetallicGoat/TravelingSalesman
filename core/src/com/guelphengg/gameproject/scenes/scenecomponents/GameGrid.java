@@ -18,25 +18,26 @@ public class GameGrid {
     this.gridHeight = this.gridWidth = (int) (SceneManager.getViewHeight() * 0.9);
 
     // Calculate best spot for grid
+    // Logic that determines where the grid should actually get displayed
     this.cornerX = (int) (SceneManager.getViewHeight() * 0.1 / 2);
     this.cornerY = (int) (SceneManager.getViewHeight() * 0.1 / 2);
   }
 
   // height of an individual box on the grid
   public int getBoxHeight() {
-    return gridHeight / 10;
+    return this.gridHeight / 10; // TODO make it so its not 10 by 10 hard coded
   }
 
   // width of an individual box on the grid
   public int getBoxWidth() {
-    return gridWidth / 10;
+    return this.gridWidth / 10;
   }
 
   public void renderTextureInGrid(int x, int y, Texture texture) {
     final SpriteBatch batch = SceneManager.getSpriteBatch();
 
     batch.begin();
-    batch.draw(texture, cornerX + (x * getBoxWidth()),cornerY + (y * getBoxHeight()), getBoxWidth(), getBoxHeight());
+    batch.draw(texture, this.cornerX + (x * getBoxWidth()),this.cornerY + (y * getBoxHeight()), getBoxWidth(), getBoxHeight());
     batch.end();
   }
 
@@ -45,7 +46,7 @@ public class GameGrid {
 
     shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
     shapeRenderer.setColor(color);
-    shapeRenderer.ellipse(cornerX + (x * getBoxWidth()),cornerY + (y * getBoxHeight()), getBoxWidth(), getBoxHeight());
+    shapeRenderer.ellipse(this.cornerX + (x * getBoxWidth()),this.cornerY + (y * getBoxHeight()), getBoxWidth(), getBoxHeight());
     shapeRenderer.end();
   }
 
@@ -57,14 +58,16 @@ public class GameGrid {
 
     Gdx.gl.glLineWidth(2);
 
+
+    // TODO more hard coded 10 by 10 logic
     // Horizontal Lines
     for (int i = 0; i <= 10; i++) {
-      shapeRenderer.line(cornerX, cornerY + (getBoxHeight() * i), cornerX + gridWidth, cornerY + (getBoxHeight() * i));
+      shapeRenderer.line(this.cornerX, this.cornerY + (getBoxHeight() * i), this.cornerX + this.gridWidth, this.cornerY + (getBoxHeight() * i));
     }
 
     // Vertical Lines
     for (int i = 0; i <= 10; i++) {
-      shapeRenderer.line(cornerX + (getBoxWidth() * i), cornerY, cornerX + (getBoxWidth() * i), cornerY + gridHeight);
+      shapeRenderer.line(this.cornerX + (getBoxWidth() * i), this.cornerY, this.cornerX + (getBoxWidth() * i), this.cornerY + this.gridHeight);
     }
 
     shapeRenderer.end();
