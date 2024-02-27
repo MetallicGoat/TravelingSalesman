@@ -27,7 +27,8 @@ public class GameScene extends Scene {
     batch.begin();
 
     grid.renderGrid(Color.WHITE);
-    rectangle = new Rectangle(SceneManager.getViewWidth() - 210, SceneManager.getViewHeight() - 200, 2500, 1000, Color.BLUE);
+    batch.setColor(Color.BLUE);
+    rectangle = new Rectangle(SceneManager.getViewWidth() - 210, SceneManager.getViewHeight() - 200, 250, 100, Color.BLUE);
     rectangle.draw(batch, (float) 1);
     font.draw(batch, "Player 2 Strength: ".concat(String.valueOf(manager.getPlayer2().getStrength())), rectangle.getX() + rectangle.getWidth() / 4, rectangle.getY() + rectangle.getHeight() / 2);
 
