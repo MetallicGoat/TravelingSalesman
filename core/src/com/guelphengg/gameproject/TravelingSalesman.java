@@ -12,24 +12,22 @@ import com.badlogic.gdx.utils.ScreenUtils;
 
 public class TravelingSalesman extends ApplicationAdapter {
     SpriteBatch batch;
-    private int widthScreen, heightScreen;
-    private int widthImage, heightImage;
+
     BitmapFont font;
-    Sprite mapSprite;
+
     Player player2;
-    public Texture img, imgMap;
+    public Texture img;
     private static TravelingSalesman instance;
 
     @Override
     public void create() {
-        widthScreen = Gdx.graphics.getWidth();
-        heightScreen = Gdx.graphics.getHeight();
+
         batch = new SpriteBatch();
         img = new Texture("Map Background.jpg");
-        imgMap = new Texture("Main Scroll.png");
+
         player2 = new Player("Mark", 100, 100, false);
         font = new BitmapFont();
-        mapSprite = new Sprite(imgMap);
+
         instance = this;
 
         // Start listening for input
@@ -41,10 +39,12 @@ public class TravelingSalesman extends ApplicationAdapter {
 
     @Override
     public void render() {
+        int widthScreen = Gdx.graphics.getWidth();
+        int heightScreen = Gdx.graphics.getHeight();
         ScreenUtils.clear(0, 0, 0, 1);
         batch.begin();
         batch.draw(img, 0, 0, widthScreen, img.getHeight());
-        batch.draw(mapSprite, (int) (widthScreen / 2 - mapSprite.getWidth() / 2), (int) (heightScreen / 2 - mapSprite.getHeight() / 2) - 60, mapSprite.getWidth(), mapSprite.getHeight());
+
         Rectangle rectangle = new Rectangle(widthScreen - 210, heightScreen - 200, 250, 100, Color.BLUE);
         rectangle.draw(batch, (float) 1);
         font.draw(batch, "Player 2 Strength: ".concat(String.valueOf(player2.getStrength())), rectangle.getX() + rectangle.getWidth() / 4, rectangle.getY() + rectangle.getHeight() / 2);
