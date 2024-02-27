@@ -13,6 +13,7 @@ public class Player extends GridObject {
   private final Animation<TextureRegion> playerAnimation;
   private final Character character;
   private boolean small = true;
+  private int strength = 10, health = 100;
 
   public int yOffset = 0;
   public int xOffset = 0;
@@ -62,6 +63,23 @@ public class Player extends GridObject {
   public boolean isAtStart() {
     return (getX() == 10 && getY() == 0) ;
   }
+
+  void setStrength(int strength) {
+    this.strength = strength;
+  }
+
+  public int getStrength() {
+    return this.strength;
+  }
+
+  void setHealth(int health){
+    this.health = health;
+  }
+
+  public int getHealth() {
+    return health;
+  }
+
 
   @Override
   public void render(GameGrid gameGrid) {

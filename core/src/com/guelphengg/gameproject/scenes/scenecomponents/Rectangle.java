@@ -1,4 +1,4 @@
-package com.guelphengg.gameproject;
+package com.guelphengg.gameproject.scenes.scenecomponents;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;

@@ -15,7 +15,6 @@ public class TravelingSalesman extends ApplicationAdapter {
 
     BitmapFont font;
 
-    Player player2;
     public Texture img;
     private static TravelingSalesman instance;
 
@@ -25,8 +24,7 @@ public class TravelingSalesman extends ApplicationAdapter {
         batch = new SpriteBatch();
         img = new Texture("Map Background.jpg");
 
-        player2 = new Player("Mark", 100, 100, false);
-        font = new BitmapFont();
+
 
         instance = this;
 
@@ -39,15 +37,13 @@ public class TravelingSalesman extends ApplicationAdapter {
 
     @Override
     public void render() {
-        int widthScreen = Gdx.graphics.getWidth();
-        int heightScreen = Gdx.graphics.getHeight();
+
         ScreenUtils.clear(0, 0, 0, 1);
         batch.begin();
-        batch.draw(img, 0, 0, widthScreen, img.getHeight());
+        batch.draw(img, 0, 0, SceneManager.getViewWidth(), SceneManager.getViewHeight());
 
-        Rectangle rectangle = new Rectangle(widthScreen - 210, heightScreen - 200, 250, 100, Color.BLUE);
-        rectangle.draw(batch, (float) 1);
-        font.draw(batch, "Player 2 Strength: ".concat(String.valueOf(player2.getStrength())), rectangle.getX() + rectangle.getWidth() / 4, rectangle.getY() + rectangle.getHeight() / 2);
+
+
         batch.end();
 
         SceneManager.getCurrentScene().render();
