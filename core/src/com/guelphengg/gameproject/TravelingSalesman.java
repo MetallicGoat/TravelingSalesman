@@ -2,36 +2,65 @@ package com.guelphengg.gameproject;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 
+
 public class TravelingSalesman extends ApplicationAdapter {
+    SpriteBatch batch;
 
-	private static TravelingSalesman instance;
-	
-	@Override
-	public void create () {
-		instance = this;
+    BitmapFont font;
 
-		// Start listening for input
-		Gdx.input.setInputProcessor(new InputListener());
+    Player player2;
+    public Texture img;
+    private static TravelingSalesman instance;
 
-		// Initialize the scene manager
-		SceneManager.init();
-	}
+    @Override
+    public void create() {
 
-	@Override
-	public void render () {
-		ScreenUtils.clear(0, 0, 0, 1);
+        batch = new SpriteBatch();
+        img = new Texture("Map Background.jpg");
 
-		SceneManager.getCurrentScene().render();
-	}
-	
-	@Override
-	public void dispose() {
-		SceneManager.dispose();
-	}
+        player2 = new Player("Mark", 100, 100, false);
+        font = new BitmapFont();
 
-	public static TravelingSalesman getInstance(){
-		return instance;
-	}
+        instance = this;
+
+        // Start listening for input
+        Gdx.input.setInputProcessor(new InputListener());
+
+        // Initialize the scene manager
+        SceneManager.init();
+    }
+
+    @Override
+    public void render() {
+        int widthScreen = Gdx.graphics.getWidth();
+        int heightScreen = Gdx.graphics.getHeight();
+        ScreenUtils.clear(0, 0, 0, 1);
+        batch.begin();
+        batch.draw(img, 0, 0, widthScreen, img.getHeight());
+
+        Rectangle rectangle = new Rectangle(widthScreen - 210, heightScreen - 200, 250, 100, Color.BLUE);
+        rectangle.draw(batch, (float) 1);
+        font.draw(batch, "Player 2 Strength: ".concat(String.valueOf(player2.getStrength())), rectangle.getX() + rectangle.getWidth() / 4, rectangle.getY() + rectangle.getHeight() / 2);
+        batch.end();
+
+        SceneManager.getCurrentScene().render();
+    }
+
+    @Override
+    public void dispose() {
+        SceneManager.dispose();
+        batch.dispose();
+        img.dispose();
+    }
+
+    public static TravelingSalesman getInstance() {
+        return instance;
+    }
 }
