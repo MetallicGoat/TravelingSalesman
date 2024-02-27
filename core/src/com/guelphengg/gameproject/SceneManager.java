@@ -5,11 +5,9 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.guelphengg.gameproject.scenes.Scene;
-import com.guelphengg.gameproject.scenes.SceneType;
 
 public class SceneManager {
 
-  private static SceneType currentSceneType;
   private static OrthographicCamera camera;
   private static SpriteBatch batch;
   private static ShapeRenderer shapeRenderer;
@@ -24,20 +22,10 @@ public class SceneManager {
 
     shapeRenderer = new ShapeRenderer();
     shapeRenderer.setProjectionMatrix(camera.combined);
-
-    currentSceneType = SceneType.MAIN_MENU;
-  }
-
-  public static SceneType getCurrentSceneType() {
-    return currentSceneType;
   }
 
   public static Scene getCurrentScene() {
-    return currentSceneType.getScene();
-  }
-
-  public static void setCurrentSceneType(SceneType sceneType) {
-    currentSceneType = sceneType;
+    return Accessor.getGameManager().getState().getScene();
   }
 
   public static OrthographicCamera getCamera() {
@@ -64,5 +52,4 @@ public class SceneManager {
     shapeRenderer.dispose();
     batch.dispose();
   }
-
 }

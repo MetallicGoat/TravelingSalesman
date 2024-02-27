@@ -3,6 +3,7 @@ package com.guelphengg.gameproject.scenes;
 import com.badlogic.gdx.graphics.Color;
 import com.guelphengg.gameproject.Accessor;
 import com.guelphengg.gameproject.GameManager;
+import com.guelphengg.gameproject.GameState;
 import com.guelphengg.gameproject.scenes.scenecomponents.GameGrid;
 
 public class GameScene extends Scene {
@@ -10,7 +11,7 @@ public class GameScene extends Scene {
   final GameGrid grid = new GameGrid();
 
   public GameScene() {
-    super(SceneType.GAME_SCENE);
+    super(GameState.RUNNING);
   }
 
   @Override
@@ -40,11 +41,6 @@ public class GameScene extends Scene {
     // Render the players
     grid.renderCircleInGrid(manager.getPlayer1().getX(), manager.getPlayer1().getY(), manager.getPlayer1().getColor());
     grid.renderCircleInGrid(manager.getPlayer2().getX(), manager.getPlayer2().getY(), manager.getPlayer2().getColor());
-  }
-
-  @Override
-  public void onKeyDown(int key) {
-    Accessor.getGameManager().gameInput(key);
   }
 
 }
