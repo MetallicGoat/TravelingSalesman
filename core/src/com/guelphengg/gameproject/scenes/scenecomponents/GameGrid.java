@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.guelphengg.gameproject.SceneManager;
 
@@ -34,19 +35,39 @@ public class GameGrid {
   }
 
   public void renderTextureInGrid(int x, int y, Texture texture) {
+    renderTextureInGrid(x, y, texture, 1, 0, 0);
+  }
+
+  public void renderTextureInGrid(int x, int y, Texture texture, double scale, int xOffset, int yOffset) {
     final SpriteBatch batch = SceneManager.getSpriteBatch();
 
     batch.begin();
-    batch.draw(texture, this.cornerX + (x * getBoxWidth()),this.cornerY + (y * getBoxHeight()), getBoxWidth(), getBoxHeight());
+    batch.draw(texture, (this.cornerX + (x * getBoxWidth())) + xOffset, (this.cornerY + (y * getBoxHeight())) + yOffset, (float) (getBoxWidth() * scale), (float) (getBoxHeight() * scale));
+    batch.end();
+  }
+
+  public void renderTextureInGrid(int x, int y, TextureRegion texture) {
+    renderTextureInGrid(x, y, texture, 1, 0, 0);
+  }
+
+  public void renderTextureInGrid(int x, int y, TextureRegion texture, double scale, int xOffset, int yOffset) {
+    final SpriteBatch batch = SceneManager.getSpriteBatch();
+
+    batch.begin();
+    batch.draw(texture, (this.cornerX + (x * getBoxWidth())) + xOffset, (this.cornerY + (y * getBoxHeight())) + yOffset, (float) (getBoxWidth() * scale), (float) (getBoxHeight() * scale));
     batch.end();
   }
 
   public void renderCircleInGrid(int x, int y, Color color) {
+    renderCircleInGrid(x, y, color, 1, 0, 0);
+  }
+
+  public void renderCircleInGrid(int x, int y, Color color, double scale, int xOffset, int yOffset) {
     final ShapeRenderer shapeRenderer = SceneManager.getShapeRenderer();
 
     shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
     shapeRenderer.setColor(color);
-    shapeRenderer.ellipse(this.cornerX + (x * getBoxWidth()),this.cornerY + (y * getBoxHeight()), getBoxWidth(), getBoxHeight());
+    shapeRenderer.ellipse((this.cornerX + (x * getBoxWidth())) + xOffset ,(this.cornerY + (y * getBoxHeight())) + yOffset,  (float) (getBoxWidth() * scale), (float) (getBoxHeight() * scale));
     shapeRenderer.end();
   }
 

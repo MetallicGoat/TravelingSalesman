@@ -1,20 +1,14 @@
 package com.guelphengg.gameproject.griditems;
 
-import com.badlogic.gdx.graphics.Color;
+import com.guelphengg.gameproject.scenes.scenecomponents.GameGrid;
 
-public class GridObject {
+public abstract class GridObject {
   private int x;
   private int y;
-  private final Color color;
 
-  public GridObject(int x, int y, Color color) {
+  public GridObject(int x, int y) {
     this.x = x;
     this.y = y;
-    this.color = color;
-  }
-
-  public Color getColor() {
-    return this.color;
   }
 
   public int getX() {
@@ -32,4 +26,6 @@ public class GridObject {
   public void setY(int y) {
     this.y = y;
   }
+
+  public abstract void render(GameGrid gameGrid);
 }

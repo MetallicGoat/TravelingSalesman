@@ -1,27 +1,35 @@
 package com.guelphengg.gameproject;
 
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Color;
+import com.guelphengg.gameproject.griditems.Castle;
+import com.guelphengg.gameproject.griditems.GridObject;
 import com.guelphengg.gameproject.griditems.Player;
 
 public class GameManager {
+
+
+  private int turn = 0;
 
   // What phase the game is currently in
   private GameState state = GameState.MAIN_MENU;
 
   // TODO add turns system: rn playing player is the only one who can move
-  private final Player player1 = new Player(0, 0, Color.RED);
-  private final Player player2 = new Player(0, 1, Color.BLUE);
+  // TODO allow players to pick their character
+  private final Player player1 = new Player(10, 0, null);
+  private final Player player2 = new Player(10, 0, null);
 
   private Player playingPlayer = player1;
 
+  // Items on the grid TODO
+  public final GridObject[][] gridObjects = new GridObject[10][10];
+
   // TODO check if this was actually supposed to be in the game or if I dumb
-  public boolean[][] visibleArea = new boolean[10][10];
+  // public boolean[][] visibleArea = new boolean[10][10];
 
   public void startGame() {
-    this.state = GameState.RUNNING;
+    gridObjects[4][4] = new Castle(4, 4);
 
-    //SceneManager.setCurrentSceneType(GameState.RUNNING);
+    this.state = GameState.RUNNING;
   }
 
   public GameState getState() {
@@ -35,6 +43,8 @@ public class GameManager {
     if (this.state == GameState.MAIN_MENU) {
       switch (keyCode) {
         case Input.Keys.SPACE:
+          startGame(); // TODO this could not be called every time they press space
+
           this.state = GameState.RUNNING;
           break;
       }
@@ -108,7 +118,13 @@ public class GameManager {
     this.playingPlayer.setX(newX);
     this.playingPlayer.setY(newY);
 
-    visibleArea[newX][newY] = true;
+    turn++;
+
+    if (turn % 10 == 0) {
+      nextTurn();
+    }
+
+    // visibleArea[newX][newY] = true;
 
     // True if the player can move
     return true;
