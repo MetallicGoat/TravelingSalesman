@@ -3,15 +3,14 @@ package com.guelphengg.gameproject.scenes;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.guelphengg.gameproject.*;
 import com.guelphengg.gameproject.griditems.Player;
 import com.guelphengg.gameproject.scenes.scenecomponents.GameGrid;
-import com.guelphengg.gameproject.scenes.scenecomponents.Rectangle;
 
 public class GameScene extends Scene {
 
   final GameGrid grid = new GameGrid();
-  Rectangle rectangle;
   BitmapFont font = new BitmapFont();
 
   public GameScene() {
@@ -27,10 +26,20 @@ public class GameScene extends Scene {
     batch.begin();
 
     grid.renderGrid(Color.WHITE);
-    batch.setColor(Color.BLUE);
-    rectangle = new Rectangle(SceneManager.getViewWidth() - 210, SceneManager.getViewHeight() - 200, 250, 100, Color.BLUE);
-    rectangle.draw(batch, (float) 1);
-    font.draw(batch, "Player 2 Strength: ".concat(String.valueOf(manager.getPlayer2().getStrength())), rectangle.getX() + rectangle.getWidth() / 4, rectangle.getY() + rectangle.getHeight() / 2);
+
+    final ShapeRenderer render = SceneManager.getShapeRenderer();
+
+    float rectWidth = 250;
+    float rectHeight = 100;
+    float rectY = SceneManager.getViewHeight() - 200;
+    float rectX =  SceneManager.getViewWidth() - 210;
+
+    render.begin(ShapeRenderer.ShapeType.Filled);
+    render.setColor(Color.BLUE);
+    render.rect(rectX, rectY, rectWidth, rectHeight);
+    render.end();
+
+    font.draw(batch, "Player 2 Strength: ".concat(String.valueOf(manager.getPlayer2().getStrength())), rectX + rectWidth / 4, rectY + rectHeight / 2);
 
     batch.end();
     // put some thingies in da grid
