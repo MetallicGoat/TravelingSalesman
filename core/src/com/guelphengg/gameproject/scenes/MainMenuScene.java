@@ -26,8 +26,8 @@ public class MainMenuScene extends Scene {
         batch.begin();
         imgMap = new Texture("Main Scroll.png");
         mapSprite = new Sprite(imgMap);
-        int widthScreen = Gdx.graphics.getWidth();
-        int heightScreen = Gdx.graphics.getHeight();
+        float widthScreen = SceneManager.getViewWidth();
+        float heightScreen = SceneManager.getViewHeight();
         batch.draw(mapSprite, (int) (widthScreen / 2 - mapSprite.getWidth() / 2), (int) (heightScreen / 2 - mapSprite.getHeight() / 2) - 60, mapSprite.getWidth(), mapSprite.getHeight());
         drawCenteredText(batch, 40, 5, "Travelling Salesman");
         drawCenteredText(batch, -40, 3, "Press [Space] to Start!");
