@@ -1,16 +1,20 @@
 package com.guelphengg.gameproject.scenes;
 
 import com.badlogic.gdx.graphics.Color;
-import com.guelphengg.gameproject.Accessor;
-import com.guelphengg.gameproject.GameManager;
-import com.guelphengg.gameproject.GameState;
-import com.guelphengg.gameproject.Textures;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.guelphengg.gameproject.*;
 import com.guelphengg.gameproject.griditems.Player;
 import com.guelphengg.gameproject.scenes.scenecomponents.GameGrid;
+import com.guelphengg.gameproject.scenes.scenecomponents.ScoreBoard;
+
 
 public class GameScene extends Scene {
 
   final GameGrid grid = new GameGrid();
+  final ScoreBoard scoreBoard = new ScoreBoard();
+  BitmapFont font = new BitmapFont();
 
   public GameScene() {
     super(GameState.RUNNING);
@@ -18,10 +22,30 @@ public class GameScene extends Scene {
 
   @Override
   public void render() {
-    grid.renderGrid(Color.WHITE);
 
     final GameManager manager = Accessor.getGameManager();
+    final SpriteBatch batch = SceneManager.getSpriteBatch();
 
+    batch.begin();
+
+    grid.renderGrid(Color.WHITE);
+
+    
+
+    // this below needs to get into the fun new score board class
+
+    final ShapeRenderer render = SceneManager.getShapeRenderer();
+
+    render.begin(ShapeRenderer.ShapeType.Filled);
+    render.setColor(Color.BLUE);
+    render.rect(scoreBoard.getxPosition(), scoreBoard.getyPosition(), scoreBoard.getWidth(), scoreBoard.getHeight());
+    render.end();
+
+    // up to here
+
+    font.draw(batch, "Player 2 Strength: ".concat(String.valueOf(manager.getPlayer2().getStrength())), scoreBoard.getxPosition() + scoreBoard.getWidth() / 4, scoreBoard.getyPosition() + scoreBoard.getHeight() / 2);
+
+    batch.end();
     // put some thingies in da grid
     // grid.renderTextureInGrid(0, 0, img);
     // grid.renderTextureInGrid(5, 7,  img);
