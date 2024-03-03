@@ -1,9 +1,6 @@
 package com.guelphengg.gameproject.scenes;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.guelphengg.gameproject.*;
 import com.guelphengg.gameproject.griditems.Player;
 import com.guelphengg.gameproject.scenes.scenecomponents.GameGrid;
@@ -11,6 +8,15 @@ import com.guelphengg.gameproject.scenes.scenecomponents.ScoreBoard;
 
 
 public class GameScene extends Scene {
+
+  final GameGrid grid = new GameGrid(0.1, 2, (int) (SceneManager.getViewHeight() * 0.9), (int) (SceneManager.getViewHeight() * 0.9), 0);
+  //using ["SceneManager.getHeight" * (a fraction of the pixels height-wise)] to create a square grid
+  //in terms of the total height of the screen.
+  //otherwise, the size of the grid can be manually set by normal numbers. We just use screen length for formatting ease.
+  final GameGrid inv1 = new GameGrid(0.74, 2.1, (int) (SceneManager.getViewHeight() * 0.6), (int) (SceneManager.getViewHeight() * 0.4), 550);
+  //using (int) to cast as an integer
+  final GameGrid inv2 = new GameGrid(0.74, 2.1, (int) (SceneManager.getViewHeight() * 0.6), (int) (SceneManager.getViewHeight() * 0.4), 550);
+
 
   final GameGrid grid = new GameGrid();
   final ScoreBoard scoreBoard = new ScoreBoard();
@@ -22,6 +28,9 @@ public class GameScene extends Scene {
 
   @Override
   public void render() {
+    grid.renderGrid(Color.WHITE, 10, 10);
+    inv1.renderGrid(Color.BLUE, 6, 4);
+    inv2.renderGrid(Color.RED, 6, 4);
 
     final GameManager manager = Accessor.getGameManager();
     final SpriteBatch batch = SceneManager.getSpriteBatch();
@@ -30,7 +39,7 @@ public class GameScene extends Scene {
 
     grid.renderGrid(Color.WHITE);
 
-    
+
 
     // this below needs to get into the fun new score board class
 
@@ -99,7 +108,7 @@ public class GameScene extends Scene {
     }
 
     if (player2.isSmall()){
-      player2.xOffset = (int) (grid.getBoxWidth() * .5);
+      player2.xOffset = (int) (grid.getBoxWidth(10) * .5);
     } else {
       player2.xOffset = 0;
     }

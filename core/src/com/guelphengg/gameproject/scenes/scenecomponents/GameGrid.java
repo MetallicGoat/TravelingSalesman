@@ -14,24 +14,26 @@ public class GameGrid {
   private final int gridHeight;
   private final int gridWidth;
 
-  public GameGrid() {
+  public GameGrid(double ScrPerc, double factor, int h, int w, int x) {
     // Grid is 90% the height of the window
-    this.gridHeight = this.gridWidth = (int) (SceneManager.getViewHeight() * 0.9);
+//    this.gridHeight = this.gridWidth = (int) (SceneManager.getViewHeight() * 0.9);
+    this.gridHeight = h;
+    this.gridWidth = w;
 
     // Calculate best spot for grid
     // Logic that determines where the grid should actually get displayed
-    this.cornerX = (int) (SceneManager.getViewHeight() * 0.1 / 2);
-    this.cornerY = (int) (SceneManager.getViewHeight() * 0.1 / 2);
+    this.cornerX = (int) ((SceneManager.getViewHeight() * ScrPerc/ factor) + x);
+    this.cornerY = (int) (SceneManager.getViewHeight() * ScrPerc / factor);
   }
 
   // height of an individual box on the grid
-  public int getBoxHeight() {
-    return this.gridHeight / 10; // TODO make it so its not 10 by 10 hard coded
+  public int getBoxHeight(int h) {
+    return this.gridHeight / h; // TODO make it so its not 10 by 10 hard coded
   }
 
   // width of an individual box on the grid
-  public int getBoxWidth() {
-    return this.gridWidth / 10;
+  public int getBoxWidth(int w) {
+    return this.gridWidth / w;
   }
 
   public void renderTextureInGrid(int x, int y, Texture texture) {
@@ -42,7 +44,7 @@ public class GameGrid {
     final SpriteBatch batch = SceneManager.getSpriteBatch();
 
     batch.begin();
-    batch.draw(texture, (this.cornerX + (x * getBoxWidth())) + xOffset, (this.cornerY + (y * getBoxHeight())) + yOffset, (float) (getBoxWidth() * scale), (float) (getBoxHeight() * scale));
+    batch.draw(texture, (this.cornerX + (x * getBoxWidth(10))) + xOffset, (this.cornerY + (y * getBoxHeight(10))) + yOffset, (float) (getBoxWidth(10) * scale), (float) (getBoxHeight(10) * scale));
     batch.end();
   }
 
@@ -54,7 +56,7 @@ public class GameGrid {
     final SpriteBatch batch = SceneManager.getSpriteBatch();
 
     batch.begin();
-    batch.draw(texture, (this.cornerX + (x * getBoxWidth())) + xOffset, (this.cornerY + (y * getBoxHeight())) + yOffset, (float) (getBoxWidth() * scale), (float) (getBoxHeight() * scale));
+    batch.draw(texture, (this.cornerX + (x * getBoxWidth(10))) + xOffset, (this.cornerY + (y * getBoxHeight(10))) + yOffset, (float) (getBoxWidth(10) * scale), (float) (getBoxHeight(10) * scale));
     batch.end();
   }
 
@@ -67,11 +69,11 @@ public class GameGrid {
 
     shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
     shapeRenderer.setColor(color);
-    shapeRenderer.ellipse((this.cornerX + (x * getBoxWidth())) + xOffset ,(this.cornerY + (y * getBoxHeight())) + yOffset,  (float) (getBoxWidth() * scale), (float) (getBoxHeight() * scale));
+    shapeRenderer.ellipse((this.cornerX + (x * getBoxWidth(10))) + xOffset ,(this.cornerY + (y * getBoxHeight(10))) + yOffset,  (float) (getBoxWidth(10) * scale), (float) (getBoxHeight(10) * scale));
     shapeRenderer.end();
   }
 
-  public void renderGrid(Color color) {
+  public void renderGrid(Color color, int h, int w) {
     final ShapeRenderer shapeRenderer = SceneManager.getShapeRenderer();
 
     shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
@@ -82,13 +84,13 @@ public class GameGrid {
 
     // TODO more hard coded 10 by 10 logic
     // Horizontal Lines
-    for (int i = 0; i <= 10; i++) {
-      shapeRenderer.line(this.cornerX, this.cornerY + (getBoxHeight() * i), this.cornerX + this.gridWidth, this.cornerY + (getBoxHeight() * i));
+    for (int i = 0; i <= h; i++) {
+      shapeRenderer.line(this.cornerX, this.cornerY + (getBoxHeight(h) * i), this.cornerX + this.gridWidth, this.cornerY + (getBoxHeight(h) * i));
     }
 
     // Vertical Lines
-    for (int i = 0; i <= 10; i++) {
-      shapeRenderer.line(this.cornerX + (getBoxWidth() * i), this.cornerY, this.cornerX + (getBoxWidth() * i), this.cornerY + this.gridHeight);
+    for (int i = 0; i <= w; i++) {
+      shapeRenderer.line(this.cornerX + (getBoxWidth(w) * i), this.cornerY, this.cornerX + (getBoxWidth(w) * i), this.cornerY + this.gridHeight);
     }
 
     shapeRenderer.end();
