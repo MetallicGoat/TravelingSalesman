@@ -37,7 +37,7 @@ public enum Character {
     walkFrames[2] = tmp[textureRow][textureCol + 2];
 
     // Initialize the Animation with the frame interval and array of frames
-    animation = new Animation<>(0.1f, walkFrames);
+    animation = new Animation<>(0.15f, walkFrames);
   }
 
 }

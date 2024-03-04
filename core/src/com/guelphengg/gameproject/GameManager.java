@@ -3,14 +3,17 @@ package com.guelphengg.gameproject;
 import com.badlogic.gdx.Input;
 import com.guelphengg.gameproject.griditems.GridObject;
 import com.guelphengg.gameproject.griditems.Player;
+import com.guelphengg.gameproject.scenes.TransitionScene;
+
+import java.util.Random;
 
 public class GameManager {
   private int turn = 0;
+  private int turnsLeft = 0;
 
   // What phase the game is currently in
   private GameState state = GameState.MAIN_MENU;
 
-  // TODO add turns system: rn playing player is the only one who can move
   // TODO allow players to pick their character
   private final Player player1 = new Player(10, 0, Character.GREENIE);
   private final Player player2 = new Player(10, 0, Character.REDIE);
@@ -18,15 +21,15 @@ public class GameManager {
   private Player playingPlayer = player1;
 
   private boolean largeMap = true;
+  private boolean diceRolling = false;
+  private long lastRollTime = 0;
 
-  // Items on the grid TODO
   public GridObject[][] gridObjects = new GridObject[10][10];
 
   // TODO check if this was actually supposed to be in the game or if I dumb
   // public boolean[][] visibleArea = new boolean[10][10];
 
   public void startGame() {
-
     //TODO Replace this with a system to randomly generate positions
     gridObjects[4][4] = GridObject.CASTLE;
     gridObjects[2][6] = GridObject.TRAPPED_HOUSE;
@@ -42,23 +45,47 @@ public class GameManager {
     gridObjects[5][8] = GridObject.TRAPPED_HOUSE;
     gridObjects[9][1] = GridObject.TREASURE_HOUSE;
 
-    this.state = GameState.RUNNING;
+    smoothlySetState(GameState.RUNNING);
+  }
+
+  public int getTurnsLeft() {
+    return this.turnsLeft;
+  }
+
+  public void startRolling() {
+    this.diceRolling = true;
+    this.lastRollTime = System.currentTimeMillis();
+  }
+
+
+  public long getLastRollTime() {
+    return this.lastRollTime;
+  }
+
+  public void completeRoll(int roll) {
+    this.turnsLeft = roll;
+    this.diceRolling = false;
+  }
+
+  public void smoothlySetState(GameState nextState) {
+    ((TransitionScene) GameState.TRANSITION.getScene()).start(500, this.state, nextState);
+
+    this.state = GameState.TRANSITION;
   }
 
   public GameState getState() {
     return this.state;
   }
 
-  // TODO Rewrite this terrible input system
-  // Called when a player presses a key while the ONLY when the game is running
-  public void gameInput(int keyCode) {
+  public void setState(GameState nextState) {
+    this.state = nextState;
+  }
 
+  public void gameInput(int keyCode) {
     if (this.state == GameState.MAIN_MENU) {
       switch (keyCode) {
         case Input.Keys.SPACE:
           startGame(); // TODO this could not be called every time they press space
-
-          this.state = GameState.RUNNING;
           break;
       }
 
@@ -68,6 +95,10 @@ public class GameManager {
           // TODO Open Pause Menu?
           this.state = GameState.MAIN_MENU;
           break;
+
+        case Input.Keys.R:
+          if (turnsLeft == 0 && !diceRolling)
+            startRolling();
 
         case Input.Keys.UP:
         case Input.Keys.W:
@@ -95,6 +126,10 @@ public class GameManager {
           break;
       }
     }
+  }
+
+  public boolean isDiceRolling() {
+    return diceRolling;
   }
 
   public boolean isLargeMap() {
@@ -125,8 +160,10 @@ public class GameManager {
   // Moves the player whose turn it currently is
   // returns false id the player cannot move there
   private boolean movePlayingPlayer(int x, int y) {
-    // rn we only saying p1 is playing
+    if (diceRolling || turnsLeft == 0)
+      return false;
 
+    // rn we only saying p1 is playing
     final int newX = this.playingPlayer.getX() + x;
     final int newY = this.playingPlayer.getY() + y;
 
@@ -134,14 +171,12 @@ public class GameManager {
     if (newX > 9 || newX < 0 || newY > 9 || newY < 0)
       return false;
 
-    // TODO Check if the player is trying to go somewhere it cannot
-
     this.playingPlayer.setX(newX);
     this.playingPlayer.setY(newY);
 
-    turn++;
+    this.turnsLeft--;
 
-    if (turn % 10 == 0) {
+    if (turnsLeft == 0) {
       nextTurn();
     }
 

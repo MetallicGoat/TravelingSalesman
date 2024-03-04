@@ -11,7 +11,7 @@ import com.guelphengg.gameproject.GameManager;
 import com.guelphengg.gameproject.util.AdvancedShapeRenderer;
 import com.guelphengg.gameproject.SceneManager;
 
-public class ScoreBoard {
+public class ScoreboardPanel {
 
     private final int width = (int) (SceneManager.getViewWidth() * 0.22);
     private final int height = (int) (SceneManager.getViewHeight() * 0.5);
@@ -58,14 +58,14 @@ public class ScoreBoard {
         font.draw(batch, "Current Turn: " + manager.getPlayingPlayer().getName(), x + 10, y + height - 60);
 
         font.draw(batch, "Player 1:", x + 10, y + height - 100);
-        font.draw(batch, "   Health:", x + 10, y + height - 125);
-        font.draw(batch, "   Strength:", x + 10, y + height - 150);
-        font.draw(batch, "   Coins:", x + 10, y + height - 175);
+        font.draw(batch, "    Health: ", x + 10, y + height - 125);
+        font.draw(batch, "    Strength: ", x + 10, y + height - 150);
+        font.draw(batch, "    Coins: ", x + 10, y + height - 175);
 
-        font.draw(batch, "Player 1:", x + 10, y + height - 225);
-        font.draw(batch, "   Health:", x + 10, y + height - 250);
-        font.draw(batch, "   Strength:", x + 10, y + height - 275);
-        font.draw(batch, "   Coins:", x + 10, y + height - 300);
+        font.draw(batch, "Player 2:", x + 10, y + height - 225);
+        font.draw(batch, "    Health: ", x + 10, y + height - 250);
+        font.draw(batch, "    Strength: ", x + 10, y + height - 275);
+        font.draw(batch, "    Coins: ", x + 10, y + height - 300);
 
         batch.end();
 

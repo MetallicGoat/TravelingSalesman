@@ -3,6 +3,7 @@ package com.guelphengg.gameproject.griditems;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.guelphengg.gameproject.Character;
 import com.guelphengg.gameproject.SceneManager;
@@ -42,7 +43,7 @@ public class Player {
     return this.small;
   }
 
-  private TextureRegion getCurrFrame() {
+  public TextureRegion getCurrFrame() {
     stateTime += Gdx.graphics.getDeltaTime();
 
     return character.getAnimation().getKeyFrame(stateTime, true);

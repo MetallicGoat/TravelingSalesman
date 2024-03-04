@@ -10,7 +10,7 @@ public enum GridObject {
   TREASURE_HOUSE("treasure_house.png"),;
 
 
-  private Texture texture;
+  private final Texture texture;
 
   GridObject(String id) {
     this.texture = new Texture(id);

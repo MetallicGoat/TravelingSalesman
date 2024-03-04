@@ -1,13 +1,13 @@
 package com.guelphengg.gameproject.scenes;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.guelphengg.gameproject.*;
 import com.guelphengg.gameproject.griditems.GridObject;
 import com.guelphengg.gameproject.griditems.Player;
 import com.guelphengg.gameproject.scenes.scenecomponents.GameGrid;
-import com.guelphengg.gameproject.scenes.scenecomponents.Inventory;
-import com.guelphengg.gameproject.scenes.scenecomponents.ScoreBoard;
+import com.guelphengg.gameproject.scenes.scenecomponents.InventoryPanel;
+import com.guelphengg.gameproject.scenes.scenecomponents.RollPanel;
+import com.guelphengg.gameproject.scenes.scenecomponents.ScoreboardPanel;
 
 public class GameScene extends Scene {
 
@@ -28,9 +28,9 @@ public class GameScene extends Scene {
   );
 
 
-  final Inventory inventory = new Inventory();
-  final ScoreBoard scoreBoard = new ScoreBoard();
-  final Dice dice = new Dice();
+  final InventoryPanel inventory = new InventoryPanel();
+  final ScoreboardPanel scoreBoard = new ScoreboardPanel();
+  final RollPanel rollPanel = new RollPanel();
 
   public GameScene() {
     super(GameState.RUNNING);
@@ -45,7 +45,7 @@ public class GameScene extends Scene {
     inventory.render(manager.getPlayingPlayer());
 
     scoreBoard.render();
-    dice.render();
+    rollPanel.render();
 
     // logic to cover the area where players have not been (with white circles)
     // TODO This works, but it's a little weird. Uncomment it if you want to test
@@ -162,6 +162,7 @@ public class GameScene extends Scene {
     if (gameManager.isLargeMap()) {
       player1.render(largeGrid);
       player2.render(largeGrid);
+
     } else {
       final Player playingPlayer = gameManager.getPlayingPlayer();
       final Player otherPlayer = gameManager.getPlayingPlayer() == gameManager.getPlayer1() ? gameManager.getPlayer2() : gameManager.getPlayer1();

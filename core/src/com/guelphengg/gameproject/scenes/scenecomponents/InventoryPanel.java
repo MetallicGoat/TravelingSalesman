@@ -8,7 +8,7 @@ import com.guelphengg.gameproject.SceneManager;
 import com.guelphengg.gameproject.griditems.Player;
 import com.guelphengg.gameproject.util.AdvancedShapeRenderer;
 
-public class Inventory {
+public class InventoryPanel {
 
   final GameGrid inventoryGrid = new GameGrid(
       (int) (SceneManager.getViewWidth() * .3), // height
