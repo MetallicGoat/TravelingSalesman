@@ -68,7 +68,11 @@ public class GameManager {
   }
 
   public void smoothlySetState(GameState nextState) {
-    ((TransitionScene) GameState.TRANSITION.getScene()).start(500, this.state, nextState);
+    smoothlySetState(nextState, false, 500);
+  }
+
+  public void smoothlySetState(GameState nextState, boolean fromBlank, long duration) {
+    ((TransitionScene) GameState.TRANSITION.getScene()).start(duration, !fromBlank ? this.state : null, nextState);
 
     this.state = GameState.TRANSITION;
   }

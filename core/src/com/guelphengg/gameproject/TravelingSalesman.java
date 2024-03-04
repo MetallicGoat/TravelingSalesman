@@ -11,18 +11,13 @@ import com.badlogic.gdx.utils.ScreenUtils;
 public class TravelingSalesman extends ApplicationAdapter {
     SpriteBatch batch;
 
-    BitmapFont font;
-
     public Texture img;
     private static TravelingSalesman instance;
 
     @Override
     public void create() {
-
         batch = new SpriteBatch();
         img = new Texture("Map Background.jpg");
-
-
 
         instance = this;
 
@@ -31,6 +26,8 @@ public class TravelingSalesman extends ApplicationAdapter {
 
         // Initialize the scene manager
         SceneManager.init();
+
+        Accessor.getGameManager().smoothlySetState(GameState.MAIN_MENU, true, 500);
     }
 
     @Override

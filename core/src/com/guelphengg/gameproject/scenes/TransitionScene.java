@@ -12,7 +12,7 @@ public class TransitionScene extends Scene {
 
   private GameState currentScene;
   private GameState nextScene;
-  private long duration;
+  private float duration;
   private long startTime;
 
 
@@ -31,23 +31,19 @@ public class TransitionScene extends Scene {
 
   @Override
   public void render() {
-
-    final long runningTime = System.currentTimeMillis() - startTime;
-
-
+    final float runningTime = System.currentTimeMillis() - startTime;
     final float fade;
 
     if (currentScene != null && runningTime < duration / 2) { // fade out old scene
-      System.out.println("Fade out");
       currentScene.getScene().render();
+      fade = (runningTime) / (duration / 2);
 
-      fade = ((float) runningTime) / ((float) duration / 2);
-
-    } else {
-      System.out.println("Fade in");
+    } else { // fade in new scene
       nextScene.getScene().render();
+      final boolean fullLength = currentScene != null;
 
-      fade = (currentScene != null ? (float) duration / 2 : duration) / (runningTime);
+      // This fade logic is weird as fuck, dont mess with it
+      fade = 1 - ((runningTime - (fullLength ? duration/2 : 0)) / (fullLength ? duration/2 : duration));
     }
 
 
