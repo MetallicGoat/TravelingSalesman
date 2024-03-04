@@ -1,18 +1,13 @@
 package com.guelphengg.gameproject.scenes;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.guelphengg.gameproject.GameState;
 import com.guelphengg.gameproject.SceneManager;
+import com.guelphengg.gameproject.Textures;
 
 public class MainMenuScene extends Scene {
-    Sprite mapSprite;
-    private int widthImage, heightImage;
-    Texture imgMap;
 
   public MainMenuScene() {
     super(GameState.MAIN_MENU);
@@ -24,13 +19,13 @@ public class MainMenuScene extends Scene {
         final SpriteBatch batch = SceneManager.getSpriteBatch();
 
         batch.begin();
-        imgMap = new Texture("Main Scroll.png");
-        mapSprite = new Sprite(imgMap);
+
         float widthScreen = SceneManager.getViewWidth();
         float heightScreen = SceneManager.getViewHeight();
-        batch.draw(mapSprite, (int) (widthScreen / 2 - mapSprite.getWidth() / 2), (int) (heightScreen / 2 - mapSprite.getHeight() / 2) - 60, mapSprite.getWidth(), mapSprite.getHeight());
-        drawCenteredText(batch, 40, 5, "Travelling Salesman");
-        drawCenteredText(batch, -40, 3, "Press [Space] to Start!");
+
+        batch.draw(Textures.MAP_SCROLL.get(), (int) (widthScreen * .1), 0, (int) (widthScreen * .8), heightScreen);
+        drawCenteredText(batch, 40, 3.5F, "Travelling Salesman");
+        drawCenteredText(batch, -40, 2, "Press [Space] to Start!");
 
         batch.end();
     }

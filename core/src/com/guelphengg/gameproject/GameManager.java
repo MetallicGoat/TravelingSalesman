@@ -1,13 +1,10 @@
 package com.guelphengg.gameproject;
 
 import com.badlogic.gdx.Input;
-import com.guelphengg.gameproject.griditems.Castle;
 import com.guelphengg.gameproject.griditems.GridObject;
 import com.guelphengg.gameproject.griditems.Player;
 
 public class GameManager {
-
-
   private int turn = 0;
 
   // What phase the game is currently in
@@ -15,19 +12,35 @@ public class GameManager {
 
   // TODO add turns system: rn playing player is the only one who can move
   // TODO allow players to pick their character
-  private final Player player1 = new Player(10, 0, null);
-  private final Player player2 = new Player(10, 0, null);
+  private final Player player1 = new Player(10, 0, Character.GREENIE);
+  private final Player player2 = new Player(10, 0, Character.REDIE);
 
   private Player playingPlayer = player1;
 
+  private boolean largeMap = true;
+
   // Items on the grid TODO
-  public final GridObject[][] gridObjects = new GridObject[10][10];
+  public GridObject[][] gridObjects = new GridObject[10][10];
 
   // TODO check if this was actually supposed to be in the game or if I dumb
   // public boolean[][] visibleArea = new boolean[10][10];
 
   public void startGame() {
-    gridObjects[4][4] = new Castle(4, 4);
+
+    //TODO Replace this with a system to randomly generate positions
+    gridObjects[4][4] = GridObject.CASTLE;
+    gridObjects[2][6] = GridObject.TRAPPED_HOUSE;
+    gridObjects[1][3] = GridObject.HOUSE;
+    gridObjects[4][8] = GridObject.HOUSE;
+    gridObjects[1][6] = GridObject.TREASURE_HOUSE;
+    gridObjects[6][8] = GridObject.TRAPPED_HOUSE;
+    gridObjects[7][7] = GridObject.TREASURE_HOUSE;
+    gridObjects[8][8] = GridObject.TRAPPED_HOUSE;
+    gridObjects[8][9] = GridObject.HOUSE;
+    gridObjects[9][2] = GridObject.HOUSE;
+    gridObjects[5][6] = GridObject.TREASURE_HOUSE;
+    gridObjects[5][8] = GridObject.TRAPPED_HOUSE;
+    gridObjects[9][1] = GridObject.TREASURE_HOUSE;
 
     this.state = GameState.RUNNING;
   }
@@ -76,8 +89,16 @@ public class GameManager {
           movePlayingPlayer(1, 0);
           break;
 
+        case Input.Keys.V:
+          // Change the grid view
+          largeMap = !largeMap;
+          break;
       }
     }
+  }
+
+  public boolean isLargeMap() {
+    return this.largeMap;
   }
 
   public Player getPlayingPlayer() {
