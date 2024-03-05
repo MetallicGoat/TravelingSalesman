@@ -31,7 +31,7 @@ public class MainMenuScene extends Scene {
     }
 
     private void drawCenteredText(SpriteBatch batch, int yOffset, float scale, String text) {
-        final BitmapFont font = new BitmapFont();
+        final BitmapFont font = SceneManager.getFont();
         final GlyphLayout glyphLayout = new GlyphLayout();
 
         font.getData().setScale(scale);
@@ -39,6 +39,7 @@ public class MainMenuScene extends Scene {
 
         float w = glyphLayout.width;
         float h = glyphLayout.height;
+
         font.draw(batch, glyphLayout, (SceneManager.getViewWidth() - w)/2, (SceneManager.getViewHeight() + h) / 2 + yOffset);
   }
 }

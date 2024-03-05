@@ -33,7 +33,6 @@ public class GameManager {
     //TODO Replace this with a system to randomly generate positions
     gridObjects[4][4] = GridObject.CASTLE;
     gridObjects[2][6] = GridObject.TRAPPED_HOUSE;
-    gridObjects[1][3] = GridObject.HOUSE;
     gridObjects[4][8] = GridObject.HOUSE;
     gridObjects[1][6] = GridObject.TREASURE_HOUSE;
     gridObjects[6][8] = GridObject.TRAPPED_HOUSE;

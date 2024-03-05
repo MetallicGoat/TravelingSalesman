@@ -49,7 +49,7 @@ public class ScoreboardPanel {
 
         // Scoreboard Text
         final SpriteBatch batch = SceneManager.getSpriteBatch();
-        final BitmapFont font = new BitmapFont();
+        final BitmapFont font = SceneManager.getFont();
 
         batch.begin();
         font.getData().setScale(2.2F);
@@ -68,6 +68,5 @@ public class ScoreboardPanel {
         font.draw(batch, "    Coins: ", x + 10, y + height - 300);
 
         batch.end();
-
     }
 }

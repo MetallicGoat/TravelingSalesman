@@ -110,7 +110,7 @@ public class RollPanel {
 
 
     // Panel Text
-    final BitmapFont font = new BitmapFont();
+    final BitmapFont font = SceneManager.getFont();
 
     batch.begin();
     font.getData().setScale(2F);

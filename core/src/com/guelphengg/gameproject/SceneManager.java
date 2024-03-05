@@ -2,6 +2,7 @@ package com.guelphengg.gameproject;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.guelphengg.gameproject.scenes.Scene;
 import com.guelphengg.gameproject.util.AdvancedShapeRenderer;
@@ -10,6 +11,8 @@ public class SceneManager {
 
   private static OrthographicCamera camera;
   private static SpriteBatch batch;
+  private static BitmapFont font;
+
   private static AdvancedShapeRenderer shapeRenderer;
 
   public static void init() {
@@ -22,6 +25,8 @@ public class SceneManager {
 
     shapeRenderer = new AdvancedShapeRenderer();
     shapeRenderer.setProjectionMatrix(camera.combined);
+
+    font = new BitmapFont();
   }
 
   public static Scene getCurrentScene() {
@@ -40,6 +45,10 @@ public class SceneManager {
     return batch;
   }
 
+  public static BitmapFont getFont() {
+    return font;
+  }
+
   public static float getViewWidth() {
     return camera.viewportWidth;
   }
@@ -51,5 +60,6 @@ public class SceneManager {
   public static void dispose() {
     shapeRenderer.dispose();
     batch.dispose();
+    font.dispose();
   }
 }

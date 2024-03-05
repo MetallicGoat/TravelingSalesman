@@ -43,7 +43,7 @@ public class TransitionScene extends Scene {
       final boolean fullLength = currentScene != null;
 
       // This fade logic is weird as fuck, dont mess with it
-      fade = 1 - ((runningTime - (fullLength ? duration/2 : 0)) / (fullLength ? duration/2 : duration));
+      fade = 1 - ((runningTime - (fullLength ? duration / 2 : 0)) / (fullLength ? duration/2 : duration));
     }
 
 
