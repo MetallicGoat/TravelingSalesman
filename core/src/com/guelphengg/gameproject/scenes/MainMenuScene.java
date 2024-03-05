@@ -1,5 +1,7 @@
 package com.guelphengg.gameproject.scenes;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -8,7 +10,7 @@ import com.guelphengg.gameproject.SceneManager;
 import com.guelphengg.gameproject.Textures;
 
 public class MainMenuScene extends Scene {
-
+    private Music Backgr;
   public MainMenuScene() {
     super(GameState.MAIN_MENU);
   }
@@ -22,6 +24,11 @@ public class MainMenuScene extends Scene {
 
         float widthScreen = SceneManager.getViewWidth();
         float heightScreen = SceneManager.getViewHeight();
+
+        Backgr = Gdx.audio.newMusic(Gdx.files.internal("MainMenuTS.mp3"));
+
+        Backgr.setLooping(true);
+//        Backgr.play();
 
         batch.draw(Textures.MAP_SCROLL.get(), (int) (widthScreen * .1), 0, (int) (widthScreen * .8), heightScreen);
         drawCenteredText(batch, 40, 3.5F, "Travelling Salesman");
