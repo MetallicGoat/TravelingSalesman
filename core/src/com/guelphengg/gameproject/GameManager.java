@@ -2,6 +2,7 @@ package com.guelphengg.gameproject;
 
 import com.badlogic.gdx.Input;
 import com.guelphengg.gameproject.griditems.GridObject;
+import com.guelphengg.gameproject.griditems.LootItems;
 import com.guelphengg.gameproject.griditems.Player;
 import com.guelphengg.gameproject.scenes.TransitionScene;
 
@@ -48,6 +49,9 @@ public class GameManager {
 
   // Check if player is at a treasure house
   public boolean canPlayerLoot() {
+    if (this.playingPlayer.isAtStart())
+      return false;
+
     final GridObject object = gridObjects[playingPlayer.getX()][playingPlayer.getY()];
 
     if (object == GridObject.TREASURE_HOUSE)
@@ -58,13 +62,15 @@ public class GameManager {
 
   // Make the playing player loot the current house
   public void lootHouse() {
+    if (!canPlayerLoot())
+      return;
+
     final GridObject object = gridObjects[playingPlayer.getX()][playingPlayer.getY()];
 
     if (object == GridObject.TREASURE_HOUSE) {
       gridObjects[playingPlayer.getX()][playingPlayer.getY()] = GridObject.EMPTY_HOUSE;
 
-      // TODO randomly generate loot
-      // playingPlayer.addLoot();
+      playingPlayer.addLoot(LootItems.BOW);
     }
   }
 
@@ -128,6 +134,7 @@ public class GameManager {
           if (canPlayerLoot()) {
             lootHouse();
           }
+
           break;
 
         case Input.Keys.UP:
