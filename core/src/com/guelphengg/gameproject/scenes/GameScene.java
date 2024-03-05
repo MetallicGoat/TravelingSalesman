@@ -1,6 +1,8 @@
 package com.guelphengg.gameproject.scenes;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.guelphengg.gameproject.*;
 import com.guelphengg.gameproject.griditems.GridObject;
 import com.guelphengg.gameproject.griditems.Player;
@@ -60,6 +62,22 @@ public class GameScene extends Scene {
 
     // Render the start house
 
+    final BitmapFont font = SceneManager.getFont();
+    final SpriteBatch batch = SceneManager.getSpriteBatch();
+    batch.begin();
+    font.getData().setScale(2F);
+
+    // Current Player Text
+    if (manager.playerOn(GridObject.TREASURE_HOUSE))
+      font.draw(batch, "Press [L] to Loot!", 100, 150);
+
+    if (manager.playerOn(GridObject.CASTLE) && !manager.getPlayingPlayer().getItems().isEmpty())
+      font.draw(batch, "Press [T] to Trade Loot! ", 100, 150);
+
+
+    batch.end();
+
+
     if (manager.isLargeMap()) {
       largeGrid.renderGrid(Color.WHITE);
 
@@ -100,28 +118,12 @@ public class GameScene extends Scene {
         }
       }
 
-      // render playing player in center or center of edge if near border
-
-
-//      miniGrid.renderTextureInGrid(2, 0, Textures.STARTER_HOUSE.get(), 1, 0, 0);
-//
-//      for (int i = 0; i <= 2; i++) {
-//        for (int j = 0; j <= 2; j++) {
-//          final GridObject object = manager.gridObjects[i][j];
-//
-//          if (object != null)
-//            object.render(miniGrid, i, j);
-//
-//        }
-//      }
-//
-//      // Render players last so they are not covered by map objects
-//      renderPlayersInGrid(manager);
     }
 
     // Render players last so they are not covered by map objects
     renderPlayersInGrid(manager);
   }
+
 
   private void renderPlayersInGrid(GameManager manager) {
     final Player player1 = manager.getPlayer1();
