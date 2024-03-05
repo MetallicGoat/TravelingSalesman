@@ -135,7 +135,7 @@ public class GameManager {
   public void gameInput(int keyCode) {
     if (this.state == GameState.MAIN_MENU) {
       jump = Gdx.audio.newMusic(Gdx.files.internal("JumpTS.wav"));
-      jump.setLooping(true);
+      jump.setLooping(false);
 
       switch (keyCode) {
         case Input.Keys.SPACE:
