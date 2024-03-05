@@ -24,4 +24,7 @@ public enum LootItems{
         grid.renderTextureInGrid(x, y, texture);
     }
 
+    public static LootItems getRandomItem() {
+        return values()[(int) (Math.random() * values().length)];
+    }
 }

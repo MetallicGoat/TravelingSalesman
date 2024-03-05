@@ -8,7 +8,6 @@ import com.guelphengg.gameproject.scenes.TransitionScene;
 import com.guelphengg.gameproject.scenes.scenecomponents.GameGrid;
 
 public class GameManager {
-  private int turn = 0;
   private int turnsLeft = 0;
 
   // What phase the game is currently in
@@ -74,7 +73,7 @@ public class GameManager {
     if (object == GridObject.TREASURE_HOUSE) {
       gridObjects[playingPlayer.getX()][playingPlayer.getY()] = GridObject.EMPTY_HOUSE;
 
-      playingPlayer.addLoot(LootItems.BOW);
+      playingPlayer.addLoot(LootItems.getRandomItem());
     }
   }
   public void tradeItems(){
