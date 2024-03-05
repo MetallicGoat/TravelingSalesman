@@ -57,15 +57,15 @@ public class ScoreboardPanel {
         font.getData().setScale(1.5F);
         font.draw(batch, "Current Turn: " + manager.getPlayingPlayer().getName(), x + 10, y + height - 60);
 
-        font.draw(batch, "Player 1:", x + 10, y + height - 100);
-        font.draw(batch, "    Health: ", x + 10, y + height - 125);
-        font.draw(batch, "    Strength: ", x + 10, y + height - 150);
-        font.draw(batch, "    Coins: ", x + 10, y + height - 175);
+        font.draw(batch, "Player 1: "+manager.getPlayer2().getName(), x + 10, y + height - 100);
+        font.draw(batch, "    Health: "+manager.getPlayer1().getHealth(), x + 10, y + height - 125);
+        font.draw(batch, "    Strength: "+manager.getPlayer2().getStrength(), x + 10, y + height - 150);
+        font.draw(batch, "    Coins: "+manager.getPlayer2().getCoins(), x + 10, y + height - 175);
 
-        font.draw(batch, "Player 2:", x + 10, y + height - 225);
-        font.draw(batch, "    Health: ", x + 10, y + height - 250);
-        font.draw(batch, "    Strength: ", x + 10, y + height - 275);
-        font.draw(batch, "    Coins: ", x + 10, y + height - 300);
+        font.draw(batch, "Player 2: "+manager.getPlayer2().getName(), x + 10, y + height - 225);
+        font.draw(batch, "    Health: "+manager.getPlayer2().getHealth(), x + 10, y + height - 250);
+        font.draw(batch, "    Strength: "+manager.getPlayer2().getStrength(), x + 10, y + height - 275);
+        font.draw(batch, "    Coins: "+manager.getPlayer2().getCoins(), x + 10, y + height - 300);
 
         batch.end();
     }

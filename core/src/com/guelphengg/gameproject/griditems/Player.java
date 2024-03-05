@@ -17,6 +17,7 @@ public class Player {
 
   public int yOffset = 0;
   public int xOffset = 0;
+  private int coins;
 
   private int x;
   private int y;
@@ -70,6 +71,10 @@ public class Player {
 
   public int getX() {
     return this.x;
+  }
+
+  public int getCoins() {
+    return coins;
   }
 
   public int getY() {
