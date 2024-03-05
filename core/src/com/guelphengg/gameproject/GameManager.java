@@ -1,6 +1,9 @@
 package com.guelphengg.gameproject;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.guelphengg.gameproject.griditems.GridObject;
 import com.guelphengg.gameproject.griditems.LootItems;
 import com.guelphengg.gameproject.griditems.Player;
@@ -9,6 +12,8 @@ import com.guelphengg.gameproject.scenes.scenecomponents.GameGrid;
 
 public class GameManager {
   private int turnsLeft = 0;
+  private Music jump;
+
 
   // What phase the game is currently in
   private GameState state = GameState.MAIN_MENU;
@@ -129,6 +134,9 @@ public class GameManager {
 
   public void gameInput(int keyCode) {
     if (this.state == GameState.MAIN_MENU) {
+      jump = Gdx.audio.newMusic(Gdx.files.internal("JumpTS.wav"));
+      jump.setLooping(true);
+
       switch (keyCode) {
         case Input.Keys.SPACE:
           startGame(); // TODO this could not be called every time they press space
@@ -160,24 +168,30 @@ public class GameManager {
           //pressing 's' will clear the inventory and give player the gold that is equal to the sum of the players inv.
           break;
 
+
+
         case Input.Keys.UP:
         case Input.Keys.W:
           movePlayingPlayer(0, 1);
+          jump.play();
           break;
 
         case Input.Keys.DOWN:
         case Input.Keys.S:
           movePlayingPlayer(0, -1);
+          jump.play();
           break;
 
         case Input.Keys.LEFT:
         case Input.Keys.A:
           movePlayingPlayer(-1, 0);
+          jump.play();
           break;
 
         case Input.Keys.RIGHT:
         case Input.Keys.D:
           movePlayingPlayer(1, 0);
+          jump.play();
           break;
 
         case Input.Keys.V:
