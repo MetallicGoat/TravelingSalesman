@@ -63,16 +63,19 @@ public class GameScene extends Scene {
     // Render the start house
 
     final BitmapFont font = SceneManager.getFont();
+
     final SpriteBatch batch = SceneManager.getSpriteBatch();
     batch.begin();
     font.getData().setScale(2F);
 
     // Current Player Text
+    font.setColor(Color.GOLD);
     if (manager.playerOn(GridObject.TREASURE_HOUSE))
       font.draw(batch, "Press [L] to Loot!", 100, 150);
-
+    font.setColor(Color.BLUE);
     if (manager.playerOn(GridObject.CASTLE) && !manager.getPlayingPlayer().getItems().isEmpty())
       font.draw(batch, "Press [T] to Trade Loot! ", 100, 150);
+    font.setColor(Color.WHITE);
 
 
     batch.end();
