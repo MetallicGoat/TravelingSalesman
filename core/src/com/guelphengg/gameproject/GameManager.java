@@ -41,6 +41,7 @@ public class GameManager {
     gridObjects[5][6] = GridObject.TREASURE_HOUSE;
     gridObjects[5][8] = GridObject.TRAPPED_HOUSE;
     gridObjects[9][1] = GridObject.TREASURE_HOUSE;
+//    gridObjects[3][4] = GridObject.SWORD;
 
     smoothlySetState(GameState.RUNNING);
   }

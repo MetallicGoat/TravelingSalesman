@@ -4,7 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.guelphengg.gameproject.Accessor;
 import com.guelphengg.gameproject.SceneManager;
+import com.guelphengg.gameproject.griditems.LootItems;
 import com.guelphengg.gameproject.griditems.Player;
 import com.guelphengg.gameproject.util.AdvancedShapeRenderer;
 
@@ -43,6 +45,12 @@ public class InventoryPanel {
     inventoryGrid.renderGrid(Color.WHITE);
 
     // TODO put the players items in the inventory
+    int x=0;
+    int y=0;
+    for(LootItems item : Accessor.getGameManager().getPlayingPlayer().getItems()){
+      item.render(inventoryGrid, x, y);
+      x++;
+    }
   }
 
 
