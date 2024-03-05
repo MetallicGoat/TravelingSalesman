@@ -46,10 +46,15 @@ public class InventoryPanel {
 
     // TODO put the players items in the inventory
     int x=0;
-    int y=0;
+    int y=5;
     for(LootItems item : Accessor.getGameManager().getPlayingPlayer().getItems()){
       item.render(inventoryGrid, x, y);
       x++;
+      if (x>0 && x%2==0){
+      x=0;
+      y--;
+
+      }
     }
   }
 

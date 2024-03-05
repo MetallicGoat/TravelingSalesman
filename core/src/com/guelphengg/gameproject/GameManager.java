@@ -5,6 +5,7 @@ import com.guelphengg.gameproject.griditems.GridObject;
 import com.guelphengg.gameproject.griditems.LootItems;
 import com.guelphengg.gameproject.griditems.Player;
 import com.guelphengg.gameproject.scenes.TransitionScene;
+import com.guelphengg.gameproject.scenes.scenecomponents.GameGrid;
 
 public class GameManager {
   private int turn = 0;
@@ -42,6 +43,9 @@ public class GameManager {
     gridObjects[5][6] = GridObject.TREASURE_HOUSE;
     gridObjects[5][8] = GridObject.TRAPPED_HOUSE;
     gridObjects[9][1] = GridObject.TREASURE_HOUSE;
+    gridObjects[8][1] = GridObject.TREASURE_HOUSE;
+    gridObjects[9][3] = GridObject.TREASURE_HOUSE;
+    gridObjects[7][1] = GridObject.TREASURE_HOUSE;
 //    gridObjects[3][4] = GridObject.SWORD;
 
     smoothlySetState(GameState.RUNNING);
@@ -71,6 +75,20 @@ public class GameManager {
       gridObjects[playingPlayer.getX()][playingPlayer.getY()] = GridObject.EMPTY_HOUSE;
 
       playingPlayer.addLoot(LootItems.BOW);
+    }
+  }
+  public void tradeItems(){
+    if (playerOn(GridObject.CASTLE)){
+      playingPlayer.getItems().clear();
+    }
+    //TODO Give items values and give player gold for trading items
+  }
+  public boolean playerOn(GridObject obj){
+    if (!playingPlayer.isAtStart() && obj == gridObjects[playingPlayer.getX()][playingPlayer.getY()]){
+      return true;
+    }
+    else {
+      return false;
     }
   }
 
@@ -135,6 +153,12 @@ public class GameManager {
             lootHouse();
           }
 
+          break;
+        case Input.Keys.T://Trade Tings for Gold lol
+          tradeItems();
+          //TODO Give items values and give player gold for trading items
+          //since the middle will ALWAYS be the castle, if player is at the point on the grid where the castle exists,
+          //pressing 's' will clear the inventory and give player the gold that is equal to the sum of the players inv.
           break;
 
         case Input.Keys.UP:
