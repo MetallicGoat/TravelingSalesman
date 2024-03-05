@@ -1,17 +1,16 @@
 package com.guelphengg.gameproject.griditems;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.guelphengg.gameproject.Character;
-import com.guelphengg.gameproject.SceneManager;
-import com.guelphengg.gameproject.Textures;
 import com.guelphengg.gameproject.scenes.scenecomponents.GameGrid;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Player {
 
+  private final List<LootItems> loot= new ArrayList<>();
   private final Character character;
   private boolean small = true;
   private int strength = 10, health = 100;
@@ -91,5 +90,13 @@ public class Player {
 
   public void render(GameGrid gameGrid, int x, int y) {
     gameGrid.renderTextureInGrid(x, y, getCurrFrame(), this.small ? 0.5 : 1, xOffset, yOffset);
+  }
+
+  public void addLoot(LootItems item){
+    loot.add(item);
+  }
+  public List<LootItems> getItems(){
+
+    return loot;
   }
 }

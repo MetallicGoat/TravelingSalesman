@@ -12,6 +12,7 @@ public enum GridObject {
 
   private final Texture texture;
 
+
   GridObject(String id) {
     this.texture = new Texture(id);
   }
@@ -20,3 +21,4 @@ public enum GridObject {
     grid.renderTextureInGrid(x, y, texture);
   }
 }
+
