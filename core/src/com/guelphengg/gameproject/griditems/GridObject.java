@@ -5,9 +5,9 @@ import com.guelphengg.gameproject.scenes.scenecomponents.GameGrid;
 
 public enum GridObject {
   CASTLE("castle.png"),
-  HOUSE("empty_house.png"),
+  EMPTY_HOUSE("empty_house.png"),
   TRAPPED_HOUSE("trapped_house.png"),
-  TREASURE_HOUSE("treasure_house.png"),;
+  TREASURE_HOUSE("treasure_house.png");
 
 
   private final Texture texture;

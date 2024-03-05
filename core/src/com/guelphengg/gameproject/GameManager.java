@@ -5,8 +5,6 @@ import com.guelphengg.gameproject.griditems.GridObject;
 import com.guelphengg.gameproject.griditems.Player;
 import com.guelphengg.gameproject.scenes.TransitionScene;
 
-import java.util.Random;
-
 public class GameManager {
   private int turn = 0;
   private int turnsLeft = 0;
@@ -33,18 +31,40 @@ public class GameManager {
     //TODO Replace this with a system to randomly generate positions
     gridObjects[4][4] = GridObject.CASTLE;
     gridObjects[2][6] = GridObject.TRAPPED_HOUSE;
-    gridObjects[4][8] = GridObject.HOUSE;
+    gridObjects[4][8] = GridObject.TREASURE_HOUSE;
     gridObjects[1][6] = GridObject.TREASURE_HOUSE;
     gridObjects[6][8] = GridObject.TRAPPED_HOUSE;
     gridObjects[7][7] = GridObject.TREASURE_HOUSE;
     gridObjects[8][8] = GridObject.TRAPPED_HOUSE;
-    gridObjects[8][9] = GridObject.HOUSE;
-    gridObjects[9][2] = GridObject.HOUSE;
+    gridObjects[8][9] = GridObject.TREASURE_HOUSE;
+    gridObjects[9][2] = GridObject.TREASURE_HOUSE;
     gridObjects[5][6] = GridObject.TREASURE_HOUSE;
     gridObjects[5][8] = GridObject.TRAPPED_HOUSE;
     gridObjects[9][1] = GridObject.TREASURE_HOUSE;
 
     smoothlySetState(GameState.RUNNING);
+  }
+
+  // Check if player is at a treasure house
+  public boolean canPlayerLoot() {
+    final GridObject object = gridObjects[playingPlayer.getX()][playingPlayer.getY()];
+
+    if (object == GridObject.TREASURE_HOUSE)
+      return true;
+
+    return false;
+  }
+
+  // Make the playing player loot the current house
+  public void lootHouse() {
+    final GridObject object = gridObjects[playingPlayer.getX()][playingPlayer.getY()];
+
+    if (object == GridObject.TREASURE_HOUSE) {
+      gridObjects[playingPlayer.getX()][playingPlayer.getY()] = GridObject.EMPTY_HOUSE;
+
+      // TODO randomly generate loot
+      // playingPlayer.addLoot();
+    }
   }
 
   public int getTurnsLeft() {
@@ -55,7 +75,6 @@ public class GameManager {
     this.diceRolling = true;
     this.lastRollTime = System.currentTimeMillis();
   }
-
 
   public long getLastRollTime() {
     return this.lastRollTime;
@@ -102,6 +121,13 @@ public class GameManager {
         case Input.Keys.R:
           if (turnsLeft == 0 && !diceRolling)
             startRolling();
+          break;
+
+        case Input.Keys.L: // Player is trying to loot house
+          if (canPlayerLoot()) {
+            lootHouse();
+          }
+          break;
 
         case Input.Keys.UP:
         case Input.Keys.W:
