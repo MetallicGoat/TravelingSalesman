@@ -77,6 +77,10 @@ public class Player {
     return coins;
   }
 
+  public Character getCharacter() {
+    return character;
+  }
+
   public int getY() {
     return this.y;
   }

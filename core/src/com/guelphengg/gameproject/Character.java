@@ -1,15 +1,18 @@
 package com.guelphengg.gameproject;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public enum Character {
 
-  GREENIE(0, 0),
-  REDIE(0, 3);
+  GREENIE(0, 0, new Color((float)81/255, (float)115/255, (float)56/255, 0.4F)),
+  REDIE(0, 3, new Color(1, (float)43/255, (float)58/255, 0.4F));
 
   private Animation<TextureRegion> animation;
+
+  private Color colour;
 
   public Animation<TextureRegion> getAnimation() {
     return animation;
@@ -21,8 +24,13 @@ public enum Character {
     return name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
   }
 
-  Character(int textureRow, int textureCol) {
+  public Color getColour(){
+    return this.colour;
+  }
+
+  Character(int textureRow, int textureCol, Color colour) {
     final Texture spriteSheet = Textures.SPRITE_SHEET.get();
+    this.colour = colour;
 
     TextureRegion[][] tmp = TextureRegion.split(spriteSheet,
         spriteSheet.getWidth() / 12,
