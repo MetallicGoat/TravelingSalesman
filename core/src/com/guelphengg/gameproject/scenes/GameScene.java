@@ -1,7 +1,5 @@
 package com.guelphengg.gameproject.scenes;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -15,7 +13,7 @@ import com.guelphengg.gameproject.scenes.scenecomponents.ScoreboardPanel;
 
 public class GameScene extends Scene {
 
-
+  // This grid is used to render the game map when in large view
   final GameGrid largeGrid = new GameGrid(
       (int) (SceneManager.getViewHeight() * .7), // height
       (int) (SceneManager.getViewHeight() * .7), // width
@@ -24,6 +22,7 @@ public class GameScene extends Scene {
       10, 10 // boxesX, boxesY
   );
 
+  // This grid is used to render the game map when in small view
   final GameGrid miniGrid = new GameGrid(
       (int) (SceneManager.getViewHeight() * .7), // height
       (int) (SceneManager.getViewHeight() * .7), // width
@@ -32,9 +31,13 @@ public class GameScene extends Scene {
       3, 3 // boxesX, boxesY
   );
 
-
+  // The inventory component
   final InventoryPanel inventory = new InventoryPanel();
+
+  // The scoreboard component
   final ScoreboardPanel scoreBoard = new ScoreboardPanel();
+
+  // the roll panel (dice) component
   final RollPanel rollPanel = new RollPanel();
 
   public GameScene() {
@@ -45,10 +48,8 @@ public class GameScene extends Scene {
   public void render() {
     final GameManager manager = Accessor.getGameManager();
 
-
-    // Renders the inventory for the players who is currently playing
+    // Render all the components in the game
     inventory.render(manager.getPlayingPlayer());
-
     scoreBoard.render();
     rollPanel.render();
 
@@ -63,31 +64,42 @@ public class GameScene extends Scene {
 //      }
 //    }
 
-    // Render the start house
 
-    final BitmapFont font = SceneManager.getFont();
+    // Logic to display things that dont have their own component classes
+    // mostly just for the text at the bottom (eg the message displayed when a player can loot)
+    {
+      final BitmapFont font = SceneManager.getFont();
+      final SpriteBatch batch = SceneManager.getSpriteBatch();
 
-    final SpriteBatch batch = SceneManager.getSpriteBatch();
-    batch.begin();
-    font.getData().setScale(2F);
+      batch.begin();
 
-    // Current Player Text
-    font.setColor(Color.GOLD);
-    if (manager.playerOn(GridObject.TREASURE_HOUSE))
-      font.draw(batch, "Press [L] to Loot!", 100, 150);
-    font.setColor(Color.BLUE);
-    if (manager.playerOn(GridObject.CASTLE) && !manager.getPlayingPlayer().getItems().isEmpty())
-      font.draw(batch, "Press [T] to Trade Loot! ", 100, 150);
-    font.setColor(Color.WHITE);
+      // make BIG text :)
+      font.getData().setScale(2F);
+
+      // Can they loot?
+      if (manager.playerOn(GridObject.TREASURE_HOUSE)) {
+        font.setColor(Color.GOLD);
+        font.draw(batch, "Press [L] to Loot!", 100, 150);
+      }
+
+      // Can they trade?
+      if (manager.playerOn(GridObject.CASTLE) && !manager.getPlayingPlayer().getItems().isEmpty()) {
+        font.setColor(Color.BLUE);
+        font.draw(batch, "Press [T] to Trade Loot! ", 100, 150);
+      }
+
+      // Set the color back to white for other things later
+      font.setColor(Color.WHITE);
+
+      batch.end();
+    }
 
 
-    batch.end();
-
-
+    // Crazy logic for rendering the map
     if (manager.isLargeMap()) {
+
+      // Render in lage mode:
       largeGrid.renderGrid(Color.WHITE);
-
-
       largeGrid.renderTextureInGrid(10, 0, Textures.STARTER_HOUSE.get(), 1, 0, 0);
 
       for (int i = 0; i <= 9; i++) {
@@ -101,6 +113,7 @@ public class GameScene extends Scene {
       }
 
     } else {
+      // render grid in small mode:
       miniGrid.renderGrid(Color.WHITE);
 
       // Show objects around playing player close up
@@ -126,11 +139,12 @@ public class GameScene extends Scene {
 
     }
 
-    // Render players last so they are not covered by map objects
+    // Render players last (so they are not covered by map objects)
     renderPlayersInGrid(manager);
   }
 
 
+  // Crazy logic to determine how we gotta render the players
   private void renderPlayersInGrid(GameManager manager) {
     final Player player1 = manager.getPlayer1();
     final Player player2 = manager.getPlayer2();
@@ -141,13 +155,14 @@ public class GameScene extends Scene {
       player2.setSmall(true);
 
     } else {
-      // There is some object there
+      // There is an object at player 1
       if (player1.isAtStart() || manager.gridObjects[player1.getX()][player1.getY()] != null) {
         player1.setSmall(true);
       } else {
         player1.setSmall(false);
       }
 
+      // There is an object at player 2
       if (player2.isAtStart() || manager.gridObjects[player2.getX()][player2.getY()] != null) {
         player2.setSmall(true);
       } else {
@@ -157,6 +172,7 @@ public class GameScene extends Scene {
 
     final GameManager gameManager = Accessor.getGameManager();
 
+    // add the offset of player 2 is small (so players dont overlap)
     if (player2.isSmall()) {
       if (gameManager.isLargeMap())
         player2.xOffset = (int) (largeGrid.getBoxWidth() * .5);
@@ -164,9 +180,12 @@ public class GameScene extends Scene {
         player2.xOffset = (int) (miniGrid.getBoxWidth() * .5);
 
     } else {
+      // remove the offset back they are not small
       player2.xOffset = 0;
     }
 
+    // Make sure we render them thr right size and in the right place
+    // (depending on what view the user has on)
     if (gameManager.isLargeMap()) {
       player1.render(largeGrid);
       player2.render(largeGrid);
@@ -175,9 +194,10 @@ public class GameScene extends Scene {
       final Player playingPlayer = gameManager.getPlayingPlayer();
       final Player otherPlayer = gameManager.getPlayingPlayer() == gameManager.getPlayer1() ? gameManager.getPlayer2() : gameManager.getPlayer1();
 
+      // Display the playing player in the center of the map in mini view
       playingPlayer.render(miniGrid, 1, 1);
 
-      //render other player if they are within 1 square of the playing player
+      // render other player if they are within 1 square of the playing player
       if (Math.abs(playingPlayer.getX() - otherPlayer.getX()) <= 1 && Math.abs(playingPlayer.getY() - otherPlayer.getY()) <= 1) {
         otherPlayer.render(miniGrid, otherPlayer.getX() - playingPlayer.getX() + 1, otherPlayer.getY() - playingPlayer.getY() + 1);
       }

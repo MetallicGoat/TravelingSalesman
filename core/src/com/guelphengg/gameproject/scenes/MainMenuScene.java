@@ -28,15 +28,19 @@ public class MainMenuScene extends Scene {
         Backgr = Gdx.audio.newMusic(Gdx.files.internal("MainMenuTS.mp3"));
 
         Backgr.setLooping(true);
-//        Backgr.play();
+        // Backgr.play();
 
+
+        // draw the scroll texture
         batch.draw(Textures.MAP_SCROLL.get(), (int) (widthScreen * .1), 0, (int) (widthScreen * .8), heightScreen);
+
+        // Draw some text
         drawCenteredText(batch, 40, 3.5F, "Travelling Salesman");
         drawCenteredText(batch, -40, 2, "Press [Space] to Start!");
-
         batch.end();
     }
 
+    // Method for automatically centering the text for the main menu
     private void drawCenteredText(SpriteBatch batch, int yOffset, float scale, String text) {
         final BitmapFont font = SceneManager.getFont();
         final GlyphLayout glyphLayout = new GlyphLayout();
@@ -47,6 +51,7 @@ public class MainMenuScene extends Scene {
         float w = glyphLayout.width;
         float h = glyphLayout.height;
 
+        // draw magic (some mathies to find the center)
         font.draw(batch, glyphLayout, (SceneManager.getViewWidth() - w)/2, (SceneManager.getViewHeight() + h) / 2 + yOffset);
   }
 }

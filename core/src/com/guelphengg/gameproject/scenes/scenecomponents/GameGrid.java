@@ -10,6 +10,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.guelphengg.gameproject.SceneManager;
 
 public class GameGrid {
+
+  // grid position and size attributes
   private final int cornerY;
   private final int cornerX;
   private final int gridHeight;
@@ -19,7 +21,7 @@ public class GameGrid {
 
   public GameGrid(int h, int w, int x, int y, int boxesX, int boxesY) {
     // Grid is 90% the height of the window
-//    this.gridHeight = this.gridWidth = (int) (SceneManager.getViewHeight() * 0.9);
+    // this.gridHeight = this.gridWidth = (int) (SceneManager.getViewHeight() * 0.9);
     this.gridHeight = h;
     this.gridWidth = w;
 
@@ -28,6 +30,7 @@ public class GameGrid {
     this.cornerX = x;
     this.cornerY = y;
 
+    // how many boxes does this grid have
     this.boxesX = boxesX;
     this.boxesY = boxesY;
   }
@@ -42,10 +45,12 @@ public class GameGrid {
     return this.gridWidth / boxesX;
   }
 
+  // draws a texture in a certain square on the grid
   public void renderTextureInGrid(int x, int y, Texture texture) {
     renderTextureInGrid(x, y, texture, 1, 0, 0);
   }
 
+  // draws a texture in a certain square on the grid with a scale and offset
   public void renderTextureInGrid(int x, int y, Texture texture, double scale, int xOffset, int yOffset) {
     final SpriteBatch batch = SceneManager.getSpriteBatch();
 
@@ -54,10 +59,14 @@ public class GameGrid {
     batch.end();
   }
 
+  // Same as the above methods but with TextureRegion rather than Texture
+  // (TextureRegion is for sprite sheets, eg things that get animated)
   public void renderTextureInGrid(int x, int y, TextureRegion texture) {
     renderTextureInGrid(x, y, texture, 1, 0, 0);
   }
 
+  // Same as the above methods but with TextureRegion rather than Texture
+  // (TextureRegion is for sprite sheets, eg things that get animated)
   public void renderTextureInGrid(int x, int y, TextureRegion texture, double scale, int xOffset, int yOffset) {
     final SpriteBatch batch = SceneManager.getSpriteBatch();
 
@@ -66,10 +75,12 @@ public class GameGrid {
     batch.end();
   }
 
+  // draws a rectangle in a certain square on the grid
   public void renderRectInGrid(int x, int y, Color color) {
     renderRectInGrid(x, y, color, 1, 0, 0);
   }
 
+  // draws a rectangle in a certain square on the grid with a scale and offset
   public void renderRectInGrid(int x, int y, Color color, double scale, int xOffset, int yOffset) {
     final ShapeRenderer shapeRenderer = SceneManager.getShapeRenderer();
 
@@ -82,22 +93,27 @@ public class GameGrid {
     shapeRenderer.end();
   }
 
+  // the pixel cord of the bottom left corner of the grid
   public int getCornerX() {
     return cornerX;
   }
 
+  // the pixel cord of the bottom left corner of the grid
   public int getCornerY() {
     return cornerY;
   }
 
+  // the amount of pixels tall the grid is
   public int getGridHeight() {
     return gridHeight;
   }
 
+  // amount of pixels wide the grid is
   public int getGridWidth() {
     return gridWidth;
   }
 
+  // Logic to draw the grid (called 60 times a sec, every frame render)
   public void renderGrid(Color color) {
     final ShapeRenderer shapeRenderer = SceneManager.getShapeRenderer();
 
@@ -106,8 +122,6 @@ public class GameGrid {
 
     Gdx.gl.glLineWidth(3);
 
-
-    // TODO more hard coded 10 by 10 logic
     // Horizontal Lines
     for (int i = 0; i <= boxesY; i++) {
       shapeRenderer.line(this.cornerX, this.cornerY + (getBoxHeight() * i), this.cornerX + this.gridWidth, this.cornerY + (getBoxHeight() * i));

@@ -19,22 +19,27 @@ public class ScoreboardPanel {
     private final int x = (int) (SceneManager.getViewWidth() * 0.75);
     private final int y = (int) (SceneManager.getViewHeight() - (SceneManager.getViewHeight() * 0.05) - height);
 
+    // scoreboard panel width (includes background)
     public int getWidth() {
         return width;
     }
 
+    // scoreboard panel height (includes background)
     public int getHeight() {
         return height;
     }
 
+    // scoreboard panel x position
     public int getX() {
         return x;
     }
 
+    // scoreboard panel y position
     public int getY() {
         return y;
     }
 
+    // Draw da mf scoreboard panel
     public void render() {
         final AdvancedShapeRenderer render = SceneManager.getShapeRenderer();
         final GameManager manager = Accessor.getGameManager();
@@ -42,6 +47,7 @@ public class ScoreboardPanel {
         // This enables transparency
         Gdx.gl.glEnable(GL20.GL_BLEND);
 
+        // Scoreboard background
         render.begin(ShapeRenderer.ShapeType.Filled);
         render.setColor(new Color( 0, .4F, .8F, 0.6F));
         render.roundedRect(x, y, width, height, 10);
@@ -51,9 +57,14 @@ public class ScoreboardPanel {
         final SpriteBatch batch = SceneManager.getSpriteBatch();
         final BitmapFont font = SceneManager.getFont();
 
+
+        // Daw all the text for the scoreboard
+        // all the line positions are hard coded (obviously)
         batch.begin();
+
         font.getData().setScale(2.2F);
         font.draw(batch, "SCOREBOARD", x + 10, y + height - 20);
+
         font.getData().setScale(1.5F);
         font.draw(batch, "Current Turn: " + manager.getPlayingPlayer().getName(), x + 10, y + height - 60);
 

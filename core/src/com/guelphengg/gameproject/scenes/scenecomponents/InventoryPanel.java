@@ -13,6 +13,9 @@ import com.guelphengg.gameproject.util.AdvancedShapeRenderer;
 
 public class InventoryPanel {
 
+    // The grid that the inventory will be rendered on
+    // GameGrid is a class that represents a grid that can be drawn on the screen
+    // GameGrid is also used for the map
     final GameGrid inventoryGrid = new GameGrid(
             (int) (SceneManager.getViewWidth() * .3), // height
             (int) (SceneManager.getViewWidth() * .3 / 3), // width
@@ -23,16 +26,20 @@ public class InventoryPanel {
 
     // Render a certian players inventory
     public void render(Player player) {
+
         // Render the background
         final AdvancedShapeRenderer shapeRenderer = SceneManager.getShapeRenderer();
         final GameManager manager = Accessor.getGameManager();
+
         // This enables transparency
         Gdx.gl.glEnable(GL20.GL_BLEND);
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
+        // Set the color to the players colour
         shapeRenderer.setColor(manager.getPlayingPlayer().getCharacter().getColour());
 
+        // Draw the transparent background
         shapeRenderer.roundedRect(
                 inventoryGrid.getCornerX() - 20,
                 inventoryGrid.getCornerY() - 20,
@@ -46,7 +53,8 @@ public class InventoryPanel {
         // Render the grid
         inventoryGrid.renderGrid(Color.WHITE);
 
-        // TODO put the players items in the inventory
+        // Draw the lootitems in the inventory
+        // draws only the playing players inventory
         int x = 0;
         int y = 5;
         for (LootItems item : Accessor.getGameManager().getPlayingPlayer().getItems()) {
@@ -59,6 +67,4 @@ public class InventoryPanel {
             }
         }
     }
-
-
 }

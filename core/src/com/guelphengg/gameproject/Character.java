@@ -8,7 +8,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public enum Character {
 
   GREENIE(0, 0, new Color((float)81/255, (float)115/255, (float)56/255, 0.4F)),
-  REDIE(0, 3, new Color(1, (float)43/255, (float)58/255, 0.4F));
+  REDIE(0, 3, new Color(1, (float)43/255, (float)58/255, 0.4F)),
+  BLUEY(0, 9, new Color(1, (float)43/255, (float)58/255, 0.4F));
 
   private Animation<TextureRegion> animation;
 

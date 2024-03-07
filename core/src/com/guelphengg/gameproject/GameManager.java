@@ -3,17 +3,14 @@ package com.guelphengg.gameproject;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
 import com.guelphengg.gameproject.griditems.GridObject;
 import com.guelphengg.gameproject.griditems.LootItems;
 import com.guelphengg.gameproject.griditems.Player;
 import com.guelphengg.gameproject.scenes.TransitionScene;
-import com.guelphengg.gameproject.scenes.scenecomponents.GameGrid;
 
 public class GameManager {
   private int turnsLeft = 0;
   private Music jump;
-
 
   // What phase the game is currently in
   private GameState state = GameState.MAIN_MENU;
@@ -55,38 +52,26 @@ public class GameManager {
     smoothlySetState(GameState.RUNNING);
   }
 
-  // Check if player is at a treasure house
-  public boolean canPlayerLoot() {
-    if (this.playingPlayer.isAtStart())
-      return false;
-
-    final GridObject object = gridObjects[playingPlayer.getX()][playingPlayer.getY()];
-
-    if (object == GridObject.TREASURE_HOUSE)
-      return true;
-
-    return false;
-  }
-
-  // Make the playing player loot the current house
+  // Make the playing player loot the current house they are sting on
   public void lootHouse() {
-    if (!canPlayerLoot())
-      return;
-
-    final GridObject object = gridObjects[playingPlayer.getX()][playingPlayer.getY()];
-
-    if (object == GridObject.TREASURE_HOUSE) {
+    if (playerOn(GridObject.TREASURE_HOUSE)) {
+      // Its empty now so turn out the lights
       gridObjects[playingPlayer.getX()][playingPlayer.getY()] = GridObject.EMPTY_HOUSE;
 
+      // give the player a random item
       playingPlayer.addLoot(LootItems.getRandomItem());
     }
   }
+
+  // Function that trades all a players items for (TODO)
   public void tradeItems(){
     if (playerOn(GridObject.CASTLE)){
       playingPlayer.getItems().clear();
     }
     //TODO Give items values and give player gold for trading items
   }
+
+  // Checks if a player is standing on a spesific grid object
   public boolean playerOn(GridObject obj){
     if (!playingPlayer.isAtStart() && obj == gridObjects[playingPlayer.getX()][playingPlayer.getY()]){
       return true;
@@ -96,28 +81,34 @@ public class GameManager {
     }
   }
 
+  // check how many moves the current player has left (before next turn)
   public int getTurnsLeft() {
     return this.turnsLeft;
   }
 
+  // Notify that the dice has been rolled
   public void startRolling() {
     this.diceRolling = true;
     this.lastRollTime = System.currentTimeMillis();
   }
 
+  // Get the last time the dice was rolled by a player
   public long getLastRollTime() {
     return this.lastRollTime;
   }
 
+  // Notify that the dice has been rolled
   public void completeRoll(int roll) {
     this.turnsLeft = roll;
     this.diceRolling = false;
   }
 
+  // Uses TransitionScene to smoothly transition between game states
   public void smoothlySetState(GameState nextState) {
     smoothlySetState(nextState, false, 500);
   }
 
+  // Uses TransitionScene to smoothly transition between game states
   public void smoothlySetState(GameState nextState, boolean fromBlank, long duration) {
     ((TransitionScene) GameState.TRANSITION.getScene()).start(duration, !fromBlank ? this.state : null, nextState);
 
@@ -128,10 +119,12 @@ public class GameManager {
     return this.state;
   }
 
+  // Update the current game state
   public void setState(GameState nextState) {
     this.state = nextState;
   }
 
+  // Handles all game input
   public void gameInput(int keyCode) {
     if (this.state == GameState.MAIN_MENU) {
       jump = Gdx.audio.newMusic(Gdx.files.internal("JumpTS.wav"));
@@ -156,7 +149,7 @@ public class GameManager {
           break;
 
         case Input.Keys.L: // Player is trying to loot house
-          if (canPlayerLoot()) {
+          if (playerOn(GridObject.TREASURE_HOUSE)) {
             lootHouse();
           }
 

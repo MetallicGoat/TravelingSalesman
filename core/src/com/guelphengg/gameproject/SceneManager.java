@@ -9,6 +9,13 @@ import com.guelphengg.gameproject.util.AdvancedShapeRenderer;
 
 public class SceneManager {
 
+  /**
+   * This is a util class that we use for rendering.
+   * usefull to get the screen width and height
+   * and to get the instances of classes we need to render,
+   * such as SpriteBatch, ShapeRenderer, and BitmapFont
+   */
+
   private static OrthographicCamera camera;
   private static SpriteBatch batch;
   private static BitmapFont font;
