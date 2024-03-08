@@ -2,6 +2,7 @@ package com.guelphengg.gameproject;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -14,6 +15,12 @@ public class TravelingSalesman extends ApplicationAdapter {
     public Texture img;
     private static TravelingSalesman instance;
 
+    private Music Backgr;
+
+
+    public Music getBackgr(){
+        return Backgr;
+    }
     @Override
     public void create() {
         batch = new SpriteBatch();
@@ -26,6 +33,11 @@ public class TravelingSalesman extends ApplicationAdapter {
 
         // Initialize the scene manager
         SceneManager.init();
+
+        Backgr = Gdx.audio.newMusic(Gdx.files.internal("MainMenuTS.mp3"));
+
+        Backgr.setLooping(true);
+        Backgr.play();
 
         Accessor.getGameManager().smoothlySetState(GameState.MAIN_MENU, true, 500);
     }

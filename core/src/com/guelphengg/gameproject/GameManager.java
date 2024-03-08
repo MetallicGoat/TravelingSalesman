@@ -3,6 +3,7 @@ package com.guelphengg.gameproject;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.guelphengg.gameproject.griditems.GridObject;
 import com.guelphengg.gameproject.griditems.LootItems;
 import com.guelphengg.gameproject.griditems.Player;
@@ -10,7 +11,7 @@ import com.guelphengg.gameproject.scenes.TransitionScene;
 
 public class GameManager {
   private int turnsLeft = 0;
-  private Music jump;
+  private Sound jump;
 
   // What phase the game is currently in
   private GameState state = GameState.MAIN_MENU;
@@ -27,10 +28,18 @@ public class GameManager {
 
   public GridObject[][] gridObjects = new GridObject[10][10];
 
+  private Music gameMusic;
+
   // TODO check if this was actually supposed to be in the game or if I dumb
   // public boolean[][] visibleArea = new boolean[10][10];
 
   public void startGame() {
+
+    TravelingSalesman.getInstance().getBackgr().pause();
+    gameMusic = Gdx.audio.newMusic(Gdx.files.internal("MainGameTS.mp3"));
+    gameMusic.setLooping(true);
+    gameMusic.play();
+
     //TODO Replace this with a system to randomly generate positions
     gridObjects[4][4] = GridObject.CASTLE;
     gridObjects[2][6] = GridObject.TRAPPED_HOUSE;
@@ -127,8 +136,8 @@ public class GameManager {
   // Handles all game input
   public void gameInput(int keyCode) {
     if (this.state == GameState.MAIN_MENU) {
-      jump = Gdx.audio.newMusic(Gdx.files.internal("JumpTS.wav"));
-      jump.setLooping(false);
+      jump = Gdx.audio.newSound(Gdx.files.internal("JumpTS.wav"));
+//      jump.setVolume();
 
       switch (keyCode) {
         case Input.Keys.SPACE:
@@ -166,25 +175,21 @@ public class GameManager {
         case Input.Keys.UP:
         case Input.Keys.W:
           movePlayingPlayer(0, 1);
-          jump.play();
           break;
 
         case Input.Keys.DOWN:
         case Input.Keys.S:
           movePlayingPlayer(0, -1);
-          jump.play();
           break;
 
         case Input.Keys.LEFT:
         case Input.Keys.A:
           movePlayingPlayer(-1, 0);
-          jump.play();
           break;
 
         case Input.Keys.RIGHT:
         case Input.Keys.D:
           movePlayingPlayer(1, 0);
-          jump.play();
           break;
 
         case Input.Keys.V:
@@ -250,6 +255,7 @@ public class GameManager {
     // visibleArea[newX][newY] = true;
 
     // True if the player can move
+    jump.play(10000);
     return true;
   }
 }
