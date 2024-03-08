@@ -108,4 +108,22 @@ public class Player {
 
     return loot;
   }
+  public void inflictDamage(Player otherPlayer){
+    if(otherPlayer.loot.contains(LootItems.PALADIN_SHIELD))
+    otherPlayer.strength -= (this.getDamage())*(LootItems.PALADIN_SHIELD.getProtection());
+//    otherPlayer.loot Maybe shield class????? that extends the loot Items enum?
+
+  }
+  public int getDamage(){
+    int damage = 1;
+    if(this.loot.contains(LootItems.SWORD)){
+      damage += LootItems.SWORD.getDamage();
+    }else if(this.loot.contains(LootItems.BEJEWELED_SWORD))
+    {
+      damage += LootItems.BEJEWELED_SWORD.getDamage();
+    }else if(this.loot.contains(LootItems.BOW)){
+      damage += LootItems.BOW.getDamage();
+    }
+    return damage;
+  }
 }
