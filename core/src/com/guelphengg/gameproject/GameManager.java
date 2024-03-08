@@ -29,6 +29,9 @@ public class GameManager {
   public GridObject[][] gridObjects = new GridObject[10][10];
 
   private Music gameMusic;
+  private Sound rollSound;
+  private Sound lootSound;
+  private Sound bootSound;
 
   // TODO check if this was actually supposed to be in the game or if I dumb
   // public boolean[][] visibleArea = new boolean[10][10];
@@ -63,6 +66,8 @@ public class GameManager {
 
   // Make the playing player loot the current house they are sting on
   public void lootHouse() {
+    lootSound = Gdx.audio.newSound(Gdx.files.internal("LootSound1.mp3"));
+    lootSound.play();
     if (playerOn(GridObject.TREASURE_HOUSE)) {
       // Its empty now so turn out the lights
       gridObjects[playingPlayer.getX()][playingPlayer.getY()] = GridObject.EMPTY_HOUSE;
@@ -97,6 +102,8 @@ public class GameManager {
 
   // Notify that the dice has been rolled
   public void startRolling() {
+    rollSound = Gdx.audio.newSound(Gdx.files.internal("DiceRoll.wav"));
+    rollSound.play();
     this.diceRolling = true;
     this.lastRollTime = System.currentTimeMillis();
   }
@@ -114,7 +121,7 @@ public class GameManager {
 
   // Uses TransitionScene to smoothly transition between game states
   public void smoothlySetState(GameState nextState) {
-    smoothlySetState(nextState, false, 500);
+    smoothlySetState(nextState, false, 1000);
   }
 
   // Uses TransitionScene to smoothly transition between game states
@@ -141,6 +148,8 @@ public class GameManager {
 
       switch (keyCode) {
         case Input.Keys.SPACE:
+          bootSound = Gdx.audio.newSound(Gdx.files.internal("LootSound4.mp3"));
+          bootSound.play();
           startGame(); // TODO this could not be called every time they press space
           break;
       }
