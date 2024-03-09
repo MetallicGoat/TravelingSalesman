@@ -65,19 +65,44 @@ public class GameManager {
 
   // Make the playing player loot the current house
   public void lootHouse() {
+    LootItems lootedItem; // I made this a variable so I could use it to change strength
     if (!canPlayerLoot())
       return;
 
     final GridObject object = gridObjects[playingPlayer.getX()][playingPlayer.getY()];
 
     if (object == GridObject.TREASURE_HOUSE) {
+      lootedItem = LootItems.getRandomItem();
       gridObjects[playingPlayer.getX()][playingPlayer.getY()] = GridObject.EMPTY_HOUSE;
-
-      playingPlayer.addLoot(LootItems.getRandomItem());
+      // The below if loop checks if there is a weapon in the inventory already.
+      if((lootedItem==LootItems.SWORD || lootedItem==LootItems.BEJEWELED_SWORD || lootedItem == LootItems.BOW)
+          && (playingPlayer.getItems().contains(LootItems.SWORD)||playingPlayer.getItems().contains(LootItems.BEJEWELED_SWORD)|| playingPlayer.getItems().contains(LootItems.BOW))) {
+        // If there is a weapon, the below for loop will run and remove all weapons from the inventory
+        for(int i = 0; i<playingPlayer.getItems().size(); i++){
+          if(playingPlayer.getItems().get(i) == LootItems.SWORD)
+          playingPlayer.getItems().remove(i);
+          else if(playingPlayer.getItems().get(i) == LootItems.BOW)
+          playingPlayer.getItems().remove(i);
+          else if(playingPlayer.getItems().get(i) == LootItems.BEJEWELED_SWORD)
+          playingPlayer.getItems().remove(i);
+        }
+        // The strength is then reset back to the base number
+        playingPlayer.setStrength(0);
+      }
+      // and the loot is added and the strength is adjusted
+      playingPlayer.addLoot(lootedItem);
+      playingPlayer.addStrength(lootedItem);
     }
+
   }
   public void tradeItems(){
     if (playerOn(GridObject.CASTLE)){
+      for(int i = 0; i<playingPlayer.getItems().size(); i++) {
+        playingPlayer.addCoins(playingPlayer.getItems().get(i));
+        // This iterates through the player's inventory, checks
+        // what the object is, and then adds the set value to the player's coins
+      }
+      playingPlayer.setStrength(0); // sets the strength back to the original value
       playingPlayer.getItems().clear();
     }
     //TODO Give items values and give player gold for trading items
