@@ -18,7 +18,7 @@ public class InventoryPanel {
             (int) (SceneManager.getViewWidth() * .3 / 3), // width
             (int) (SceneManager.getViewWidth() * .58), // x
             (int) (SceneManager.getViewHeight() * .47), // y
-            2, 6 // boxesX, boxesY
+            2, 7 // boxesX, boxesY
     );
 
     // Render a certian players inventory
@@ -50,6 +50,7 @@ public class InventoryPanel {
         int x = 0;
         int y = 5;
         for (LootItems item : Accessor.getGameManager().getPlayingPlayer().getItems()) {
+
             item.render(inventoryGrid, x, y);
             x++;
             if (x > 0 && x % 2 == 0) {
