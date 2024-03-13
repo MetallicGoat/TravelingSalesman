@@ -3,6 +3,7 @@ package com.guelphengg.gameproject;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.guelphengg.gameproject.griditems.GridObject;
 import com.guelphengg.gameproject.griditems.LootItems;
 import com.guelphengg.gameproject.griditems.Player;
@@ -13,7 +14,7 @@ import java.util.Random;
 public class GameManager {
   private int nextRoll = 0;
   private int turnsLeft = 0;
-  private Music jump;
+  private Sound jump;
 
   // What phase the game is currently in
   private GameState state = GameState.MAIN_MENU;
@@ -30,10 +31,21 @@ public class GameManager {
 
   public GridObject[][] gridObjects = new GridObject[10][10];
 
+  private Music gameMusic;
+  private Sound rollSound;
+  private Sound lootSound;
+  private Sound bootSound;
+
   // TODO check if this was actually supposed to be in the game or if I dumb
   // public boolean[][] visibleArea = new boolean[10][10];
 
   public void startGame() {
+
+    TravelingSalesman.getInstance().getBackgr().pause();
+    gameMusic = Gdx.audio.newMusic(Gdx.files.internal("MainGameTS.mp3"));
+    gameMusic.setLooping(true);
+    gameMusic.play();
+
     //TODO Replace this with a system to randomly generate positions
     gridObjects[4][4] = GridObject.CASTLE;
     gridObjects[2][6] = GridObject.TRAPPED_HOUSE;
@@ -57,6 +69,8 @@ public class GameManager {
 
   // Make the playing player loot the current house they are sting on
   public void lootHouse() {
+    lootSound = Gdx.audio.newSound(Gdx.files.internal("LootSound1.mp3"));
+    lootSound.play();
     if (playerOn(GridObject.TREASURE_HOUSE)) {
       // Its empty now so turn out the lights
       gridObjects[playingPlayer.getX()][playingPlayer.getY()] = GridObject.EMPTY_HOUSE;
@@ -91,6 +105,9 @@ public class GameManager {
 
   // Notify that the dice has been rolled
   public void startRolling() {
+    rollSound = Gdx.audio.newSound(Gdx.files.internal("DiceRoll.wav"));
+    rollSound.play();
+
     this.nextRoll = new Random().nextInt(6) + 1;
     this.diceRolling = true;
     this.lastRollTime = System.currentTimeMillis();
@@ -113,7 +130,7 @@ public class GameManager {
 
   // Uses TransitionScene to smoothly transition between game states
   public void smoothlySetState(GameState nextState) {
-    smoothlySetState(nextState, false, 500);
+    smoothlySetState(nextState, false, 1000);
   }
 
   // Uses TransitionScene to smoothly transition between game states
@@ -135,11 +152,12 @@ public class GameManager {
   // Handles all game input
   public void gameInput(int keyCode) {
     if (this.state == GameState.MAIN_MENU) {
-      jump = Gdx.audio.newMusic(Gdx.files.internal("JumpTS.wav"));
-      jump.setLooping(false);
+      jump = Gdx.audio.newSound(Gdx.files.internal("JumpTS.wav"));
 
       switch (keyCode) {
         case Input.Keys.SPACE:
+          bootSound = Gdx.audio.newSound(Gdx.files.internal("LootSound4.mp3"));
+          bootSound.play();
           startGame(); // TODO this could not be called every time they press space
           break;
       }
@@ -174,25 +192,21 @@ public class GameManager {
         case Input.Keys.UP:
         case Input.Keys.W:
           movePlayingPlayer(0, 1);
-          jump.play();
           break;
 
         case Input.Keys.DOWN:
         case Input.Keys.S:
           movePlayingPlayer(0, -1);
-          jump.play();
           break;
 
         case Input.Keys.LEFT:
         case Input.Keys.A:
           movePlayingPlayer(-1, 0);
-          jump.play();
           break;
 
         case Input.Keys.RIGHT:
         case Input.Keys.D:
           movePlayingPlayer(1, 0);
-          jump.play();
           break;
 
         case Input.Keys.V:
@@ -258,6 +272,7 @@ public class GameManager {
     // visibleArea[newX][newY] = true;
 
     // True if the player can move
+    jump.play(10000);
     return true;
   }
 }

@@ -10,7 +10,7 @@ import com.guelphengg.gameproject.SceneManager;
 import com.guelphengg.gameproject.Textures;
 
 public class MainMenuScene extends Scene {
-    private Music Backgr;
+
   public MainMenuScene() {
     super(GameState.MAIN_MENU);
   }
@@ -24,11 +24,6 @@ public class MainMenuScene extends Scene {
 
         float widthScreen = SceneManager.getViewWidth();
         float heightScreen = SceneManager.getViewHeight();
-
-        Backgr = Gdx.audio.newMusic(Gdx.files.internal("MainMenuTS.mp3"));
-
-        Backgr.setLooping(true);
-        // Backgr.play();
 
 
         // draw the scroll texture
