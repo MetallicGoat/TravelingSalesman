@@ -32,6 +32,7 @@ public class GameManager {
   private Sound rollSound;
   private Sound lootSound;
   private Sound bootSound;
+  private Sound sellSound;
 
   // TODO check if this was actually supposed to be in the game or if I dumb
   // public boolean[][] visibleArea = new boolean[10][10];
@@ -66,7 +67,7 @@ public class GameManager {
 
   // Make the playing player loot the current house they are sting on
   public void lootHouse() {
-    lootSound = Gdx.audio.newSound(Gdx.files.internal("LootSound1.mp3"));
+    lootSound = Gdx.audio.newSound(Gdx.files.internal("LootSound1.wav"));
     lootSound.play();
     if (playerOn(GridObject.TREASURE_HOUSE)) {
       // Its empty now so turn out the lights
@@ -148,7 +149,7 @@ public class GameManager {
 
       switch (keyCode) {
         case Input.Keys.SPACE:
-          bootSound = Gdx.audio.newSound(Gdx.files.internal("LootSound4.mp3"));
+          bootSound = Gdx.audio.newSound(Gdx.files.internal("Begin.wav"));
           bootSound.play();
           startGame(); // TODO this could not be called every time they press space
           break;
@@ -173,7 +174,11 @@ public class GameManager {
 
           break;
         case Input.Keys.T://Trade Tings for Gold lol
-          tradeItems();
+          if (playerOn(GridObject.CASTLE)) {
+            sellSound = Gdx.audio.newSound(Gdx.files.internal("Sell.wav"));
+            sellSound.play();
+            tradeItems();
+          }//TODO Make it so that the selling sound only plays when the player actually sold something....
           //TODO Give items values and give player gold for trading items
           //since the middle will ALWAYS be the castle, if player is at the point on the grid where the castle exists,
           //pressing 's' will clear the inventory and give player the gold that is equal to the sum of the players inv.
