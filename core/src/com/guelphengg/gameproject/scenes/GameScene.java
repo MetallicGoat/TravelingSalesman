@@ -46,6 +46,8 @@ public class GameScene extends Scene {
 
   @Override
   public void render() {
+    renderBackground();
+
     final GameManager manager = Accessor.getGameManager();
 
     // Render all the components in the game

@@ -14,14 +14,14 @@ import java.util.Random;
 public class GameManager {
   private int nextRoll = 0;
   private int turnsLeft = 0;
-  private Sound jump;
+  private Sound jump = Gdx.audio.newSound(Gdx.files.internal("JumpTS.wav"));
 
   // What phase the game is currently in
   private GameState state = GameState.MAIN_MENU;
 
   // TODO allow players to pick their character
   private final Player player1 = new Player(10, 0, Character.GREENIE);
-  private final Player player2 = new Player(10, 0, Character.REDIE);
+  private final Player player2 = new Player(10, 0, Character.REDDIE);
 
   private Player playingPlayer = player1;
 
@@ -105,8 +105,8 @@ public class GameManager {
 
   // Notify that the dice has been rolled
   public void startRolling() {
-    rollSound = Gdx.audio.newSound(Gdx.files.internal("DiceRoll.wav"));
-    rollSound.play();
+    // rollSound = Gdx.audio.newSound(Gdx.files.internal("DiceRoll.wav"));
+    // rollSound.play();
 
     this.nextRoll = new Random().nextInt(6) + 1;
     this.diceRolling = true;
@@ -152,22 +152,43 @@ public class GameManager {
   // Handles all game input
   public void gameInput(int keyCode) {
     if (this.state == GameState.MAIN_MENU) {
-      jump = Gdx.audio.newSound(Gdx.files.internal("JumpTS.wav"));
+      switch (keyCode) {
+        case Input.Keys.SPACE:
+          smoothlySetState(GameState.GAME_SETUP);
 
+      }
+
+    } else if (this.state == GameState.GAME_SETUP) {
       switch (keyCode) {
         case Input.Keys.SPACE:
           bootSound = Gdx.audio.newSound(Gdx.files.internal("LootSound4.mp3"));
           bootSound.play();
           startGame(); // TODO this could not be called every time they press space
           break;
+
+        case Input.Keys.A:
+          player1.setCharacter(Character.getPreviousCharacter(player1.getCharacter()));
+          break;
+
+        case Input.Keys.D:
+          player1.setCharacter(Character.getNextCharacter(player1.getCharacter()));
+          break;
+
+        case Input.Keys.LEFT:
+          player2.setCharacter(Character.getPreviousCharacter(player2.getCharacter()));
+          break;
+
+        case Input.Keys.RIGHT:
+          player2.setCharacter(Character.getNextCharacter(player2.getCharacter()));
+          break;
       }
 
     } else if (this.state == GameState.RUNNING) {
       switch (keyCode) {
-        case Input.Keys.ESCAPE:
-          // TODO Open Pause Menu?
-          this.state = GameState.MAIN_MENU;
-          break;
+//        case Input.Keys.ESCAPE:
+//          // TODO Open Pause Menu?
+//          this.state = GameState.MAIN_MENU;
+//          break;
 
         case Input.Keys.R:
           if (turnsLeft == 0 && !diceRolling)

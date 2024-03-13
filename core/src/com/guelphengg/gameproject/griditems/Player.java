@@ -14,7 +14,7 @@ public class Player {
   private final List<LootItems> loot= new ArrayList<>();
 
   // The character of the player
-  private final Character character;
+  private Character character;
 
   // If the player is currently small
   private boolean small = true;
@@ -45,6 +45,10 @@ public class Player {
   // get the name of the player using their character
   public String getName() {
     return character.getName();
+  }
+
+  public void setCharacter(Character character) {
+    this.character = character;
   }
 
   // used to check if the gamegrid should make the player small

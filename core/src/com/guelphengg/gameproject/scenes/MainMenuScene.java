@@ -1,7 +1,5 @@
 package com.guelphengg.gameproject.scenes;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -17,6 +15,7 @@ public class MainMenuScene extends Scene {
 
     @Override
     public void render() {
+        renderBackground();
 
         final SpriteBatch batch = SceneManager.getSpriteBatch();
 

@@ -8,8 +8,12 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public enum Character {
 
   GREENIE(0, 0, new Color((float)81/255, (float)115/255, (float)56/255, 0.4F)),
-  REDIE(0, 3, new Color(1, (float)43/255, (float)58/255, 0.4F)),
-  BLUEY(0, 9, new Color(1, (float)43/255, (float)58/255, 0.4F));
+  REDDIE(0, 3, new Color(1, (float)43/255, (float)58/255, 0.4F)),
+  GRAYIE(0, 9, new Color(1, (float)43/255, (float)58/255, 0.4F)),
+  PRUPLEY(4, 0, new Color(1, (float)43/255, (float)58/255, 0.4F)),
+  WHITEY(4, 3, new Color(1, (float)43/255, (float)58/255, 0.4F)),
+  YELLOWIE(4, 6, new Color(1, (float)43/255, (float)58/255, 0.4F)),
+  BALDIE(4, 9, new Color(1, (float)43/255, (float)58/255, 0.4F));
 
   private Animation<TextureRegion> animation;
 
@@ -49,4 +53,23 @@ public enum Character {
     animation = new Animation<>(0.15f, walkFrames);
   }
 
+  public static Character getNextCharacter(Character character) {
+    final int pos = character.ordinal();
+
+    if (pos == Character.values().length - 1) {
+      return Character.values()[0];
+    } else {
+      return Character.values()[pos + 1];
+    }
+  }
+
+  public static Character getPreviousCharacter(Character character) {
+    final int pos = character.ordinal();
+
+    if (pos == 0) {
+      return Character.values()[Character.values().length - 1];
+    } else {
+      return Character.values()[pos - 1];
+    }
+  }
 }
