@@ -2,20 +2,18 @@ package com.guelphengg.gameproject.griditems;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.guelphengg.gameproject.Accessor;
 import com.guelphengg.gameproject.Character;
 import com.guelphengg.gameproject.scenes.scenecomponents.GameGrid;
-import com.sun.tools.javac.comp.Todo;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Player {
   // base strength for a character
-    private final int BASE_STRENGTH = 10;
+  private final int BASE_STRENGTH = 10;
 
   // This array of loot items represents the players inventory
-  private final List<LootItems> loot= new ArrayList<>();
+  private final List<LootItems> loot = new ArrayList<>();
 
   // The character of the player
   private Character character;
@@ -62,7 +60,7 @@ public class Player {
   }
 
   // if the player is currently being displayed small
-  public boolean isSmall(){
+  public boolean isSmall() {
     return this.small;
   }
 
@@ -76,7 +74,7 @@ public class Player {
 
   // If that player is at the start square (which is off the grid)
   public boolean isAtStart() {
-    return (this.x == 10 && this.y == 0) ;
+    return (this.x == 10 && this.y == 0);
   }
 
   // get the strength of the player
@@ -85,19 +83,20 @@ public class Player {
   }
 
   // change the strength of the player
-    public void setStrength(int newStrength) {
-        if (newStrength < 10) { // catches if the new value is less than the base strength
-            newStrength = BASE_STRENGTH;
-        }
-        this.strength = newStrength;
+  public void setStrength(int newStrength) {
+    if (newStrength < 10) { // catches if the new value is less than the base strength
+      newStrength = BASE_STRENGTH;
     }
 
-    public void addStrength(LootItems item) {
-        this.strength += item.getDamage();
-    }
+    this.strength = newStrength;
+  }
+
+  public void addStrength(LootItems item) {
+    this.strength += item.getDamage();
+  }
 
   // change the health of the player
-  void setHealth(int health){
+  void setHealth(int health) {
     this.health = health;
   }
 
@@ -146,40 +145,40 @@ public class Player {
     gameGrid.renderTextureInGrid(x, y, getCurrFrame(), this.small ? 0.5 : 1, xOffset, yOffset);
   }
 
-    public void addLoot(LootItems item) {
-        loot.add(item);
-    }
+  public void addLoot(LootItems item) {
+    loot.add(item);
+  }
 
-    public List<LootItems> getItems() {
+  public List<LootItems> getItems() {
 
-        return loot;
-    }
+    return loot;
+  }
 
-    public void inflictDamage(Player otherPlayer) {
-        if (otherPlayer.loot.contains(LootItems.PALADIN_SHIELD))
-            otherPlayer.health -= (this.getDamage()) * (LootItems.PALADIN_SHIELD.getProtection());
-        //  otherPlayer.loot Maybe shield class????? that extends the loot Items enum?
-        // TODO Make it so that the sheild's durability belongs to the shield the player has and not the player
-        // TODO we don't want the durability to carry over if the shield is lost or gets used
-    }
+  public void inflictDamage(Player otherPlayer) {
+    if (otherPlayer.loot.contains(LootItems.PALADIN_SHIELD))
+      otherPlayer.health -= (int) ((this.getDamage()) * (LootItems.PALADIN_SHIELD.getProtection()));
+    //  otherPlayer.loot Maybe shield class????? that extends the loot Items enum?
+    // TODO Make it so that the sheild's durability belongs to the shield the player has and not the player
+    // TODO we don't want the durability to carry over if the shield is lost or gets used
+  }
 
-    public int getDamage() {
-        int damage = 1;
-        if (this.loot.contains(LootItems.SWORD)) {
-            damage += LootItems.SWORD.getDamage();
-        } else if (this.loot.contains(LootItems.BEJEWELED_SWORD)) {
-            damage += LootItems.BEJEWELED_SWORD.getDamage();
-        } else if (this.loot.contains(LootItems.BOW)) {
-            damage += LootItems.BOW.getDamage();
-        }
-        return damage;
+  public int getDamage() {
+    int damage = 1;
+    if (this.loot.contains(LootItems.SWORD)) {
+      damage += LootItems.SWORD.getDamage();
+    } else if (this.loot.contains(LootItems.BEJEWELED_SWORD)) {
+      damage += LootItems.BEJEWELED_SWORD.getDamage();
+    } else if (this.loot.contains(LootItems.BOW)) {
+      damage += LootItems.BOW.getDamage();
     }
+    return damage;
+  }
 
-    public void addCoins(LootItems item) {
-        this.coins += item.getSellPrice();
-    }
+  public void addCoins(LootItems item) {
+    this.coins += item.getSellPrice();
+  }
 
-    public void removeCoins(LootItems item) {
-        this.coins -= item.getSellPrice() * 1.1;
-    }
+  public void removeCoins(LootItems item) {
+    this.coins -= (int) (item.getSellPrice() * 1.1);
+  }
 }

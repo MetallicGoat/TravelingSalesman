@@ -1,7 +1,6 @@
 package com.guelphengg.gameproject;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
@@ -10,6 +9,7 @@ import com.guelphengg.gameproject.griditems.LootItems;
 import com.guelphengg.gameproject.griditems.Player;
 import com.guelphengg.gameproject.scenes.TransitionScene;
 
+import java.util.Iterator;
 import java.util.Random;
 
 public class GameManager {
@@ -68,77 +68,77 @@ public class GameManager {
     smoothlySetState(GameState.RUNNING);
   }
 
-    // Check if player is at a treasure house
-    public boolean canPlayerLoot() {
-        if (this.playingPlayer.isAtStart())
-            return false;
+  // Check if player is at a treasure house
+  public boolean canPlayerLoot() {
+    if (this.playingPlayer.isAtStart())
+      return false;
 
-        final GridObject object = gridObjects[playingPlayer.getX()][playingPlayer.getY()];
+    final GridObject object = gridObjects[playingPlayer.getX()][playingPlayer.getY()];
 
-        if (object == GridObject.TREASURE_HOUSE)
-            return true;
+    if (object == GridObject.TREASURE_HOUSE)
+      return true;
 
-        return false;
-    }
+    return false;
+  }
 
-    // Make the playing player loot the current house
-    public void lootHouse() {
-        LootItems lootedItem; // I made this a variable so I could use it to change strength
-        if (!canPlayerLoot())
-            return;
+  // Make the playing player loot the current house
+  public void lootHouse() {
+    LootItems lootedItem; // I made this a variable so I could use it to change strength
+    if (!canPlayerLoot())
+      return;
 
-        final GridObject object = gridObjects[playingPlayer.getX()][playingPlayer.getY()];
+    final GridObject object = gridObjects[playingPlayer.getX()][playingPlayer.getY()];
 
-        if (object == GridObject.TREASURE_HOUSE) {
-          lootSound = Gdx.audio.newSound(Gdx.files.internal("LootSound1.mp3"));
-          lootSound.play();
+    if (object == GridObject.TREASURE_HOUSE) {
+      lootSound = Gdx.audio.newSound(Gdx.files.internal("LootSound1.mp3"));
+      lootSound.play();
 
-            lootedItem = LootItems.getRandomItem();
-            gridObjects[playingPlayer.getX()][playingPlayer.getY()] = GridObject.EMPTY_HOUSE;
-            // The below if loop checks if there is a weapon in the inventory already.
-            if ((lootedItem == LootItems.SWORD || lootedItem == LootItems.BEJEWELED_SWORD || lootedItem == LootItems.BOW)
-                    && (playingPlayer.getItems().contains(LootItems.SWORD) || playingPlayer.getItems().contains(LootItems.BEJEWELED_SWORD) || playingPlayer.getItems().contains(LootItems.BOW))) {
-                // If there is a weapon, the below for loop will run and remove all weapons from the inventory
-                for (int i = 0; i < playingPlayer.getItems().size(); i++) {
-                    if (playingPlayer.getItems().get(i) == LootItems.SWORD)
-                        playingPlayer.getItems().remove(i);
-                    else if (playingPlayer.getItems().get(i) == LootItems.BOW)
-                        playingPlayer.getItems().remove(i);
-                    else if (playingPlayer.getItems().get(i) == LootItems.BEJEWELED_SWORD)
-                        playingPlayer.getItems().remove(i);
-                }
-                // The strength is then reset back to the base number
-                playingPlayer.setStrength(0);
-            }
-            // and the loot is added and the strength is adjusted
-            playingPlayer.addLoot(lootedItem);
-            playingPlayer.addStrength(lootedItem);
+      lootedItem = LootItems.getRandomItem();
+      gridObjects[playingPlayer.getX()][playingPlayer.getY()] = GridObject.EMPTY_HOUSE;
+      // The below if loop checks if there is a weapon in the inventory already.
+      if ((lootedItem == LootItems.SWORD || lootedItem == LootItems.BEJEWELED_SWORD || lootedItem == LootItems.BOW)
+          && (playingPlayer.getItems().contains(LootItems.SWORD) || playingPlayer.getItems().contains(LootItems.BEJEWELED_SWORD) || playingPlayer.getItems().contains(LootItems.BOW))) {
+
+        // If there is a weapon, the below for loop will run and remove all weapons from the inventory
+        Iterator<LootItems> iterator = playingPlayer.getItems().iterator();
+
+        while (iterator.hasNext()) {
+          final LootItems item = iterator.next();
+
+          if (item == LootItems.SWORD || item == LootItems.BOW || item == LootItems.BEJEWELED_SWORD)
+            iterator.remove();
         }
 
-      // give the player a random item
-      playingPlayer.addLoot(LootItems.getRandomItem());
-    }
+        // The strength is then reset back to the base number
+        playingPlayer.setStrength(0);
+      }
 
-    public void tradeItems() {
-        if (playerOn(GridObject.CASTLE)) {
-            for (int i = 0; i < playingPlayer.getItems().size(); i++) {
-                playingPlayer.addCoins(playingPlayer.getItems().get(i));
-                // This iterates through the player's inventory, checks
-                // what the object is, and then adds the set value to the player's coins
-            }
-            playingPlayer.setStrength(0); // sets the strength back to the original value
-            playingPlayer.getItems().clear();
-        }
-        //TODO Give items values and give player gold for trading items
+      // and the loot is added and the strength is adjusted
+      playingPlayer.addLoot(lootedItem);
+      playingPlayer.addStrength(lootedItem);
     }
+  }
 
-    public boolean playerOn(GridObject obj) {
-        if (!playingPlayer.isAtStart() && obj == gridObjects[playingPlayer.getX()][playingPlayer.getY()]) {
-            return true;
-        } else {
-            return false;
-        }
+  public void tradeItems() {
+    if (playerOn(GridObject.CASTLE)) {
+      for (int i = 0; i < playingPlayer.getItems().size(); i++) {
+        playingPlayer.addCoins(playingPlayer.getItems().get(i));
+        // This iterates through the player's inventory, checks
+        // what the object is, and then adds the set value to the player's coins
+      }
+      playingPlayer.setStrength(0); // sets the strength back to the original value
+      playingPlayer.getItems().clear();
     }
+    //TODO Give items values and give player gold for trading items
+  }
+
+  public boolean playerOn(GridObject obj) {
+    if (!playingPlayer.isAtStart() && obj == gridObjects[playingPlayer.getX()][playingPlayer.getY()]) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   // check how many moves the current player has left (before next turn)
   public int getTurnsLeft() {
@@ -249,7 +249,6 @@ public class GameManager {
           //since the middle will ALWAYS be the castle, if player is at the point on the grid where the castle exists,
           //pressing 's' will clear the inventory and give player the gold that is equal to the sum of the players inv.
           break;
-
 
 
         case Input.Keys.UP:

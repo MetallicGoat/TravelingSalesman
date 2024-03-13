@@ -56,15 +56,14 @@ public class InventoryPanel {
         // Draw the lootitems in the inventory
         // draws only the playing players inventory
         int x = 0;
-        int y = 5;
+        int y = 6;
         for (LootItems item : Accessor.getGameManager().getPlayingPlayer().getItems()) {
-
             item.render(inventoryGrid, x, y);
             x++;
+
             if (x > 0 && x % 2 == 0) {
                 x = 0;
                 y--;
-
             }
         }
     }
