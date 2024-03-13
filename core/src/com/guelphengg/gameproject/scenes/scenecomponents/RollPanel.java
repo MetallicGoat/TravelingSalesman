@@ -3,7 +3,6 @@ package com.guelphengg.gameproject.scenes.scenecomponents;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -15,8 +14,6 @@ import com.guelphengg.gameproject.Textures;
 import com.guelphengg.gameproject.griditems.Player;
 import com.guelphengg.gameproject.util.AdvancedShapeRenderer;
 
-import java.util.Random;
-
 public class RollPanel {
 
   // misc panel attributes
@@ -27,61 +24,163 @@ public class RollPanel {
 
   // Used to keep track of the current frame of the animation
   private float stateTime = 0F;
-  // The animation of the dice rolling
-  private final Animation<TextureRegion> animation;
+  private final float secsPerFrame = 0.06F; // The speed of the animation (smaller = faster animation)
 
-  public RollPanel(){
+  // The animation of the dice rolling
+  // private final Animation<TextureRegion> animation;
+  private final TextureRegion[][] region2d;
+
+  // IF the dice is currently changing frames
+  boolean rollComplete = false;
+
+  private int frameX = 0;
+  private int frameY = 0;
+
+  public RollPanel() {
     // Build the animation frames
     final Texture spriteSheet = Textures.DICE_SHEET.get();
 
-    TextureRegion[][] tmp = TextureRegion.split(spriteSheet,
+    this.region2d = TextureRegion.split(spriteSheet,
         spriteSheet.getWidth() / 16,
         spriteSheet.getHeight() / 9);
-
-    // 7 full rows of 18, 2 extra frames
-    TextureRegion[] walkFrames = new TextureRegion[(16 * 7) + 2];
-
-    // The first frame is alone on its row (stupid sprite sheet)
-    walkFrames[0] = tmp[0][0];
-
-    int index = 1;
-
-    // Loop though all dice frames and put em in a 1d array for the animation
-    for (int j = 0; j < 16; j++) {
-      if (j%2 == 0) {
-        for (int i = 1; i < 8; i++) {
-          walkFrames[index++] = tmp[i][j];
-        }
-      } else {
-        for (int i = 7; i > 0; i--) {
-          walkFrames[index++] = tmp[i][j];
-        }
-      }
-    }
-
-    // Last frame is also alone for some dumb reason
-    walkFrames[walkFrames.length - 1] = tmp[8][0];
-
-    // Initialize the Animation with the frame interval and array of frames
-    animation = new Animation<>(0.06f, walkFrames);
-
   }
 
   // This method is used to animate the dice rolling
   private TextureRegion spinDice() {
     final GameManager manager = Accessor.getGameManager();
 
+    // If the dice should be spinning aimlessly, or towards the next number
+    boolean rollTowards = false;
+
     if (manager.isDiceRolling()) {
       // only spin it (by updating stateTime) if it is actually supposed to be spinning
-      if (System.currentTimeMillis() - manager.getLastRollTime() < 2000)
-         stateTime += Gdx.graphics.getDeltaTime();
-      else {
-        // Generate the random number the dice rolls
-        manager.completeRoll(new Random().nextInt(6) + 1);
+      if (System.currentTimeMillis() - manager.getLastRollTime() > 1200) {
+
+        // We are done spinning aimlessly and should start rolling towards the next roll
+        rollTowards = true;
+
+        if (rollComplete) { // This value is modified when getting the dice frame
+          // Notify game manger: the dice has landed on the correct number
+          manager.completeRoll();
+        }
       }
     }
 
-    return animation.getKeyFrame(stateTime, true);
+    return getDiceFrame(rollTowards);
+  }
+
+  // This method is used to get the next frame of the dice animation
+  // if towardsRoll is true, the dice will start rolling to the randomly generated number
+  private TextureRegion getDiceFrame(boolean towardsRoll) {
+    // Only change the frame if it is time
+    if (Accessor.getGameManager().isDiceRolling()) {
+      stateTime += Gdx.graphics.getDeltaTime();
+
+      // Check if it's time to display the next frame
+      if (stateTime > secsPerFrame) {
+        stateTime -= secsPerFrame;
+
+      } else { // It's not time to roll the dice
+        return this.region2d[this.frameY][this.frameX];
+      }
+
+    } else { // The dice is not rolling, so dont change the frame
+      return this.region2d[this.frameY][this.frameX];
+    }
+
+    if (towardsRoll) {
+      // In the case we will start spinning the dice to the randomly generated number
+
+      final int towardsX = getDiceFrameX();
+      final int towardsY = getDiceFrameY();
+
+      if (frameX < towardsX) {
+        frameX++;
+      } else if (frameX > towardsX) {
+        frameX--;
+      } else if (frameY < towardsY) {
+        frameY++;
+      } else if (frameY > towardsY) {
+        frameY--;
+      } else {
+        // The dice has landed on the correct square
+        // The roll is not finished, and "completeRoll" should be called next cycle"
+        rollComplete = true;
+      }
+
+    } else {
+      rollComplete = false; // The dice is still rolling
+
+      // Move up and down in the sprite sheet
+      // To make it appear as if the dice is rolling smoothly
+      if (frameX % 2 == 0) { // x is even, move up in the y
+        // These checks are a little odd, because the sprite sheet has a weird shape
+        if (frameY < 6 || (frameX == 0 && frameY < 7)) {
+          frameY++;
+        } else {
+          frameX++;
+        }
+      } else { // X is odd, so move down in the y
+        if (frameY > 1) {
+          frameY--;
+        } else {
+          frameX++;
+        }
+      }
+    }
+
+    // Reset the x position of the sprite sheet (prevent out of bounds error
+    if (frameX > 15) {
+      frameX = 0;
+    }
+
+    return this.region2d[this.frameY][this.frameX];
+  }
+
+  // Returns the x position of the dice frame we are currently rolling to
+  // (Based on the sprite sheet)
+  public int getDiceFrameX() {
+    final int roll = Accessor.getGameManager().getNextRoll();
+
+    switch (roll) {
+      case 1:
+        return 0;
+      case 2:
+        return 4;
+      case 3:
+        return 0;
+      case 4:
+        return 0;
+      case 5:
+        return 12;
+      case 6:
+        return 8;
+      default:
+        return 0;
+    }
+  }
+
+  // Returns the y position of the dice frame we are currently rolling to
+  // (Based on the sprite sheet)
+  public int getDiceFrameY() {
+    final int roll = Accessor.getGameManager().getNextRoll();
+
+    switch (roll) {
+      case 1:
+        return 4;
+      case 2:
+        return 4;
+      case 3:
+        return 8;
+      case 4:
+        return 0;
+      case 5:
+        return 4;
+      case 6:
+        return 4;
+      default:
+        return 0;
+    }
   }
 
   // Method for drawing the entire roll panel including:

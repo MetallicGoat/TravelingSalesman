@@ -8,7 +8,10 @@ import com.guelphengg.gameproject.griditems.LootItems;
 import com.guelphengg.gameproject.griditems.Player;
 import com.guelphengg.gameproject.scenes.TransitionScene;
 
+import java.util.Random;
+
 public class GameManager {
+  private int nextRoll = 0;
   private int turnsLeft = 0;
   private Music jump;
 
@@ -88,6 +91,7 @@ public class GameManager {
 
   // Notify that the dice has been rolled
   public void startRolling() {
+    this.nextRoll = new Random().nextInt(6) + 1;
     this.diceRolling = true;
     this.lastRollTime = System.currentTimeMillis();
   }
@@ -98,9 +102,13 @@ public class GameManager {
   }
 
   // Notify that the dice has been rolled
-  public void completeRoll(int roll) {
-    this.turnsLeft = roll;
+  public void completeRoll() {
+    this.turnsLeft = this.nextRoll;
     this.diceRolling = false;
+  }
+
+  public int getNextRoll() {
+    return this.nextRoll;
   }
 
   // Uses TransitionScene to smoothly transition between game states
