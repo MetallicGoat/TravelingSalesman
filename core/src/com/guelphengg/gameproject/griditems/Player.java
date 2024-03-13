@@ -2,13 +2,17 @@ package com.guelphengg.gameproject.griditems;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.guelphengg.gameproject.Accessor;
 import com.guelphengg.gameproject.Character;
 import com.guelphengg.gameproject.scenes.scenecomponents.GameGrid;
+import com.sun.tools.javac.comp.Todo;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Player {
+  // base strength for a character
+    private final int BASE_STRENGTH = 10;
 
   // This array of loot items represents the players inventory
   private final List<LootItems> loot= new ArrayList<>();
@@ -75,15 +79,22 @@ public class Player {
     return (this.x == 10 && this.y == 0) ;
   }
 
-  // change the strength of the player
-  void setStrength(int strength) {
-    this.strength = strength;
-  }
-
   // get the strength of the player
   public int getStrength() {
     return this.strength;
   }
+
+  // change the strength of the player
+    public void setStrength(int newStrength) {
+        if (newStrength < 10) { // catches if the new value is less than the base strength
+            newStrength = BASE_STRENGTH;
+        }
+        this.strength = newStrength;
+    }
+
+    public void addStrength(LootItems item) {
+        this.strength += item.getDamage();
+    }
 
   // change the health of the player
   void setHealth(int health){
@@ -135,13 +146,40 @@ public class Player {
     gameGrid.renderTextureInGrid(x, y, getCurrFrame(), this.small ? 0.5 : 1, xOffset, yOffset);
   }
 
-  // adds a loot item to the player's inventory
-  public void addLoot(LootItems item){
-    loot.add(item);
-  }
+    public void addLoot(LootItems item) {
+        loot.add(item);
+    }
 
-  // gets all loot items in the player's inventory
-  public List<LootItems> getItems(){
-    return loot;
-  }
+    public List<LootItems> getItems() {
+
+        return loot;
+    }
+
+    public void inflictDamage(Player otherPlayer) {
+        if (otherPlayer.loot.contains(LootItems.PALADIN_SHIELD))
+            otherPlayer.health -= (this.getDamage()) * (LootItems.PALADIN_SHIELD.getProtection());
+        //  otherPlayer.loot Maybe shield class????? that extends the loot Items enum?
+        // TODO Make it so that the sheild's durability belongs to the shield the player has and not the player
+        // TODO we don't want the durability to carry over if the shield is lost or gets used
+    }
+
+    public int getDamage() {
+        int damage = 1;
+        if (this.loot.contains(LootItems.SWORD)) {
+            damage += LootItems.SWORD.getDamage();
+        } else if (this.loot.contains(LootItems.BEJEWELED_SWORD)) {
+            damage += LootItems.BEJEWELED_SWORD.getDamage();
+        } else if (this.loot.contains(LootItems.BOW)) {
+            damage += LootItems.BOW.getDamage();
+        }
+        return damage;
+    }
+
+    public void addCoins(LootItems item) {
+        this.coins += item.getSellPrice();
+    }
+
+    public void removeCoins(LootItems item) {
+        this.coins -= item.getSellPrice() * 1.1;
+    }
 }
