@@ -73,7 +73,7 @@ public class RollPanel {
   // if towardsRoll is true, the dice will start rolling to the randomly generated number
   private TextureRegion getDiceFrame(boolean towardsRoll) {
     // Only change the frame if it is time
-    if (Accessor.getGameManager().isDiceRolling()) {
+    if (Accessor.getGameManager().isDiceRolling() || Accessor.getGameManager().getTurnsLeft() == 0) {
       stateTime += Gdx.graphics.getDeltaTime();
 
       // Check if it's time to display the next frame

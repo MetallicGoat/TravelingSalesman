@@ -91,7 +91,7 @@ public class GameManager {
     final GridObject object = gridObjects[playingPlayer.getX()][playingPlayer.getY()];
 
     if (object == GridObject.TREASURE_HOUSE) {
-      lootSound = Gdx.audio.newSound(Gdx.files.internal("LootSound1.mp3"));
+      lootSound = Gdx.audio.newSound(Gdx.files.internal("LootSound1.wav"));
       lootSound.play();
 
       lootedItem = LootItems.getRandomItem();
