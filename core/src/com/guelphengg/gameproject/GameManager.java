@@ -7,6 +7,8 @@ import com.guelphengg.gameproject.griditems.Player;
 import com.guelphengg.gameproject.scenes.TransitionScene;
 import com.guelphengg.gameproject.scenes.scenecomponents.GameGrid;
 
+import java.util.Random;
+
 public class GameManager {
   private int turnsLeft = 0;
 
@@ -30,22 +32,56 @@ public class GameManager {
 
   public void startGame() {
     //TODO Replace this with a system to randomly generate positions
-    gridObjects[4][4] = GridObject.CASTLE;
-    gridObjects[2][6] = GridObject.TRAPPED_HOUSE;
-    gridObjects[4][8] = GridObject.TREASURE_HOUSE;
-    gridObjects[1][6] = GridObject.TREASURE_HOUSE;
-    gridObjects[6][8] = GridObject.TRAPPED_HOUSE;
-    gridObjects[7][7] = GridObject.TREASURE_HOUSE;
-    gridObjects[8][8] = GridObject.TRAPPED_HOUSE;
-    gridObjects[8][9] = GridObject.TREASURE_HOUSE;
-    gridObjects[9][2] = GridObject.TREASURE_HOUSE;
-    gridObjects[5][6] = GridObject.TREASURE_HOUSE;
-    gridObjects[5][8] = GridObject.TRAPPED_HOUSE;
-    gridObjects[9][1] = GridObject.TREASURE_HOUSE;
-    gridObjects[8][1] = GridObject.TREASURE_HOUSE;
-    gridObjects[9][3] = GridObject.TREASURE_HOUSE;
-    gridObjects[7][1] = GridObject.TREASURE_HOUSE;
-//    gridObjects[3][4] = GridObject.SWORD;
+
+    Random randNum = new Random();
+
+    //generates a random position for the castle in the middle 4 squares of the grid
+    int castleRow = randNum.nextInt(4,6);
+    int castleCol = randNum.nextInt(4,6);
+    gridObjects[castleRow][castleCol] = GridObject.CASTLE;
+
+    //generates random ints between 0-9
+    int randRow;
+    int randCol;
+
+    //array of all structures in the game
+    GridObject[] gridObjList = {GridObject.TREASURE_HOUSE, GridObject.TRAPPED_HOUSE, GridObject.EMPTY_HOUSE};
+
+    int typesStructs = 3; //number of different types of structures that be generated
+    int numStructs = 4; //number of each structure to be generated
+
+    for(int i=0; i<typesStructs; i++){
+      for(int j=0; j<numStructs; j++){
+        randRow = randNum.nextInt(0,10);
+        randCol = randNum.nextInt(0,10);
+
+          if(gridObjects[randRow][randCol] == null) {
+            gridObjects[randRow][randCol] = gridObjList[i];
+          }
+          else{
+            randRow = randNum.nextInt(0,10);
+            randCol = randNum.nextInt(0,10);
+            gridObjects[randRow][randCol] = gridObjList[i];
+        }
+      }
+    }
+
+//    gridObjects[0][9] = GridObject.TRAPPED_HOUSE;
+//    gridObjects[4][8] = GridObject.TREASURE_HOUSE;
+//    gridObjects[1][6] = GridObject.TREASURE_HOUSE;
+//    gridObjects[6][8] = GridObject.TRAPPED_HOUSE;
+//    gridObjects[7][7] = GridObject.TREASURE_HOUSE;
+//    gridObjects[8][8] = GridObject.TRAPPED_HOUSE;
+//    gridObjects[8][9] = GridObject.TREASURE_HOUSE;
+//    gridObjects[9][2] = GridObject.TREASURE_HOUSE;
+//    gridObjects[5][6] = GridObject.TREASURE_HOUSE;
+//    gridObjects[5][8] = GridObject.TRAPPED_HOUSE;
+//    gridObjects[9][1] = GridObject.TREASURE_HOUSE;
+//    gridObjects[8][1] = GridObject.TREASURE_HOUSE;
+//    gridObjects[9][3] = GridObject.TREASURE_HOUSE;
+//    gridObjects[7][1] = GridObject.TREASURE_HOUSE;
+
+
 
     smoothlySetState(GameState.RUNNING);
   }
@@ -183,6 +219,10 @@ public class GameManager {
         case Input.Keys.V:
           // Change the grid view
           largeMap = !largeMap;
+          break;
+
+        case Input.Keys.H:
+
           break;
       }
     }

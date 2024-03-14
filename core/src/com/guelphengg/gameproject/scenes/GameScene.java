@@ -32,7 +32,7 @@ public class GameScene extends Scene {
 
   final InventoryPanel inventory = new InventoryPanel();
   final ScoreboardPanel scoreBoard = new ScoreboardPanel();
-  final RollPanel rollPanel = new RollPanel();
+  final RollPanel rollPanel = new  RollPanel();
 
   public GameScene() {
     super(GameState.RUNNING);
