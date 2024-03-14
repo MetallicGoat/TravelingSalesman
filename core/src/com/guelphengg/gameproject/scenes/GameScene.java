@@ -1,8 +1,11 @@
 package com.guelphengg.gameproject.scenes;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.guelphengg.gameproject.*;
 import com.guelphengg.gameproject.griditems.GridObject;
 import com.guelphengg.gameproject.griditems.Player;
@@ -10,6 +13,7 @@ import com.guelphengg.gameproject.scenes.scenecomponents.GameGrid;
 import com.guelphengg.gameproject.scenes.scenecomponents.InventoryPanel;
 import com.guelphengg.gameproject.scenes.scenecomponents.RollPanel;
 import com.guelphengg.gameproject.scenes.scenecomponents.ScoreboardPanel;
+import com.guelphengg.gameproject.util.AdvancedShapeRenderer;
 
 public class GameScene extends Scene {
 
@@ -99,6 +103,7 @@ public class GameScene extends Scene {
 
     // Crazy logic for rendering the map
     if (manager.isLargeMap()) {
+      addGridBackground(largeGrid, 0.25F);
 
       // Render in lage mode:
       largeGrid.renderGrid(Color.WHITE);
@@ -115,6 +120,8 @@ public class GameScene extends Scene {
       }
 
     } else {
+      addGridBackground(miniGrid, 0.45F);
+
       // render grid in small mode:
       miniGrid.renderGrid(Color.WHITE);
 
@@ -145,6 +152,17 @@ public class GameScene extends Scene {
     renderPlayersInGrid(manager);
   }
 
+  private void addGridBackground(GameGrid grid, float transparency) {
+    final AdvancedShapeRenderer render = SceneManager.getShapeRenderer();
+
+    // This enables transparency
+    Gdx.gl.glEnable(GL20.GL_BLEND);
+
+    render.begin(ShapeRenderer.ShapeType.Filled);
+    render.setColor(new Color(0, 0, 0, transparency));
+    render.rect(grid.getCornerX(), grid.getCornerY(), grid.getGridWidth(), grid.getGridHeight());
+    render.end();
+  }
 
   // Crazy logic to determine how we gotta render the players
   private void renderPlayersInGrid(GameManager manager) {
