@@ -228,15 +228,22 @@ public class GameManager {
     this.state = nextState;
   }
 
+  //for help menu to know where to return to
+  boolean fromMenu = false;
+  boolean fromRunning = false;
+
   // Handles all game input
   public void gameInput(int keyCode) {
+
     if (this.state == GameState.MAIN_MENU) {
       switch (keyCode) {
         case Input.Keys.SPACE:
           smoothlySetState(GameState.GAME_SETUP);
+          break;
         case Input.Keys.H:
           smoothlySetState(GameState.HELP_MENU);
-
+          fromMenu = true;
+          break;
       }
 
     } else if (this.state == GameState.GAME_SETUP) {
@@ -320,8 +327,22 @@ public class GameManager {
           break;
 
         case Input.Keys.H:
-
+          fromRunning = true;
+          smoothlySetState(GameState.HELP_MENU);
           break;
+      }
+    }
+    else if(this.state == GameState.HELP_MENU){
+      switch (keyCode){
+        case Input.Keys.H:
+          if(fromRunning){
+            smoothlySetState(GameState.RUNNING);
+            break;
+          }
+          if(fromMenu){
+            smoothlySetState(GameState.MAIN_MENU);
+            break;
+          }
       }
     }
   }

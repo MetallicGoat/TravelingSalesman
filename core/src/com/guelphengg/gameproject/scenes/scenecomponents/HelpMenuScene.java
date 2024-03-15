@@ -18,12 +18,28 @@ public class HelpMenuScene extends Scene {
     public void render() {
         renderBackground(0.5f);
 
-        SpriteBatch batch = new SpriteBatch();
+        final SpriteBatch batch = SceneManager.getSpriteBatch();
         final BitmapFont font = SceneManager.getFont();
 
         batch.begin();
 
-        font.draw(batch,"Test", 90, 700);
+        drawCenteredText(batch, 340, 4, "CONTROLS");
+        drawCenteredText(batch, 270, 2, "T - Trade at Castle");
+        drawCenteredText(batch, 230, 2, "L - Loot Glowing Houses");
+        drawCenteredText(batch, 190, 2, "R - Roll Dice");
+        drawCenteredText(batch, 150, 2, "V - Open/Close Map");
+
+        drawCenteredText(batch, 40, 4, "How To Play");
+        drawCenteredText(batch, -30, 2, "Start your turn by rolling the dice");
+        drawCenteredText(batch, -70, 2, "Move around the map to loot glowing houses");
+        drawCenteredText(batch, -110, 2, "Collect loot and sell it at the castle for money");
+        drawCenteredText(batch, -150, 2, "You can battle the other player by entering the same tile as them");
+        drawCenteredText(batch, -190, 2, "Battles are decided by who has the highest strength");
+        drawCenteredText(batch, -230, 2, "Strength is determined by what weapons you have");
+        drawCenteredText(batch, -270, 2, "Winning the battle gives you part of your opponents coins");
+        drawCenteredText(batch, -310, 2, "Win the game by having the most coins at the end");
+
+        drawCenteredText(batch, -360, 3, "[H] to Return");
 
         batch.end();
     }

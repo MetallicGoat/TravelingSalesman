@@ -81,6 +81,7 @@ public class GameScene extends Scene {
 
       // make BIG text :)
       font.getData().setScale(2F);
+      font.draw(batch, "Press [H] for controls and how to play",30,60);
 
       // Can they loot?
       if (manager.playerOn(GridObject.TREASURE_HOUSE)) {
