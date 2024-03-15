@@ -54,7 +54,7 @@ public class RollPanel {
 
     if (manager.isDiceRolling()) {
       // only spin it (by updating stateTime) if it is actually supposed to be spinning
-      if (System.currentTimeMillis() - manager.getLastRollTime() > 1200) {
+      if (System.currentTimeMillis() - manager.getLastRollTime() > 600) {
 
         // We are done spinning aimlessly and should start rolling towards the next roll
         rollTowards = true;

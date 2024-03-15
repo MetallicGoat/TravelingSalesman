@@ -12,8 +12,6 @@ import com.guelphengg.gameproject.scenes.TransitionScene;
 import java.util.Iterator;
 import java.util.Random;
 
-import java.util.Random;
-
 public class GameManager {
   private int nextRoll = 0;
   private int turnsLeft = 0;
@@ -50,8 +48,6 @@ public class GameManager {
     gameMusic.setLooping(true);
     gameMusic.play();
 
-    //TODO Replace this with a system to randomly generate positions
-
     Random randNum = new Random();
 
     //generates a random position for the castle in the middle 4 squares of the grid
@@ -64,20 +60,19 @@ public class GameManager {
     int randCol;
 
     //array of all structures in the game
-    GridObject[] gridObjList = {GridObject.TREASURE_HOUSE, GridObject.TRAPPED_HOUSE, GridObject.EMPTY_HOUSE};
+    GridObject[] gridObjList = {GridObject.TREASURE_HOUSE, GridObject.TRAPPED_HOUSE};
 
-    int typesStructs = 3; //number of different types of structures that be generated
-    int numStructs = 4; //number of each structure to be generated
+    int typesStructs = 2; //number of different types of structures that be generated
+    int numStructs = 8; //number of each structure to be generated
 
     for(int i=0; i<typesStructs; i++){
       for(int j=0; j<numStructs; j++){
         randRow = randNum.nextInt(0,10);
         randCol = randNum.nextInt(0,10);
 
-          if(gridObjects[randRow][randCol] == null) {
+        if (gridObjects[randRow][randCol] == null) {
             gridObjects[randRow][randCol] = gridObjList[i];
-          }
-          else{
+        } else {
             randRow = randNum.nextInt(0,10);
             randCol = randNum.nextInt(0,10);
             gridObjects[randRow][randCol] = gridObjList[i];
@@ -85,22 +80,9 @@ public class GameManager {
       }
     }
 
-//    gridObjects[0][9] = GridObject.TRAPPED_HOUSE;
-//    gridObjects[4][8] = GridObject.TREASURE_HOUSE;
-//    gridObjects[1][6] = GridObject.TREASURE_HOUSE;
-//    gridObjects[6][8] = GridObject.TRAPPED_HOUSE;
-//    gridObjects[7][7] = GridObject.TREASURE_HOUSE;
-//    gridObjects[8][8] = GridObject.TRAPPED_HOUSE;
-//    gridObjects[8][9] = GridObject.TREASURE_HOUSE;
-//    gridObjects[9][2] = GridObject.TREASURE_HOUSE;
-//    gridObjects[5][6] = GridObject.TREASURE_HOUSE;
-//    gridObjects[5][8] = GridObject.TRAPPED_HOUSE;
-//    gridObjects[9][1] = GridObject.TREASURE_HOUSE;
-//    gridObjects[8][1] = GridObject.TREASURE_HOUSE;
-//    gridObjects[9][3] = GridObject.TREASURE_HOUSE;
-//    gridObjects[7][1] = GridObject.TREASURE_HOUSE;
-
-
+    // Update player visibilities
+    player1.updateVisibleArea();
+    player2.updateVisibleArea();
 
     smoothlySetState(GameState.RUNNING);
   }
@@ -232,8 +214,8 @@ public class GameManager {
   boolean fromMenu = false;
   boolean fromRunning = false;
 
-  // Handles all game input
-  public void gameInput(int keyCode) {
+  // Handles all game input for pressing down on a key
+  public void gameInputKeyDown(int keyCode) {
 
     if (this.state == GameState.MAIN_MENU) {
       switch (keyCode) {
@@ -326,7 +308,7 @@ public class GameManager {
         //mapsize toggle
         case Input.Keys.V:
           // Change the grid view
-          largeMap = !largeMap;
+          largeMap = true;
           break;
 
           //help menu toggle
@@ -348,6 +330,16 @@ public class GameManager {
             smoothlySetState(GameState.MAIN_MENU);
             break;
           }
+      }
+    }
+  }
+
+  public void gameInputKeyUp(int keyCode) {
+    if (this.state == GameState.RUNNING) {
+      switch (keyCode) {
+        case Input.Keys.V:
+          this.largeMap = false;
+          break;
       }
     }
   }
@@ -397,6 +389,9 @@ public class GameManager {
 
     this.playingPlayer.setX(newX);
     this.playingPlayer.setY(newY);
+
+    // Update player visibilities
+    playingPlayer.updateVisibleArea();
 
     this.turnsLeft--;
 
