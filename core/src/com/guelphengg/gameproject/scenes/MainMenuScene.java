@@ -31,6 +31,7 @@ public class MainMenuScene extends Scene {
         // Draw some text
         drawCenteredText(batch, 40, 3.5F, "Travelling Salesman");
         drawCenteredText(batch, -40, 2, "Press [Space] to Start!");
+        drawCenteredText(batch, -80,2,"Press [H] For Game Controls");
         batch.end();
     }
 

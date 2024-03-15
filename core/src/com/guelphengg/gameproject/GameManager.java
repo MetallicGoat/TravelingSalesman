@@ -234,6 +234,8 @@ public class GameManager {
       switch (keyCode) {
         case Input.Keys.SPACE:
           smoothlySetState(GameState.GAME_SETUP);
+        case Input.Keys.H:
+          smoothlySetState(GameState.HELP_MENU);
 
       }
 
