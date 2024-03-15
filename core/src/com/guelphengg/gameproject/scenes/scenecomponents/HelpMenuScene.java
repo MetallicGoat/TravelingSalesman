@@ -19,11 +19,11 @@ public class HelpMenuScene extends Scene {
         renderBackground(0.5f);
 
         SpriteBatch batch = new SpriteBatch();
-        BitmapFont font = new BitmapFont();
+        final BitmapFont font = SceneManager.getFont();
 
         batch.begin();
 
-        drawCenteredText(batch, 100, 4,"Test");
+        font.draw(batch,"Test", 90, 700);
 
         batch.end();
     }
