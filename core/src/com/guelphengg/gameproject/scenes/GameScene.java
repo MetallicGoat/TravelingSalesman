@@ -80,13 +80,16 @@ public class GameScene extends Scene {
       batch.begin();
 
       // make BIG text :)
-      font.getData().setScale(2F);
-      font.draw(batch, "Press [H] for controls and how to play",30,60);
+      font.getData().setScale(3F);
+
+      //Open help menu
+      font.draw(batch, "Press [H] for Help",30,60);
+      font.draw(batch,"Press [V] to Toggle Map",30,110);
 
       // Can they loot?
       if (manager.playerOn(GridObject.TREASURE_HOUSE)) {
         font.setColor(Color.GOLD);
-        font.draw(batch, "Press [L] to Loot!", 100, 150);
+        font.draw(batch, "Press [L] to Loot!", 160, 180);
       }
 
       // Can they trade?

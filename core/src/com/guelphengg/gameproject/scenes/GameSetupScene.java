@@ -46,6 +46,11 @@ public class GameSetupScene extends Scene{
     font.draw(batch, manager.getPlayer1().getName(), 200, 150);
     font.draw(batch, manager.getPlayer2().getName(), 800, 150);
 
+    //text to give instruction to how to change character
+    font.getData().setScale(2F);
+    font.draw(batch,"Use [A] and [D] to cycle", 150, 50);
+    font.draw(batch,"Use [<-] and [->] to cycle", 725, 50);
+
     batch.end();
   }
 }

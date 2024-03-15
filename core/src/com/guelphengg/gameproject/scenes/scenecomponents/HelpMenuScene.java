@@ -21,6 +21,7 @@ public class HelpMenuScene extends Scene {
         final SpriteBatch batch = SceneManager.getSpriteBatch();
         final BitmapFont font = SceneManager.getFont();
 
+        //create text for help menu scene
         batch.begin();
 
         drawCenteredText(batch, 340, 4, "CONTROLS");
@@ -44,6 +45,7 @@ public class HelpMenuScene extends Scene {
         batch.end();
     }
 
+    //method to print text in center of scene
     private void drawCenteredText(SpriteBatch batch, int yOffset, float scale, String text) {
         final BitmapFont font = SceneManager.getFont();
         final GlyphLayout glyphLayout = new GlyphLayout();

@@ -237,9 +237,11 @@ public class GameManager {
 
     if (this.state == GameState.MAIN_MENU) {
       switch (keyCode) {
+        //moves into character select scene
         case Input.Keys.SPACE:
           smoothlySetState(GameState.GAME_SETUP);
           break;
+          //moves into help menu scene
         case Input.Keys.H:
           smoothlySetState(GameState.HELP_MENU);
           fromMenu = true;
@@ -321,17 +323,20 @@ public class GameManager {
           movePlayingPlayer(1, 0);
           break;
 
+        //mapsize toggle
         case Input.Keys.V:
           // Change the grid view
           largeMap = !largeMap;
           break;
 
+          //help menu toggle
         case Input.Keys.H:
           fromRunning = true;
           smoothlySetState(GameState.HELP_MENU);
           break;
       }
     }
+    //when in help menu scene, waits for H to be pressed, then returns to scene that they initially came from
     else if(this.state == GameState.HELP_MENU){
       switch (keyCode){
         case Input.Keys.H:
