@@ -228,6 +228,11 @@ public class GameManager {
     this.state = nextState;
   }
 
+  public void battleCheck(){
+    if ((player1.getX() == player2.getX() && player1.getY() == player2.getY()) && !player1.isAtStart()) {
+    smoothlySetState(GameState.BATTLE);
+    }
+  }
   // Handles all game input
   public void gameInput(int keyCode) {
     if (this.state == GameState.MAIN_MENU) {
@@ -369,7 +374,7 @@ public class GameManager {
 
     this.playingPlayer.setX(newX);
     this.playingPlayer.setY(newY);
-
+    battleCheck();
     this.turnsLeft--;
 
     if (turnsLeft == 0) {

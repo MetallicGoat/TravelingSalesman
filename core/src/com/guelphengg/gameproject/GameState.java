@@ -6,7 +6,8 @@ public enum GameState {
   MAIN_MENU(new MainMenuScene()),
   GAME_SETUP(new GameSetupScene()),
   RUNNING(new GameScene()),
-  TRANSITION(new TransitionScene());
+  TRANSITION(new TransitionScene()),
+  BATTLE(new BattleScene());
   // HELP_MENU;
 
   private final Scene scene;
