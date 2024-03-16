@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 
-
 public class TravelingSalesman extends ApplicationAdapter {
     private static TravelingSalesman instance;
     private Music Backgr;
