@@ -26,7 +26,7 @@ public class GameManager {
 
   private Player playingPlayer = player1;
 
-  private boolean largeMap = true;
+  private boolean largeMap = false;
   private boolean diceRolling = false;
   private long lastRollTime = 0;
 
@@ -37,9 +37,6 @@ public class GameManager {
   private Sound lootSound;
   private Sound bootSound;
   private Sound sellSound;
-
-  // TODO check if this was actually supposed to be in the game or if I dumb
-  // public boolean[][] visibleArea = new boolean[10][10];
 
   public void startGame() {
 
@@ -239,19 +236,19 @@ public class GameManager {
           break;
 
         case Input.Keys.A:
-          player1.setCharacter(Character.getPreviousCharacter(player1.getCharacter()));
+          player1.setCharacter(Character.getPreviousCharacter(player1));
           break;
 
         case Input.Keys.D:
-          player1.setCharacter(Character.getNextCharacter(player1.getCharacter()));
+          player1.setCharacter(Character.getNextCharacter(player1));
           break;
 
         case Input.Keys.LEFT:
-          player2.setCharacter(Character.getPreviousCharacter(player2.getCharacter()));
+          player2.setCharacter(Character.getPreviousCharacter(player2));
           break;
 
         case Input.Keys.RIGHT:
-          player2.setCharacter(Character.getNextCharacter(player2.getCharacter()));
+          player2.setCharacter(Character.getNextCharacter(player2));
           break;
       }
 
@@ -398,8 +395,6 @@ public class GameManager {
     if (turnsLeft == 0) {
       nextTurn();
     }
-
-    // visibleArea[newX][newY] = true;
 
     // True if the player can move
     jump.play(10000);

@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.guelphengg.gameproject.griditems.Player;
 
 public enum Character {
 
@@ -53,23 +54,49 @@ public enum Character {
     animation = new Animation<>(0.15f, walkFrames);
   }
 
-  public static Character getNextCharacter(Character character) {
-    final int pos = character.ordinal();
+  public static Character getNextCharacter(Player player) {
+    final GameManager manager = Accessor.getGameManager();
+    final Player otherPlayer = manager.getPlayer1() == player ? manager.getPlayer2() : manager.getPlayer1();
+    final Character ignoreCharacter = otherPlayer.getCharacter();
 
-    if (pos == Character.values().length - 1) {
-      return Character.values()[0];
-    } else {
-      return Character.values()[pos + 1];
+    Character next = null;
+    int pos = player.getCharacter().ordinal() + 1;
+
+    while (next == null) {
+      if (pos >= Character.values().length) {
+        pos = 0;
+      }
+
+      if (Character.values()[pos] != ignoreCharacter) {
+        next = Character.values()[pos];
+      }
+
+      pos++;
     }
+
+    return next;
   }
 
-  public static Character getPreviousCharacter(Character character) {
-    final int pos = character.ordinal();
+  public static Character getPreviousCharacter(Player player) {
+    final GameManager manager = Accessor.getGameManager();
+    final Player otherPlayer = manager.getPlayer1() == player ? manager.getPlayer2() : manager.getPlayer1();
+    final Character ignoreCharacter = otherPlayer.getCharacter();
 
-    if (pos == 0) {
-      return Character.values()[Character.values().length - 1];
-    } else {
-      return Character.values()[pos - 1];
+    Character next = null;
+    int pos = player.getCharacter().ordinal() - 1;
+
+    while (next == null) {
+      if (pos < 0) {
+        pos = Character.values().length - 1;
+      }
+
+      if (Character.values()[pos] != ignoreCharacter) {
+        next = Character.values()[pos];
+      }
+
+      pos--;
     }
+
+    return next;
   }
 }
