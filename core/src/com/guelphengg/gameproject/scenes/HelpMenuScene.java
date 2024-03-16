@@ -1,4 +1,4 @@
-package com.guelphengg.gameproject.scenes.scenecomponents;
+package com.guelphengg.gameproject.scenes;
 
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.guelphengg.gameproject.GameState;
