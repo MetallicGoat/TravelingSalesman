@@ -1,7 +1,7 @@
 package com.guelphengg.gameproject;
 
 import com.guelphengg.gameproject.scenes.*;
-import com.guelphengg.gameproject.scenes.scenecomponents.HelpMenuScene;
+import com.guelphengg.gameproject.scenes.HelpMenuScene;
 
 public enum GameState {
   HELP_MENU(new HelpMenuScene()),
