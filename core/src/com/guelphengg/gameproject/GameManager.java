@@ -201,6 +201,12 @@ public class GameManager {
     this.state = nextState;
   }
 
+  public void battleCheck(){
+    if ((player1.getX() == player2.getX() && player1.getY() == player2.getY()) && !player1.isAtStart()) {
+      smoothlySetState(GameState.BATTLE);
+    }
+  }
+
   //for help menu to know where to return to
   boolean fromMenu = false;
   boolean fromRunning = false;
@@ -394,6 +400,9 @@ public class GameManager {
 
     this.playingPlayer.setX(newX);
     this.playingPlayer.setY(newY);
+
+    // Check if the players can battle
+    battleCheck();
 
     // Update player visibilities
     playingPlayer.updateVisibleArea();
