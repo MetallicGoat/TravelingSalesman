@@ -168,16 +168,6 @@ public class Player {
         this.coins -= amount;
     }
 
-    public void removeWeapon(LootItems lootedItem) { // specifically for looting houses
-        if ((lootedItem == LootItems.SWORD || lootedItem == LootItems.BEJEWELED_SWORD || lootedItem == LootItems.BOW)
-                && (this.getItems().contains(LootItems.SWORD) || this.getItems().contains(LootItems.BEJEWELED_SWORD) || this.getItems().contains(LootItems.BOW))) {
-
-            // If there is a weapon, the below for loop will run and remove all weapons from the inventory
-            this.removeWeapon();
-        }
-
-    }
-
     public void removeWeapon() { // This is for removing in general
 
         this.getItems().removeIf(item -> item == LootItems.SWORD || item == LootItems.BOW || item == LootItems.BEJEWELED_SWORD);

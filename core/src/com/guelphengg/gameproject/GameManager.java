@@ -5,11 +5,13 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.guelphengg.gameproject.griditems.GridObject;
+import com.guelphengg.gameproject.griditems.ItemType;
 import com.guelphengg.gameproject.griditems.LootItems;
 import com.guelphengg.gameproject.griditems.Player;
 import com.guelphengg.gameproject.scenes.TransitionScene;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 
 import java.util.Random;
@@ -113,6 +115,7 @@ public class GameManager {
     // Make the playing player loot the current house
     public void lootHouse() {
         LootItems lootedItem; // I made this a variable so I could use it to change strength
+        List<LootItems> item = this.getPlayingPlayer().getItems();
         if (!canPlayerLoot())
             return;
 
@@ -125,7 +128,11 @@ public class GameManager {
             lootedItem = LootItems.getRandomItem();
             gridObjects[playingPlayer.getX()][playingPlayer.getY()] = GridObject.EMPTY_HOUSE;
             // The below if loop checks if there is a weapon in the inventory already.
-            playingPlayer.removeWeapon(lootedItem);
+            if (lootedItem.getItemType() == ItemType.WEAPON && (item.contains(LootItems.SWORD) || item.contains(LootItems.BOW) || item.contains(LootItems.BEJEWELED_SWORD))) {
+
+                // If there is a weapon, the below for loop will run and remove all weapons from the inventory
+                playingPlayer.removeWeapon();
+            }
 
             // and the loot is added and the strength is adjusted
             playingPlayer.addLoot(lootedItem);
