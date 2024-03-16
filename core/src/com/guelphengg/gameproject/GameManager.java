@@ -60,9 +60,9 @@ public class GameManager {
     int randCol;
 
     //array of all structures in the game
-    GridObject[] gridObjList = {GridObject.TREASURE_HOUSE, GridObject.TRAPPED_HOUSE};
+    GridObject[] gridObjList = {GridObject.TREASURE_HOUSE, GridObject.TRAPPED_HOUSE, GridObject.LOST_ITEM_HOUSE};
 
-    int typesStructs = 2; //number of different types of structures that be generated
+    int typesStructs = 3; //number of different types of structures that be generated
     int numStructs = 8; //number of each structure to be generated
 
     for(int i=0; i<typesStructs; i++){
@@ -88,22 +88,26 @@ public class GameManager {
   }
 
   // Check if player is at a treasure house
-  public boolean canPlayerLoot() {
+  public int canPlayerLoot() {
     if (this.playingPlayer.isAtStart())
-      return false;
+      return 0;
 
     final GridObject object = gridObjects[playingPlayer.getX()][playingPlayer.getY()];
 
     if (object == GridObject.TREASURE_HOUSE)
-      return true;
+      return 1;
 
-    return false;
+    else if (object == GridObject.LOST_ITEM_HOUSE)
+      return 1;
+
+    else
+    return 0;
   }
 
   // Make the playing player loot the current house
   public void lootHouse() {
     LootItems lootedItem; // I made this a variable so I could use it to change strength
-    if (!canPlayerLoot())
+    if (canPlayerLoot() == 0)
       return;
 
     final GridObject object = gridObjects[playingPlayer.getX()][playingPlayer.getY()];
@@ -114,6 +118,15 @@ public class GameManager {
 
       lootedItem = LootItems.getRandomItem();
       gridObjects[playingPlayer.getX()][playingPlayer.getY()] = GridObject.EMPTY_HOUSE;
+
+      Random r = new Random();
+      if(object == GridObject.LOST_ITEM_HOUSE){
+        lootSound = Gdx.audio.newSound(Gdx.files.internal("LootSound1.wav"));
+        lootSound.play();
+
+        playingPlayer.addHouseCoins(r.nextInt(15,45));
+        gridObjects[playingPlayer.getX()][playingPlayer.getY()] = GridObject.EMPTY_HOUSE;
+      }
       // The below if loop checks if there is a weapon in the inventory already.
       if ((lootedItem == LootItems.SWORD || lootedItem == LootItems.BEJEWELED_SWORD || lootedItem == LootItems.BOW)
           && (playingPlayer.getItems().contains(LootItems.SWORD) || playingPlayer.getItems().contains(LootItems.BEJEWELED_SWORD) || playingPlayer.getItems().contains(LootItems.BOW))) {
@@ -269,8 +282,9 @@ public class GameManager {
 
         case Input.Keys.L: // Player is trying to loot house
           if (playerOn(GridObject.TREASURE_HOUSE)) {
-            lootHouse();
-          }
+            lootHouse();}
+            if(playerOn(GridObject.LOST_ITEM_HOUSE)){
+              lootHouse();}
 
           break;
         case Input.Keys.T://Trade Tings for Gold lol

@@ -87,7 +87,7 @@ public class GameScene extends Scene {
       font.draw(batch,"Press [V] to Toggle Map",30,110);
 
       // Can they loot?
-      if (manager.playerOn(GridObject.TREASURE_HOUSE)) {
+      if (manager.playerOn(GridObject.TREASURE_HOUSE) || manager.playerOn(GridObject.LOST_ITEM_HOUSE)) {
         font.setColor(Color.GOLD);
         font.draw(batch, "Press [L] to Loot!", 160, 180);
       }

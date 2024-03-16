@@ -195,7 +195,7 @@ public class Player {
     public void addCoins(LootItems item) {
         this.coins += item.getSellPrice();
     }
-
+    public void addHouseCoins(int coins){this.coins += coins;}
     public void removeCoins(int amount) {
         this.coins -= amount;
     }
