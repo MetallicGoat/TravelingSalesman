@@ -143,7 +143,6 @@ public class GameManager {
             playingPlayer.setStrength(0); // sets the strength back to the original value
             playingPlayer.getItems().clear();
         }
-        //TODO Give items values and give player gold for trading items
     }
 
     public boolean playerOn(GridObject obj) {

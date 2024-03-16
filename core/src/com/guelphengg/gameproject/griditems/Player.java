@@ -6,7 +6,6 @@ import com.guelphengg.gameproject.Character;
 import com.guelphengg.gameproject.scenes.scenecomponents.GameGrid;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class Player {
@@ -180,14 +179,8 @@ public class Player {
     }
 
     public void removeWeapon() { // This is for removing in general
-        Iterator<LootItems> iterator = this.getItems().iterator();
 
-        while (iterator.hasNext()) {
-            final LootItems item = iterator.next();
-
-            if (item == LootItems.SWORD || item == LootItems.BOW || item == LootItems.BEJEWELED_SWORD)
-                iterator.remove();
-        }
+        this.getItems().removeIf(item -> item == LootItems.SWORD || item == LootItems.BOW || item == LootItems.BEJEWELED_SWORD);
 
         // The strength is then reset back to the base number
         this.setStrength(0);
