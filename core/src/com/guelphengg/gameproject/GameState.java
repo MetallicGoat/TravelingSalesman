@@ -1,12 +1,13 @@
 package com.guelphengg.gameproject;
 
-import com.guelphengg.gameproject.scenes.GameScene;
-import com.guelphengg.gameproject.scenes.MainMenuScene;
-import com.guelphengg.gameproject.scenes.Scene;
+import com.guelphengg.gameproject.scenes.*;
 
 public enum GameState {
   MAIN_MENU(new MainMenuScene()),
-  RUNNING(new GameScene());
+  GAME_SETUP(new GameSetupScene()),
+  RUNNING(new GameScene()),
+  TRANSITION(new TransitionScene()),
+  BATTLE(new BattleScene());
   // HELP_MENU;
 
   private final Scene scene;

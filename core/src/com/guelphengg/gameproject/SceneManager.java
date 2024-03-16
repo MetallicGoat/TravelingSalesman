@@ -2,15 +2,25 @@ package com.guelphengg.gameproject;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.guelphengg.gameproject.scenes.Scene;
+import com.guelphengg.gameproject.util.AdvancedShapeRenderer;
 
 public class SceneManager {
 
+  /**
+   * This is a util class that we use for rendering.
+   * usefull to get the screen width and height
+   * and to get the instances of classes we need to render,
+   * such as SpriteBatch, ShapeRenderer, and BitmapFont
+   */
+
   private static OrthographicCamera camera;
   private static SpriteBatch batch;
-  private static ShapeRenderer shapeRenderer;
+  private static BitmapFont font;
+
+  private static AdvancedShapeRenderer shapeRenderer;
 
   public static void init() {
     camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -20,8 +30,10 @@ public class SceneManager {
     batch = new SpriteBatch();
     batch.setProjectionMatrix(camera.combined);
 
-    shapeRenderer = new ShapeRenderer();
+    shapeRenderer = new AdvancedShapeRenderer();
     shapeRenderer.setProjectionMatrix(camera.combined);
+
+    font = new BitmapFont();
   }
 
   public static Scene getCurrentScene() {
@@ -32,12 +44,16 @@ public class SceneManager {
     return camera;
   }
 
-  public static ShapeRenderer getShapeRenderer() {
+  public static AdvancedShapeRenderer getShapeRenderer() {
     return shapeRenderer;
   }
 
   public static SpriteBatch getSpriteBatch() {
     return batch;
+  }
+
+  public static BitmapFont getFont() {
+    return font;
   }
 
   public static float getViewWidth() {
@@ -51,5 +67,6 @@ public class SceneManager {
   public static void dispose() {
     shapeRenderer.dispose();
     batch.dispose();
+    font.dispose();
   }
 }

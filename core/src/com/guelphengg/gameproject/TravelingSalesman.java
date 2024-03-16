@@ -2,6 +2,7 @@ package com.guelphengg.gameproject;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -9,21 +10,15 @@ import com.badlogic.gdx.utils.ScreenUtils;
 
 
 public class TravelingSalesman extends ApplicationAdapter {
-    SpriteBatch batch;
-
-    BitmapFont font;
-
-    public Texture img;
     private static TravelingSalesman instance;
+    private Music Backgr;
 
+
+    public Music getBackgr(){
+        return Backgr;
+    }
     @Override
     public void create() {
-
-        batch = new SpriteBatch();
-        img = new Texture("Map Background.jpg");
-
-
-
         instance = this;
 
         // Start listening for input
@@ -31,15 +26,18 @@ public class TravelingSalesman extends ApplicationAdapter {
 
         // Initialize the scene manager
         SceneManager.init();
+
+        Backgr = Gdx.audio.newMusic(Gdx.files.internal("MainMenuTS.mp3"));
+
+        Backgr.setLooping(true);
+        Backgr.play();
+
+        Accessor.getGameManager().smoothlySetState(GameState.MAIN_MENU, true, 500);
     }
 
     @Override
     public void render() {
         ScreenUtils.clear(0, 0, 0, 1);
-
-        batch.begin();
-        batch.draw(img, 0, 0, SceneManager.getViewWidth(), SceneManager.getViewHeight());
-        batch.end();
 
         SceneManager.getCurrentScene().render();
     }
@@ -47,8 +45,7 @@ public class TravelingSalesman extends ApplicationAdapter {
     @Override
     public void dispose() {
         SceneManager.dispose();
-        batch.dispose();
-        img.dispose();
+        Textures.dispose();
     }
 
     public static TravelingSalesman getInstance() {

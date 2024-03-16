@@ -1,88 +1,184 @@
 package com.guelphengg.gameproject.griditems;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.guelphengg.gameproject.Character;
-import com.guelphengg.gameproject.Textures;
 import com.guelphengg.gameproject.scenes.scenecomponents.GameGrid;
 
-public class Player extends GridObject {
+import java.util.ArrayList;
+import java.util.List;
 
-  private final Animation<TextureRegion> playerAnimation;
-  private final Character character;
+public class Player {
+  // base strength for a character
+  private final int BASE_STRENGTH = 10;
+
+  // This array of loot items represents the players inventory
+  private final List<LootItems> loot = new ArrayList<>();
+
+  // The character of the player
+  private Character character;
+
+  // If the player is currently small
   private boolean small = true;
-  private int strength = 10, health = 100;
 
+  // misc player attributes
+  private int strength = 10, health = 100, coins = 0;
+
+  // Offset used for offseting the players position when drawing it on the game grid
+  // For when one is small and to thr right
   public int yOffset = 0;
   public int xOffset = 0;
 
+  // The x and y position of the player on the game grid
+  private int x;
+  private int y;
+
+  // stateTime is used to keep track of the current frame of the player's animation
   float stateTime = 0f;
 
+  // constructor for the player
   public Player(int x, int y, Character character) {
-    super(x, y);
+    this.x = x;
+    this.y = y;
 
     this.character = character;
-
-    // TODO different texture regions for different characters
-    final Texture spriteSheet = Textures.SPRITE_SHEET.get();
-
-    TextureRegion[][] tmp = TextureRegion.split(spriteSheet,
-        spriteSheet.getWidth() / 12,
-        spriteSheet.getHeight() / 8);
-
-    // Place the regions into a 1D array in the correct order, starting from the top
-    // left, going across first. The Animation constructor requires a 1D array.
-    TextureRegion[] walkFrames = new TextureRegion[3];
-
-    walkFrames[0] = tmp[0][0];
-    walkFrames[1] = tmp[0][1];
-    walkFrames[2] = tmp[0][2];
-
-    // Initialize the Animation with the frame interval and array of frames
-    playerAnimation = new Animation<>(0.1f, walkFrames);
-
-    stateTime = 0f;
   }
 
+  // get the name of the player using their character
+  public String getName() {
+    return character.getName();
+  }
+
+  public void setCharacter(Character character) {
+    this.character = character;
+  }
+
+  // used to check if the gamegrid should make the player small
+  // For cases where players share a square with another player or a GridObject
   public void setSmall(boolean small) {
     this.small = small;
   }
 
-  public boolean isSmall(){
+  // if the player is currently being displayed small
+  public boolean isSmall() {
     return this.small;
   }
 
-  private TextureRegion getCurrFrame() {
+  // The current frame that should be displayed for the player
+  // changes based on the current time (for movement animation)
+  public TextureRegion getCurrFrame() {
     stateTime += Gdx.graphics.getDeltaTime();
 
-    return playerAnimation.getKeyFrame(stateTime, true);
+    return character.getAnimation().getKeyFrame(stateTime, true);
   }
 
+  // If that player is at the start square (which is off the grid)
   public boolean isAtStart() {
-    return (getX() == 10 && getY() == 0) ;
+    return (this.x == 10 && this.y == 0);
   }
 
-  void setStrength(int strength) {
-    this.strength = strength;
-  }
-
+  // get the strength of the player
   public int getStrength() {
     return this.strength;
   }
 
-  void setHealth(int health){
+  // change the strength of the player
+  public void setStrength(int newStrength) {
+    if (newStrength < 10) { // catches if the new value is less than the base strength
+      newStrength = BASE_STRENGTH;
+    }
+
+    this.strength = newStrength;
+  }
+
+  public void addStrength(LootItems item) {
+    this.strength += item.getDamage();
+  }
+
+  // change the health of the player
+  void setHealth(int health) {
     this.health = health;
   }
 
+  // get the health of the player
   public int getHealth() {
     return health;
   }
 
+  // get the amount of coins the player has
+  public int getCoins() {
+    return coins;
+  }
 
-  @Override
+  // get the character of the player
+  public Character getCharacter() {
+    return character;
+  }
+
+  // player's x
+  public int getX() {
+    return this.x;
+  }
+
+  // player's y
+  public int getY() {
+    return this.y;
+  }
+
+  // change the players x
+  public void setX(int x) {
+    this.x = x;
+  }
+
+  // change the players y
+  public void setY(int y) {
+    this.y = y;
+  }
+
+  // draw the player on the gamegrid at its current pos
   public void render(GameGrid gameGrid) {
-    gameGrid.renderTextureInGrid(getX(), getY(), getCurrFrame(), this.small ? 0.5 : 1, xOffset, yOffset);
+    render(gameGrid, this.x, this.y);
+  }
+
+  // draw the player on the gamegrid at a specific pos (overriding player position)
+  public void render(GameGrid gameGrid, int x, int y) {
+    gameGrid.renderTextureInGrid(x, y, getCurrFrame(), this.small ? 0.5 : 1, xOffset, yOffset);
+  }
+
+  public void addLoot(LootItems item) {
+    loot.add(item);
+  }
+
+  public List<LootItems> getItems() {
+
+    return loot;
+  }
+
+  public void inflictDamage(Player otherPlayer) {
+    if (otherPlayer.loot.contains(LootItems.PALADIN_SHIELD))
+      otherPlayer.health -= (int) ((this.getDamage()) * (LootItems.PALADIN_SHIELD.getProtection()));
+    //  otherPlayer.loot Maybe shield class????? that extends the loot Items enum?
+    // TODO Make it so that the sheild's durability belongs to the shield the player has and not the player
+    // TODO we don't want the durability to carry over if the shield is lost or gets used
+  }
+
+  public int getDamage() {
+    int damage = 1;
+    if (this.loot.contains(LootItems.SWORD)) {
+      damage += LootItems.SWORD.getDamage();
+    } else if (this.loot.contains(LootItems.BEJEWELED_SWORD)) {
+      damage += LootItems.BEJEWELED_SWORD.getDamage();
+    } else if (this.loot.contains(LootItems.BOW)) {
+      damage += LootItems.BOW.getDamage();
+    }
+    return damage;
+  }
+
+  public void addCoins(LootItems item) {
+    this.coins += item.getSellPrice();
+  }
+
+  public void removeCoins(LootItems item) {
+    this.coins -= (int) (item.getSellPrice() * 1.1);
   }
 }
