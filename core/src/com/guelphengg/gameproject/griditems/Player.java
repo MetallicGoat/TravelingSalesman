@@ -62,9 +62,7 @@ public class Player {
     // The current frame that should be displayed for the player
     // changes based on the current time (for movement animation)
     public TextureRegion getCurrFrame() {
-        stateTime += Gdx.graphics.getDeltaTime();
-
-        return character.getAnimation().getKeyFrame(stateTime, true);
+        return character.getCurrentFrame();
     }
 
     // If that player is at the start square (which is off the grid)

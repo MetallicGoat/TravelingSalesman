@@ -59,18 +59,6 @@ public class GameScene extends Scene {
     scoreBoard.render();
     rollPanel.render();
 
-    // logic to cover the area where players have not been (with white circles)
-    // TODO This works, but it's a little weird. Uncomment it if you want to test
-
-//    for (int i = 0; i <=9; i++) {
-//      for (int j = 0; j <=9; j++) {
-//        if (!manager.visibleArea[i][j]){
-//          grid.renderCircleInGrid(i, j, Color.WHITE);
-//        }
-//      }
-//    }
-
-
     // Logic to display things that dont have their own component classes
     // mostly just for the text at the bottom (eg the message displayed when a player can loot)
     {

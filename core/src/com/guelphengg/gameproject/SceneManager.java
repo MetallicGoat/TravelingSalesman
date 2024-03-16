@@ -23,8 +23,8 @@ public class SceneManager {
   private static AdvancedShapeRenderer shapeRenderer;
 
   public static void init() {
-    camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-    camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+    camera = new OrthographicCamera(1200, 800);
+    camera.setToOrtho(false, 1200, 800);
     camera.update();
 
     batch = new SpriteBatch();

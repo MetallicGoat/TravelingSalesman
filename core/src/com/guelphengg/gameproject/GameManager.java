@@ -13,6 +13,8 @@ import java.util.Iterator;
 import java.util.Random;
 
 public class GameManager {
+
+  private boolean waitingForRoll = true; // true by default cause first turn is always ready
   private int nextRoll = 0;
   private int turnsLeft = 0;
   private Sound jump = Gdx.audio.newSound(Gdx.files.internal("JumpTS.wav"));
@@ -161,6 +163,11 @@ public class GameManager {
     return this.turnsLeft;
   }
 
+  // is waiting for roll
+  public boolean isWaitingForRoll() {
+    return this.waitingForRoll;
+  }
+
   // Notify that the dice has been rolled
   public void startRolling() {
     rollSound = Gdx.audio.newSound(Gdx.files.internal("DiceRoll.wav"));
@@ -168,6 +175,7 @@ public class GameManager {
 
     this.nextRoll = new Random().nextInt(6) + 1;
     this.diceRolling = true;
+    this.waitingForRoll = false;
     this.lastRollTime = System.currentTimeMillis();
   }
 
@@ -254,22 +262,26 @@ public class GameManager {
 
     } else if (this.state == GameState.RUNNING) {
       switch (keyCode) {
-//        case Input.Keys.ESCAPE:
-//          // TODO Open Pause Menu?
-//          this.state = GameState.MAIN_MENU;
-//          break;
+
+        // Press enter to complete the turn
+        case Input.Keys.ENTER:
+          if (!waitingForRoll && turnsLeft == 0)
+            nextTurn();
+
+          break;
 
         case Input.Keys.R:
-          if (turnsLeft == 0 && !diceRolling)
+          if (waitingForRoll && !diceRolling)
             startRolling();
+
           break;
 
         case Input.Keys.L: // Player is trying to loot house
-          if (playerOn(GridObject.TREASURE_HOUSE)) {
+          if (playerOn(GridObject.TREASURE_HOUSE))
             lootHouse();
-          }
 
           break;
+
         case Input.Keys.T://Trade Tings for Gold lol
           if (playerOn(GridObject.CASTLE)) {
             sellSound = Gdx.audio.newSound(Gdx.files.internal("Sell.wav"));
@@ -308,14 +320,15 @@ public class GameManager {
           largeMap = true;
           break;
 
-          //help menu toggle
+        //help menu toggle
         case Input.Keys.H:
           fromRunning = true;
           smoothlySetState(GameState.HELP_MENU);
           break;
       }
     }
-    //when in help menu scene, waits for H to be pressed, then returns to scene that they initially came from
+
+    // when in help menu scene, waits for H to be pressed, then returns to scene that they initially came from
     else if(this.state == GameState.HELP_MENU){
       switch (keyCode){
         case Input.Keys.H:
@@ -368,13 +381,15 @@ public class GameManager {
 
     else if (this.playingPlayer == this.player2)
       this.playingPlayer = this.player1;
+
+    this.waitingForRoll = true;
   }
 
   // Moves the player whose turn it currently is
   // returns false id the player cannot move there
-  private boolean movePlayingPlayer(int x, int y) {
+  private void movePlayingPlayer(int x, int y) {
     if (diceRolling || turnsLeft == 0)
-      return false;
+      return;
 
     // rn we only saying p1 is playing
     final int newX = this.playingPlayer.getX() + x;
@@ -382,7 +397,7 @@ public class GameManager {
 
     // Check if the player is trying to leave the grid
     if (newX > 9 || newX < 0 || newY > 9 || newY < 0)
-      return false;
+      return; // The player cannot move there
 
     this.playingPlayer.setX(newX);
     this.playingPlayer.setY(newY);
@@ -392,13 +407,7 @@ public class GameManager {
 
     this.turnsLeft--;
 
-    if (turnsLeft == 0) {
-      nextTurn();
-    }
-
-    // True if the player can move
     jump.play(10000);
-    return true;
   }
 }
 

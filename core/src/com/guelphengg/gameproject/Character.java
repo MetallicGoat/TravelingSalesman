@@ -1,5 +1,6 @@
 package com.guelphengg.gameproject;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -16,23 +17,10 @@ public enum Character {
   YELLOWIE(4, 6, new Color(1, (float)43/255, (float)58/255, 0.4F)),
   BALDIE(4, 9, new Color(1, (float)43/255, (float)58/255, 0.4F));
 
-  private Animation<TextureRegion> animation;
+  public static float stateTime = 0F;
 
-  private Color colour;
-
-  public Animation<TextureRegion> getAnimation() {
-    return animation;
-  }
-
-  public String getName() {
-    final String name = this.name();
-
-    return name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
-  }
-
-  public Color getColour(){
-    return this.colour;
-  }
+  private final Animation<TextureRegion> animation;
+  private final Color colour;
 
   Character(int textureRow, int textureCol, Color colour) {
     final Texture spriteSheet = Textures.SPRITE_SHEET.get();
@@ -52,6 +40,24 @@ public enum Character {
 
     // Initialize the Animation with the frame interval and array of frames
     animation = new Animation<>(0.15f, walkFrames);
+  }
+
+  public String getName() {
+    final String name = this.name();
+
+    return name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
+  }
+
+  public Color getColour(){
+    return this.colour;
+  }
+
+  public TextureRegion getCurrentFrame() {
+    return animation.getKeyFrame(stateTime, true);
+  }
+
+  public static void updateStateTime() {
+    stateTime += Gdx.graphics.getDeltaTime();
   }
 
   public static Character getNextCharacter(Player player) {

@@ -73,7 +73,7 @@ public class RollPanel {
   // if towardsRoll is true, the dice will start rolling to the randomly generated number
   private TextureRegion getDiceFrame(boolean towardsRoll) {
     // Only change the frame if it is time
-    if (Accessor.getGameManager().isDiceRolling() || Accessor.getGameManager().getTurnsLeft() == 0) {
+    if (Accessor.getGameManager().isDiceRolling() || Accessor.getGameManager().isWaitingForRoll()) {
       stateTime += Gdx.graphics.getDeltaTime();
 
       // Check if it's time to display the next frame
@@ -234,7 +234,10 @@ public class RollPanel {
     // Text displayed under the dice
     if (manager.isDiceRolling())
       font.draw(batch, "Rolling...", diceX + 60, diceY - 20);
-    else if (manager.getTurnsLeft() == 0)
+    else if (!manager.isWaitingForRoll() && manager.getTurnsLeft() == 0) {
+      font.draw(batch, "Press [Enter] to", diceX, diceY);
+      font.draw(batch, "complete your turn!", diceX - 18, diceY - 30);
+    } else if (manager.isWaitingForRoll())
       font.draw(batch, "Press [R] to roll!", diceX, diceY - 20);
     else
       font.draw(batch, "Turns Left: " + manager.getTurnsLeft(), diceX + 30, diceY - 20);
