@@ -76,6 +76,11 @@ public class RollPanel {
     if (Accessor.getGameManager().isDiceRolling() || Accessor.getGameManager().isWaitingForRoll()) {
       stateTime += Gdx.graphics.getDeltaTime();
 
+      // Hack to fix superfast dice rolling (cause a frame takes a long time to render)
+      // (probably cause the game was minimized)
+      if (stateTime > 1)
+        stateTime = 0;
+
       // Check if it's time to display the next frame
       if (stateTime > secsPerFrame) {
         stateTime -= secsPerFrame;
