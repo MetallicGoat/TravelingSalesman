@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 
 public enum Textures {
   MAP_BACKGROUND("Map Background.jpg"),
+  BATTLE_BACKGROUND("battle_background.jpg"),
   STARTER_HOUSE("start_house.png"),
   SPRITE_SHEET("sprite_sheet.png"),
   DICE_SHEET("dice.png"),
