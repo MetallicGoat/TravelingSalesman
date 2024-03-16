@@ -13,7 +13,8 @@ public enum GridObject {
   TRAPPED_HOUSE("trapped_house.png"),
   TREASURE_HOUSE("treasure_house.png"),
   LOST_ITEM_HOUSE("treasure_house.png"),
-  HIDDEN_SQUARE("cloud_cover_2.png");
+  HIDDEN_SQUARE("cloud_cover_2.png"),
+  MARKET("Market.png");
 
   // the texture of the object
   private final Texture texture;

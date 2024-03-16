@@ -60,23 +60,148 @@ public class GameManager {
     int randCol;
 
     //array of all structures in the game
-    GridObject[] gridObjList = {GridObject.TREASURE_HOUSE, GridObject.TRAPPED_HOUSE, GridObject.LOST_ITEM_HOUSE};
+    GridObject[] gridObjList = {GridObject.TREASURE_HOUSE, GridObject.TRAPPED_HOUSE, GridObject.LOST_ITEM_HOUSE, GridObject.MARKET};
 
     int typesStructs = 3; //number of different types of structures that be generated
     int numStructs = 8; //number of each structure to be generated
 
-    for(int i=0; i<typesStructs; i++){
-      for(int j=0; j<numStructs; j++){
-        randRow = randNum.nextInt(0,10);
-        randCol = randNum.nextInt(0,10);
+    //logic for generating treasure houses
+    int numTreasureHouses = 2;
+    //Generate in quadrant 1
+    for(int i = 0; i < numTreasureHouses; i++) {
+      randRow = randNum.nextInt(0,5);
+      randCol = randNum.nextInt(0,5);
+      if (gridObjects[randRow][randCol] == null) {
+        gridObjects[randRow][randCol] = gridObjList[0];
+      }
+    }
+    //Generate in Quad 2
+    for(int i = 0; i < numTreasureHouses; i++) {
+      randRow = randNum.nextInt(5,10);
+      randCol = randNum.nextInt(0,5);
+      if (gridObjects[randRow][randCol] == null) {
+        gridObjects[randRow][randCol] = gridObjList[0];
+      }
+    }
+    //Generate in Quad 3
+    for(int i = 0; i < numTreasureHouses; i++) {
+      randRow = randNum.nextInt(0,5);
+      randCol = randNum.nextInt(5,10);
+      if (gridObjects[randRow][randCol] == null) {
+        gridObjects[randRow][randCol] = gridObjList[0];
+      }
+    }
+    //Generate in Quad 4
+    for(int i = 0; i < numTreasureHouses; i++) {
+      randRow = randNum.nextInt(5,10);
+      randCol = randNum.nextInt(5,10);
+      if (gridObjects[randRow][randCol] == null) {
+        gridObjects[randRow][randCol] = gridObjList[0];
+      }
+    }
 
-        if (gridObjects[randRow][randCol] == null) {
-            gridObjects[randRow][randCol] = gridObjList[i];
-        } else {
-            randRow = randNum.nextInt(0,10);
-            randCol = randNum.nextInt(0,10);
-            gridObjects[randRow][randCol] = gridObjList[i];
-        }
+    //logic for generating trapped houses
+    int numTrappedHouses = 1;
+    //Generate in quadrant 1
+    for(int i = 0; i < numTrappedHouses; i++) {
+      randRow = randNum.nextInt(0,5);
+      randCol = randNum.nextInt(0,5);
+      if (gridObjects[randRow][randCol] == null) {
+        gridObjects[randRow][randCol] = gridObjList[1];
+      }
+    }
+    //Generate in Quad 2
+    for(int i = 0; i < numTreasureHouses; i++) {
+      randRow = randNum.nextInt(5,10);
+      randCol = randNum.nextInt(0,5);
+      if (gridObjects[randRow][randCol] == null) {
+        gridObjects[randRow][randCol] = gridObjList[1];
+      }
+    }
+    //Generate in Quad 3
+    for(int i = 0; i < numTreasureHouses; i++) {
+      randRow = randNum.nextInt(0,5);
+      randCol = randNum.nextInt(5,10);
+      if (gridObjects[randRow][randCol] == null) {
+        gridObjects[randRow][randCol] = gridObjList[1];
+      }
+    }
+    //Generate in Quad 4
+    for(int i = 0; i < numTreasureHouses; i++) {
+      randRow = randNum.nextInt(5,10);
+      randCol = randNum.nextInt(5,10);
+      if (gridObjects[randRow][randCol] == null) {
+        gridObjects[randRow][randCol] = gridObjList[1];
+      }
+    }
+
+    //logic for generating lost items
+    int numLostItems = 4;
+    //Generate in quadrant 1
+    for(int i = 0; i < numLostItems; i++) {
+      randRow = randNum.nextInt(0,5);
+      randCol = randNum.nextInt(0,5);
+      if (gridObjects[randRow][randCol] == null) {
+        gridObjects[randRow][randCol] = gridObjList[2];
+      }
+    }
+    //Generate in Quad 2
+    for(int i = 0; i < numLostItems; i++) {
+      randRow = randNum.nextInt(5,10);
+      randCol = randNum.nextInt(0,5);
+      if (gridObjects[randRow][randCol] == null) {
+        gridObjects[randRow][randCol] = gridObjList[2];
+      }
+    }
+    //Generate in Quad 3
+    for(int i = 0; i < numLostItems; i++) {
+      randRow = randNum.nextInt(0,5);
+      randCol = randNum.nextInt(5,10);
+      if (gridObjects[randRow][randCol] == null) {
+        gridObjects[randRow][randCol] = gridObjList[2];
+      }
+    }
+    //Generate in Quad 4
+    for(int i = 0; i < numLostItems; i++) {
+      randRow = randNum.nextInt(5,10);
+      randCol = randNum.nextInt(5,10);
+      if (gridObjects[randRow][randCol] == null) {
+        gridObjects[randRow][randCol] = gridObjList[2];
+      }
+    }
+
+    //logic for generating markets
+    int numMarkets = 1;
+    //Generate in quadrant 1
+    for(int i = 0; i < numMarkets; i++) {
+      randRow = randNum.nextInt(0,5);
+      randCol = randNum.nextInt(0,5);
+      if (gridObjects[randRow][randCol] == null) {
+        gridObjects[randRow][randCol] = gridObjList[3];
+      }
+    }
+    //Generate in Quad 2
+    for(int i = 0; i < numMarkets; i++) {
+      randRow = randNum.nextInt(5,10);
+      randCol = randNum.nextInt(0,5);
+      if (gridObjects[randRow][randCol] == null) {
+        gridObjects[randRow][randCol] = gridObjList[3];
+      }
+    }
+    //Generate in Quad 3
+    for(int i = 0; i < numMarkets; i++) {
+      randRow = randNum.nextInt(0,5);
+      randCol = randNum.nextInt(5,10);
+      if (gridObjects[randRow][randCol] == null) {
+        gridObjects[randRow][randCol] = gridObjList[3];
+      }
+    }
+    //Generate in Quad 4
+    for(int i = 0; i < numMarkets; i++) {
+      randRow = randNum.nextInt(5,10);
+      randCol = randNum.nextInt(5,10);
+      if (gridObjects[randRow][randCol] == null) {
+        gridObjects[randRow][randCol] = gridObjList[3];
       }
     }
 
@@ -119,14 +244,6 @@ public class GameManager {
       lootedItem = LootItems.getRandomItem();
       gridObjects[playingPlayer.getX()][playingPlayer.getY()] = GridObject.EMPTY_HOUSE;
 
-      Random r = new Random();
-      if(object == GridObject.LOST_ITEM_HOUSE){
-        lootSound = Gdx.audio.newSound(Gdx.files.internal("LootSound1.wav"));
-        lootSound.play();
-
-        playingPlayer.addHouseCoins(r.nextInt(15,45));
-        gridObjects[playingPlayer.getX()][playingPlayer.getY()] = GridObject.EMPTY_HOUSE;
-      }
       // The below if loop checks if there is a weapon in the inventory already.
       if ((lootedItem == LootItems.SWORD || lootedItem == LootItems.BEJEWELED_SWORD || lootedItem == LootItems.BOW)
           && (playingPlayer.getItems().contains(LootItems.SWORD) || playingPlayer.getItems().contains(LootItems.BEJEWELED_SWORD) || playingPlayer.getItems().contains(LootItems.BOW))) {
@@ -149,7 +266,17 @@ public class GameManager {
       playingPlayer.addLoot(lootedItem);
       playingPlayer.addStrength(lootedItem);
     }
+    //logic for looting for lost items aka coins
+    Random r = new Random();
+    if(object == GridObject.LOST_ITEM_HOUSE){
+      lootSound = Gdx.audio.newSound(Gdx.files.internal("LootSound1.wav"));
+      lootSound.play();
+
+      playingPlayer.addHouseCoins(r.nextInt(15,45));
+      gridObjects[playingPlayer.getX()][playingPlayer.getY()] = GridObject.EMPTY_HOUSE;
+    }
   }
+
 
   public void tradeItems() {
     if (playerOn(GridObject.CASTLE)) {
