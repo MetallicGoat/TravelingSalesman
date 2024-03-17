@@ -174,6 +174,14 @@ public class Player {
     return damage;
   }
 
+  public void gainCoins(int money){
+    this.coins += money;
+  }
+
+  public void loseCoins(int money){
+    this.coins -= money;
+  }
+
   public void addCoins(LootItems item) {
     this.coins += item.getSellPrice();
   }

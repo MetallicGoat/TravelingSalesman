@@ -85,23 +85,6 @@ public class GameManager {
       }
     }
 
-//    gridObjects[0][9] = GridObject.TRAPPED_HOUSE;
-//    gridObjects[4][8] = GridObject.TREASURE_HOUSE;
-//    gridObjects[1][6] = GridObject.TREASURE_HOUSE;
-//    gridObjects[6][8] = GridObject.TRAPPED_HOUSE;
-//    gridObjects[7][7] = GridObject.TREASURE_HOUSE;
-//    gridObjects[8][8] = GridObject.TRAPPED_HOUSE;
-//    gridObjects[8][9] = GridObject.TREASURE_HOUSE;
-//    gridObjects[9][2] = GridObject.TREASURE_HOUSE;
-//    gridObjects[5][6] = GridObject.TREASURE_HOUSE;
-//    gridObjects[5][8] = GridObject.TRAPPED_HOUSE;
-//    gridObjects[9][1] = GridObject.TREASURE_HOUSE;
-//    gridObjects[8][1] = GridObject.TREASURE_HOUSE;
-//    gridObjects[9][3] = GridObject.TREASURE_HOUSE;
-//    gridObjects[7][1] = GridObject.TREASURE_HOUSE;
-
-
-
     smoothlySetState(GameState.RUNNING);
   }
 
@@ -116,6 +99,27 @@ public class GameManager {
       return true;
 
     return false;
+  }
+
+  public void battleCalculation(){ //calculations for battles between players
+    if(getPlayer1().getStrength() > getPlayer2().getStrength()){ //checks if p1 strength > p2 strength
+      int money = ((getPlayer1().getStrength() - getPlayer2().getStrength()) / (getPlayer1().getStrength() + getPlayer2().getStrength()) * getPlayer2().getCoins());
+      getPlayer1().gainCoins(money);
+      getPlayer2().loseCoins(money);
+
+      int newStrength = getPlayer1().getStrength() - getPlayer2().getStrength();
+      getPlayer1().setStrength(newStrength);
+      getPlayer2().setStrength(0);
+    }
+    else if(getPlayer1().getStrength() < getPlayer2().getStrength()){ //checks if p1 strength < p2 strength
+      int money = ((getPlayer2().getStrength() - getPlayer1().getStrength()) / (getPlayer1().getStrength() + getPlayer2().getStrength()) * getPlayer1().getCoins());
+      getPlayer2().gainCoins(money);
+      getPlayer1().loseCoins(money);
+
+      int newStrength = getPlayer2().getStrength() - getPlayer1().getStrength();
+      getPlayer2().setStrength(newStrength);
+      getPlayer1().setStrength(0);
+    }
   }
 
   // Make the playing player loot the current house
