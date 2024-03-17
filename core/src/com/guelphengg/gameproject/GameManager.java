@@ -9,6 +9,7 @@ import com.guelphengg.gameproject.griditems.LootItems;
 import com.guelphengg.gameproject.griditems.Player;
 import com.guelphengg.gameproject.scenes.TransitionScene;
 
+
 import java.util.Iterator;
 import java.util.Random;
 
@@ -127,8 +128,9 @@ public class GameManager {
     if (playerOn(GridObject.CASTLE)) {
       for (int i = 0; i < playingPlayer.getItems().size(); i++) {
         playingPlayer.addCoins(playingPlayer.getItems().get(i));
+        playingPlayer.addPower(playingPlayer.getItems().get(i));
         // This iterates through the player's inventory, checks
-        // what the object is, and then adds the set value to the player's coins
+        // what the object is, and then adds the set value to the player's coins + power
       }
       playingPlayer.setStrength(0); // sets the strength back to the original value
       playingPlayer.getItems().clear();
@@ -321,6 +323,9 @@ public class GameManager {
           smoothlySetState(GameState.HELP_MENU);
           break;
       }
+      if (playerOn(GridObject.TRAPPED_HOUSE)) {
+        smoothlySetState(GameState.TRAPPED);
+      }
     }
 
     // when in help menu scene, waits for H to be pressed, then returns to scene that they initially came from
@@ -335,6 +340,22 @@ public class GameManager {
             smoothlySetState(GameState.MAIN_MENU);
             break;
           }
+      }
+    }
+
+    //logic for trapped houses and the inputs while in that scene
+    else if(this.state == GameState.TRAPPED){
+      switch (keyCode){
+        case Input.Keys.NUM_1:
+          //lose power
+          playingPlayer.removePower(1);
+          smoothlySetState(GameState.RUNNING);
+          break;
+        case Input.Keys.NUM_2:
+          //lose coins
+          playingPlayer.removeCoins(30);
+          smoothlySetState(GameState.RUNNING);
+          break;
       }
     }
   }

@@ -30,7 +30,7 @@ public class Player {
     // If the player is currently small
     private boolean small = true;
     // misc player attributes
-    private int strength = 10, health = 100, coins = 0;
+    private int strength = 10, health = 100, coins = 0, power = 0;
     // The x and y position of the player on the game grid
     private int x;
     private int y;
@@ -102,6 +102,9 @@ public class Player {
     public int getCoins() {
         return coins;
     }
+
+    //get the power player has
+    public int getPower(){return power;}
 
     // get the character of the player
     public Character getCharacter() {
@@ -197,4 +200,6 @@ public class Player {
     public void removeCoins(int amount) {
         this.coins -= amount;
     }
+    public void addPower(LootItems item){this.power += item.getItemPower();}
+    public void removePower(int pwr){this.power -= pwr;}
 }
