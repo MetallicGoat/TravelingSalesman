@@ -26,7 +26,7 @@ public class GameManager {
 
   // TODO allow players to pick their character
   private final Player player1 = new Player(10, 0, Character.GREENIE);
-  private final Player player2 = new Player(10, 0, Character.REDDIE);
+  private final Player player2 = new Player(10, 0, Character.GRAYIE);
 
   private Player playingPlayer = player1;
 

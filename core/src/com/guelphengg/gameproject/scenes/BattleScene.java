@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.guelphengg.gameproject.Accessor;
 import com.guelphengg.gameproject.GameManager;
@@ -63,6 +64,7 @@ public class BattleScene extends Scene {
 
     final GameManager manager = Accessor.getGameManager();
 
+    /*
     final Player player1 = manager.getPlayer1();
     final Player player2 = manager.getPlayer2();
 
@@ -70,6 +72,17 @@ public class BattleScene extends Scene {
 
     batch.draw(player1.getCurrFrame(), i, 30, player1.getCurrFrame().getRegionWidth() * 2, player1.getCurrFrame().getRegionHeight() * 5);
     batch.draw(player2.getCurrFrame(), 1030 - j, 30, player2.getCurrFrame().getRegionWidth() * 2, player2.getCurrFrame().getRegionHeight() * 5);
+     */
+
+    final TextureRegion player1Model = manager.getPlayer1().getCurrFrameRight();
+    final TextureRegion player2Model = manager.getPlayer2().getCurrFrameLeft();
+
+    //player#.getCurrFrame() gets the current model that was chosen by player
+
+    batch.draw(player1Model, i, 30, player1Model.getRegionWidth() * 2, player1Model.getRegionHeight() * 2);
+    batch.draw(player2Model, 1030 - j, 30, player2Model.getRegionWidth() * 2, player2Model.getRegionHeight() * 2);
+
+
 
 //        batch.draw(play1, bucket.x, bucket.y,100, 100);
 //        batch.draw(play2, bucket.x, bucket.y, 100, 100);
