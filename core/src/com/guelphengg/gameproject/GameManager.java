@@ -12,9 +12,9 @@ import com.guelphengg.gameproject.scenes.TransitionScene;
 import java.util.Iterator;
 import java.util.Random;
 
-import java.util.Random;
-
 public class GameManager {
+
+  private boolean waitingForRoll = true; // true by default cause first turn is always ready
   private int nextRoll = 0;
   private int turnsLeft = 0;
   private Sound jump = Gdx.audio.newSound(Gdx.files.internal("JumpTS.wav"));
@@ -30,7 +30,7 @@ public class GameManager {
 
   private Player playingPlayer = player1;
 
-  private boolean largeMap = true;
+  private boolean largeMap = false;
   private boolean diceRolling = false;
   private long lastRollTime = 0;
 
@@ -44,10 +44,6 @@ public class GameManager {
 
   private Music battleMusic;
 
-
-  // TODO check if this was actually supposed to be in the game or if I dumb
-  // public boolean[][] visibleArea = new boolean[10][10];
-
   public void startGame() {
 
     TravelingSalesman.getInstance().getBackgr().pause();
@@ -55,78 +51,37 @@ public class GameManager {
     gameMusic.setLooping(true);
     gameMusic.play();
 
-    //TODO Replace this with a system to randomly generate positions
+    //generate all landmarks
+    Generation.generateLandmarks();
 
-    Random randNum = new Random();
-
-    //generates a random position for the castle in the middle 4 squares of the grid
-    int castleRow = randNum.nextInt(4,6);
-    int castleCol = randNum.nextInt(4,6);
-    gridObjects[castleRow][castleCol] = GridObject.CASTLE;
-
-    //generates random ints between 0-9
-    int randRow;
-    int randCol;
-
-    //array of all structures in the game
-    GridObject[] gridObjList = {GridObject.TREASURE_HOUSE, GridObject.TRAPPED_HOUSE, GridObject.EMPTY_HOUSE};
-
-    int typesStructs = 3; //number of different types of structures that be generated
-    int numStructs = 4; //number of each structure to be generated
-
-    for(int i=0; i<typesStructs; i++){
-      for(int j=0; j<numStructs; j++){
-        randRow = randNum.nextInt(0,10);
-        randCol = randNum.nextInt(0,10);
-
-          if(gridObjects[randRow][randCol] == null) {
-            gridObjects[randRow][randCol] = gridObjList[i];
-          }
-          else{
-            randRow = randNum.nextInt(0,10);
-            randCol = randNum.nextInt(0,10);
-            gridObjects[randRow][randCol] = gridObjList[i];
-        }
-      }
-    }
-
-//    gridObjects[0][9] = GridObject.TRAPPED_HOUSE;
-//    gridObjects[4][8] = GridObject.TREASURE_HOUSE;
-//    gridObjects[1][6] = GridObject.TREASURE_HOUSE;
-//    gridObjects[6][8] = GridObject.TRAPPED_HOUSE;
-//    gridObjects[7][7] = GridObject.TREASURE_HOUSE;
-//    gridObjects[8][8] = GridObject.TRAPPED_HOUSE;
-//    gridObjects[8][9] = GridObject.TREASURE_HOUSE;
-//    gridObjects[9][2] = GridObject.TREASURE_HOUSE;
-//    gridObjects[5][6] = GridObject.TREASURE_HOUSE;
-//    gridObjects[5][8] = GridObject.TRAPPED_HOUSE;
-//    gridObjects[9][1] = GridObject.TREASURE_HOUSE;
-//    gridObjects[8][1] = GridObject.TREASURE_HOUSE;
-//    gridObjects[9][3] = GridObject.TREASURE_HOUSE;
-//    gridObjects[7][1] = GridObject.TREASURE_HOUSE;
-
-
+    // Update player visibilities
+    player1.updateVisibleArea();
+    player2.updateVisibleArea();
 
     smoothlySetState(GameState.RUNNING);
   }
 
   // Check if player is at a treasure house
-  public boolean canPlayerLoot() {
+  public int canPlayerLoot() {
     if (this.playingPlayer.isAtStart())
-      return false;
+      return 0;
 
     final GridObject object = gridObjects[playingPlayer.getX()][playingPlayer.getY()];
 
     if (object == GridObject.TREASURE_HOUSE)
-      return true;
+      return 1;
 
-    return false;
+    else if (object == GridObject.LOST_ITEM_HOUSE)
+      return 1;
+
+    else
+    return 0;
   }
 
   // Make the playing player loot the current house
   public void lootHouse() {
     LootItems lootedItem; // I made this a variable so I could use it to change strength
-    if (!canPlayerLoot())
+    if (canPlayerLoot() == 0)
       return;
 
     final GridObject object = gridObjects[playingPlayer.getX()][playingPlayer.getY()];
@@ -137,6 +92,7 @@ public class GameManager {
 
       lootedItem = LootItems.getRandomItem();
       gridObjects[playingPlayer.getX()][playingPlayer.getY()] = GridObject.EMPTY_HOUSE;
+
       // The below if loop checks if there is a weapon in the inventory already.
       if ((lootedItem == LootItems.SWORD || lootedItem == LootItems.BEJEWELED_SWORD || lootedItem == LootItems.BOW)
           && (playingPlayer.getItems().contains(LootItems.SWORD) || playingPlayer.getItems().contains(LootItems.BEJEWELED_SWORD) || playingPlayer.getItems().contains(LootItems.BOW))) {
@@ -159,7 +115,17 @@ public class GameManager {
       playingPlayer.addLoot(lootedItem);
       playingPlayer.addStrength(lootedItem);
     }
+    //logic for looting for lost items aka coins
+    Random r = new Random();
+    if(object == GridObject.LOST_ITEM_HOUSE){
+      lootSound = Gdx.audio.newSound(Gdx.files.internal("LootSound1.wav"));
+      lootSound.play();
+
+      playingPlayer.addHouseCoins(r.nextInt(15,45));
+      gridObjects[playingPlayer.getX()][playingPlayer.getY()] = GridObject.EMPTY_HOUSE;
+    }
   }
+
 
   public void tradeItems() {
     if (playerOn(GridObject.CASTLE)) {
@@ -186,6 +152,11 @@ public class GameManager {
     return this.turnsLeft;
   }
 
+  // is waiting for roll
+  public boolean isWaitingForRoll() {
+    return this.waitingForRoll;
+  }
+
   // Notify that the dice has been rolled
   public void startRolling() {
     rollSound = Gdx.audio.newSound(Gdx.files.internal("DiceRoll.wav"));
@@ -193,6 +164,7 @@ public class GameManager {
 
     this.nextRoll = new Random().nextInt(6) + 1;
     this.diceRolling = true;
+    this.waitingForRoll = false;
     this.lastRollTime = System.currentTimeMillis();
   }
 
@@ -239,16 +211,28 @@ public class GameManager {
       gameMusic.stop();
       battlestart.play();
       battleMusic.play(); //TODO Dispose of music (idk how Christian Help)
-    smoothlySetState(GameState.BATTLE);
+      smoothlySetState(GameState.BATTLE);
     }
   }
-  // Handles all game input
-  public void gameInput(int keyCode) {
+
+  //for help menu to know where to return to
+  boolean fromMenu = false;
+  boolean fromRunning = false;
+
+  // Handles all game input for pressing down on a key
+  public void gameInputKeyDown(int keyCode) {
+
     if (this.state == GameState.MAIN_MENU) {
       switch (keyCode) {
+        //moves into character select scene
         case Input.Keys.SPACE:
           smoothlySetState(GameState.GAME_SETUP);
-
+          break;
+          //moves into help menu scene
+        case Input.Keys.H:
+          smoothlySetState(GameState.HELP_MENU);
+          fromMenu = true;
+          break;
       }
 
     } else if (this.state == GameState.GAME_SETUP) {
@@ -260,40 +244,47 @@ public class GameManager {
           break;
 
         case Input.Keys.A:
-          player1.setCharacter(Character.getPreviousCharacter(player1.getCharacter()));
+          player1.setCharacter(Character.getPreviousCharacter(player1));
           break;
 
         case Input.Keys.D:
-          player1.setCharacter(Character.getNextCharacter(player1.getCharacter()));
+          player1.setCharacter(Character.getNextCharacter(player1));
           break;
 
         case Input.Keys.LEFT:
-          player2.setCharacter(Character.getPreviousCharacter(player2.getCharacter()));
+          player2.setCharacter(Character.getPreviousCharacter(player2));
           break;
 
         case Input.Keys.RIGHT:
-          player2.setCharacter(Character.getNextCharacter(player2.getCharacter()));
+          player2.setCharacter(Character.getNextCharacter(player2));
           break;
       }
 
     } else if (this.state == GameState.RUNNING) {
       switch (keyCode) {
-//        case Input.Keys.ESCAPE:
-//          // TODO Open Pause Menu?
-//          this.state = GameState.MAIN_MENU;
-//          break;
+
+        // Press enter to complete the turn
+        case Input.Keys.ENTER:
+          if (!waitingForRoll && turnsLeft == 0)
+            nextTurn();
+
+          break;
 
         case Input.Keys.R:
-          if (turnsLeft == 0 && !diceRolling)
+          if (waitingForRoll && !diceRolling)
             startRolling();
+
           break;
 
         case Input.Keys.L: // Player is trying to loot house
           if (playerOn(GridObject.TREASURE_HOUSE)) {
             lootHouse();
+          } else if (playerOn(GridObject.LOST_ITEM_HOUSE)) {
+            lootHouse();
           }
 
           break;
+
         case Input.Keys.T://Trade Tings for Gold lol
           if (playerOn(GridObject.CASTLE)) {
             sellSound = Gdx.audio.newSound(Gdx.files.internal("Sell.wav"));
@@ -326,16 +317,48 @@ public class GameManager {
           movePlayingPlayer(1, 0);
           break;
 
+        //mapsize toggle
         case Input.Keys.V:
           // Change the grid view
-          largeMap = !largeMap;
+          largeMap = true;
           break;
 
+        //help menu toggle
         case Input.Keys.H:
-
+          fromRunning = true;
+          smoothlySetState(GameState.HELP_MENU);
           break;
       }
     }
+
+    // when in help menu scene, waits for H to be pressed, then returns to scene that they initially came from
+    else if(this.state == GameState.HELP_MENU){
+      switch (keyCode){
+        case Input.Keys.H:
+          if(fromRunning){
+            smoothlySetState(GameState.RUNNING);
+            break;
+          }
+          if(fromMenu){
+            smoothlySetState(GameState.MAIN_MENU);
+            break;
+          }
+      }
+    }
+  }
+
+  public void gameInputKeyUp(int keyCode) {
+    if (this.state == GameState.RUNNING) {
+      switch (keyCode) {
+        case Input.Keys.V:
+          this.largeMap = false;
+          break;
+      }
+    }
+  }
+
+  public GridObject[][] getGridObjectArray(){
+    return this.gridObjects;
   }
 
   public boolean isDiceRolling() {
@@ -365,13 +388,15 @@ public class GameManager {
 
     else if (this.playingPlayer == this.player2)
       this.playingPlayer = this.player1;
+
+    this.waitingForRoll = true;
   }
 
   // Moves the player whose turn it currently is
   // returns false id the player cannot move there
-  private boolean movePlayingPlayer(int x, int y) {
+  private void movePlayingPlayer(int x, int y) {
     if (diceRolling || turnsLeft == 0)
-      return false;
+      return;
 
     // rn we only saying p1 is playing
     final int newX = this.playingPlayer.getX() + x;
@@ -379,22 +404,20 @@ public class GameManager {
 
     // Check if the player is trying to leave the grid
     if (newX > 9 || newX < 0 || newY > 9 || newY < 0)
-      return false;
+      return; // The player cannot move there
 
     this.playingPlayer.setX(newX);
     this.playingPlayer.setY(newY);
+
+    // Check if the players can battle
     battleCheck();
+
+    // Update player visibilities
+    playingPlayer.updateVisibleArea();
+
     this.turnsLeft--;
 
-    if (turnsLeft == 0) {
-      nextTurn();
-    }
-
-    // visibleArea[newX][newY] = true;
-
-    // True if the player can move
     jump.play(10000);
-    return true;
   }
 }
 

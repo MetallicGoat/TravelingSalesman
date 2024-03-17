@@ -12,9 +12,9 @@ public class DesktopLauncher {
 		//config.setFullscreenMode(new Graphics.DisplayMode(100, 100, 100, 100));
 
 		// Christian
-//		config.setMaximized(true);
 		config.setResizable(true);
 		config.setWindowedMode(1200, 800);
+		config.setMaximized(true);
 
 		new Lwjgl3Application(new TravelingSalesman(), config);
 	}

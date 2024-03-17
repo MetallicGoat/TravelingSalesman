@@ -29,8 +29,8 @@ public class GameSetupScene extends Scene{
 
     batch.begin();
 
-    batch.draw(p1, 200, 200, p1.getRegionWidth() * 4, p1.getRegionHeight() * 4);
-    batch.draw(p2, 800, 200, p1.getRegionWidth() * 4, p1.getRegionHeight() * 4);
+    batch.draw(p1, 200, 250, p1.getRegionWidth() * 4, p1.getRegionHeight() * 4);
+    batch.draw(p2, 800, 250, p1.getRegionWidth() * 4, p1.getRegionHeight() * 4);
 
     // Player names
     final BitmapFont font = SceneManager.getFont();
@@ -40,11 +40,20 @@ public class GameSetupScene extends Scene{
 
     font.draw(batch, "Select a Character to start!", 90, 700);
 
-    font.getData().setScale(4F);
-
     // Current Player Text
-    font.draw(batch, manager.getPlayer1().getName(), 200, 150);
-    font.draw(batch, manager.getPlayer2().getName(), 800, 150);
+    font.getData().setScale(4F);
+    font.draw(batch, manager.getPlayer1().getName(), 200, 220);
+    font.draw(batch, manager.getPlayer2().getName(), 800, 220);
+
+    //text to give instruction to how to change character
+    font.getData().setScale(2F);
+    font.draw(batch,"Use [A] and [D] to cycle", 150, 150);
+    font.draw(batch,"Use [<-] and [->] to cycle", 725, 150);
+
+    // Draw start text
+    font.getData().setScale(3F);
+    font.draw(batch, "Press [SPACE] to start", 375, 75);
+
 
     batch.end();
   }
