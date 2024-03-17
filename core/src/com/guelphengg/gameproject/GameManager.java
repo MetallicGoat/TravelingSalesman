@@ -173,7 +173,6 @@ public class GameManager {
     }
     //TODO Give items values and give player gold for trading items
   }
-
   public boolean playerOn(GridObject obj) {
     if (!playingPlayer.isAtStart() && obj == gridObjects[playingPlayer.getX()][playingPlayer.getY()]) {
       return true;
