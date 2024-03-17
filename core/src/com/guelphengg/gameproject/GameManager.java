@@ -211,6 +211,7 @@ public class GameManager {
       gameMusic.stop();
       battlestart.play();
       battleMusic.play(); //TODO Dispose of music (idk how Christian Help)
+      //GameState.BATTLE.getScene().reset();
       smoothlySetState(GameState.BATTLE);
     }
   }
