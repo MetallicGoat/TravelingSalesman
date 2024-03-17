@@ -20,36 +20,41 @@ public class BattleScene extends Scene {
   private Rectangle bucket;
 
   int i;
+  int j;
   //temporary knowledge for learning how to move sprites
 
   public BattleScene() {
     super(GameState.BATTLE);
   }
 
-  public void create() {
-    play1 = new Texture("sword.png");;
-    play2 = new Texture(Gdx.files.internal("bow.png"));
-
-    //        camera = new OrthographicCamera();
-    //        camera.setToOrtho(false, 800, 480);
-    //make camera (idk)
-
-    batch = new SpriteBatch();
-
-    //make sound play on a loop, working on sound effects
-
-    bucket = new Rectangle();
-    bucket.x = 800 / 2 - 64 / 2;
-    bucket.y = 20;
-    bucket.width = 64;
-    bucket.height = 64;
-  }
+//  public void create() {
+//    play1 = new Texture("sword.png");;
+//    play2 = new Texture(Gdx.files.internal("bow.png"));
+//
+//    //        camera = new OrthographicCamera();
+//    //        camera.setToOrtho(false, 800, 480);
+//    //make camera (idk)
+//
+//    batch = new SpriteBatch();
+//
+//    //make sound play on a loop, working on sound effects
+//
+//    bucket = new Rectangle();
+//    bucket.x = 800 / 2 - 64 / 2;
+//    bucket.y = 20;
+//    bucket.width = 64;
+//    bucket.height = 64;
+//  }
 
   @Override
   public void render() {
     renderBattleBackground();
-    i++;
-
+    if (i<440){
+      i++;
+    }
+    if(j<440){
+      j++;
+    }
     final BitmapFont font = SceneManager.getFont();
     final SpriteBatch batch = SceneManager.getSpriteBatch();
     font.getData().setScale(2F);
@@ -61,21 +66,24 @@ public class BattleScene extends Scene {
     final Player player1 = manager.getPlayer1();
     final Player player2 = manager.getPlayer2();
 
-    batch.draw(player1.getCurrFrame(), i, 30, player1.getCurrFrame().getRegionWidth() * 2, player1.getCurrFrame().getRegionHeight() * 2);
-    batch.draw(player2.getCurrFrame(), 1030, 30, player2.getCurrFrame().getRegionWidth() * 2, player2.getCurrFrame().getRegionHeight() * 2);
-    //        batch.draw(play1, bucket.x, bucket.y,100, 100);
-    //        batch.draw(play2, bucket.x, bucket.y, 100, 100);
-    //
-    //        ---------------------------------------------------------
-    //    if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) bucket.x -= 200 * Gdx.graphics.getDeltaTime();
-    //    if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) bucket.x += 200 * Gdx.graphics.getDeltaTime();
-    //     if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) bucket.y -= 200 * Gdx.graphics.getDeltaTime();
-    //    if(Gdx.input.isKeyPressed(Input.Keys.UP)) bucket.y += 200 * Gdx.graphics.getDeltaTime();
-    //
-    //    if(bucket.x < 0) bucket.x = 0;
-    //    if(bucket.x > 800 - 64) bucket.x = 800 - 64;
-    //
-    //        //---------------------------------------------------------
+    //player#.getCurrFrame() gets the current model that was chosen by player
+
+    batch.draw(player1.getCurrFrame(), i, 30, player1.getCurrFrame().getRegionWidth() * 2, player1.getCurrFrame().getRegionHeight() * 5);
+    batch.draw(player2.getCurrFrame(), 1030 - j, 30, player2.getCurrFrame().getRegionWidth() * 2, player2.getCurrFrame().getRegionHeight() * 5);
+
+//        batch.draw(play1, bucket.x, bucket.y,100, 100);
+//        batch.draw(play2, bucket.x, bucket.y, 100, 100);
+//
+//        ---------------------------------------------------------
+//    if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) bucket.x -= 200 * Gdx.graphics.getDeltaTime();
+//    if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) bucket.x += 200 * Gdx.graphics.getDeltaTime();
+//    if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) bucket.y -= 200 * Gdx.graphics.getDeltaTime();
+//    if(Gdx.input.isKeyPressed(Input.Keys.UP)) bucket.y += 200 * Gdx.graphics.getDeltaTime();
+//
+//    if(bucket.x < 0) bucket.x = 0;
+//    if(bucket.x > 800 - 64) bucket.x = 800 - 64;
+//
+//        //---------------------------------------------------------
 
     //every time new battle reset values.
 
