@@ -59,18 +59,6 @@ public class GameScene extends Scene {
     scoreBoard.render();
     rollPanel.render();
 
-    // logic to cover the area where players have not been (with white circles)
-    // TODO This works, but it's a little weird. Uncomment it if you want to test
-
-//    for (int i = 0; i <=9; i++) {
-//      for (int j = 0; j <=9; j++) {
-//        if (!manager.visibleArea[i][j]){
-//          grid.renderCircleInGrid(i, j, Color.WHITE);
-//        }
-//      }
-//    }
-
-
     // Logic to display things that dont have their own component classes
     // mostly just for the text at the bottom (eg the message displayed when a player can loot)
     {
@@ -80,12 +68,16 @@ public class GameScene extends Scene {
       batch.begin();
 
       // make BIG text :)
-      font.getData().setScale(2F);
+      font.getData().setScale(3F);
+
+      //Open help menu
+      font.draw(batch, "Press [H] for Help",30,60);
+      font.draw(batch,"Press [V] to Toggle Map",30,110);
 
       // Can they loot?
-      if (manager.playerOn(GridObject.TREASURE_HOUSE)) {
+      if (manager.playerOn(GridObject.TREASURE_HOUSE) || manager.playerOn(GridObject.LOST_ITEM_HOUSE)) {
         font.setColor(Color.GOLD);
-        font.draw(batch, "Press [L] to Loot!", 100, 150);
+        font.draw(batch, "Press [L] to Loot!", 160, 180);
       }
 
       // Can they trade?
@@ -112,6 +104,11 @@ public class GameScene extends Scene {
       for (int i = 0; i <= 9; i++) {
         for (int j = 0; j <= 9; j++) {
           final GridObject object = manager.gridObjects[i][j];
+
+          if (!manager.getPlayingPlayer().canPlayerSee(i, j)) {
+            GridObject.HIDDEN_SQUARE.render(largeGrid, i, j);
+            continue;
+          }
 
           if (object != null)
             object.render(largeGrid, i, j);
@@ -168,6 +165,8 @@ public class GameScene extends Scene {
   private void renderPlayersInGrid(GameManager manager) {
     final Player player1 = manager.getPlayer1();
     final Player player2 = manager.getPlayer2();
+    final Player playingPlayer = manager.getPlayingPlayer();
+    final Player otherPlayer = manager.getPlayingPlayer() == manager.getPlayer1() ? manager.getPlayer2() : manager.getPlayer1();
 
     // Check if the players are in the same square, they should share it (make em smaller)
     if (player1.getX() == player2.getX() && player1.getY() == player2.getY()) {
@@ -190,11 +189,9 @@ public class GameScene extends Scene {
       }
     }
 
-    final GameManager gameManager = Accessor.getGameManager();
-
     // add the offset of player 2 is small (so players dont overlap)
     if (player2.isSmall()) {
-      if (gameManager.isLargeMap())
+      if (manager.isLargeMap())
         player2.xOffset = (int) (largeGrid.getBoxWidth() * .5);
       else
         player2.xOffset = (int) (miniGrid.getBoxWidth() * .5);
@@ -206,14 +203,16 @@ public class GameScene extends Scene {
 
     // Make sure we render them thr right size and in the right place
     // (depending on what view the user has on)
-    if (gameManager.isLargeMap()) {
-      player1.render(largeGrid);
-      player2.render(largeGrid);
+    if (manager.isLargeMap()) {
+      // Always show the playing player
+      playingPlayer.render(largeGrid);
+
+      // We only want to render the other player if they are within 1 square of the playing player
+      if (Math.abs(playingPlayer.getX() - otherPlayer.getX()) <= 1 && Math.abs(playingPlayer.getY() - otherPlayer.getY()) <= 1) {
+        otherPlayer.render(largeGrid);
+      }
 
     } else {
-      final Player playingPlayer = gameManager.getPlayingPlayer();
-      final Player otherPlayer = gameManager.getPlayingPlayer() == gameManager.getPlayer1() ? gameManager.getPlayer2() : gameManager.getPlayer1();
-
       // Display the playing player in the center of the map in mini view
       playingPlayer.render(miniGrid, 1, 1);
 

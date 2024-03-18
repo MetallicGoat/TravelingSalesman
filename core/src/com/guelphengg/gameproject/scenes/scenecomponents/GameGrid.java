@@ -75,6 +75,30 @@ public class GameGrid {
     batch.end();
   }
 
+//  public void renderTextureInGrid(int x, int y, Texture texture, int xOffset, int yOffset) {
+//    final SpriteBatch batch = SceneManager.getSpriteBatch();
+//
+//    final int width = texture.getWidth();
+//    final int height = texture.getHeight();
+//
+//    // Calculate scaling factors
+//    float scaleX = (float) getBoxWidth() / width;
+//    float scaleY = (float) getBoxHeight() / height;
+//    float scale = Math.min(scaleX, scaleY);
+//
+//    // Calculate scaled dimensions
+//    float scaledWidth = width * scale;
+//    float scaledHeight = height * scale;
+//
+//    // Calculate position for centering
+//    float posX = (this.cornerX + (x * getBoxWidth())) + xOffset + (getBoxWidth() - scaledWidth) / 2;
+//    float posY = (this.cornerY + (y * getBoxHeight())) + yOffset + (getBoxHeight() - scaledHeight) / 2;
+//
+//    batch.begin();
+//    batch.draw(texture, posX, posY, scaledWidth, scaledHeight);
+//    batch.end();
+//  }
+
   // draws a rectangle in a certain square on the grid
   public void renderRectInGrid(int x, int y, Color color) {
     renderRectInGrid(x, y, color, 1, 0, 0);

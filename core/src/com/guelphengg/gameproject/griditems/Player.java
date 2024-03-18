@@ -3,6 +3,7 @@ package com.guelphengg.gameproject.griditems;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.guelphengg.gameproject.Character;
+import com.guelphengg.gameproject.GameManager;
 import com.guelphengg.gameproject.scenes.scenecomponents.GameGrid;
 
 import java.util.ArrayList;
@@ -11,9 +12,10 @@ import java.util.List;
 public class Player {
     // base strength for a character
     private final int BASE_STRENGTH = 10;
-
     // This array of loot items represents the players inventory
     private final List<LootItems> loot = new ArrayList<>();
+    // The area the player is currently able to see
+    private final boolean[][] visibleArea = new boolean[10][10];
     // Offset used for offseting the players position when drawing it on the game grid
     // For when one is small and to thr right
     public int yOffset = 0;
@@ -57,9 +59,7 @@ public class Player {
     // The current frame that should be displayed for the player
     // changes based on the current time (for movement animation)
     public TextureRegion getCurrFrame() {
-        stateTime += Gdx.graphics.getDeltaTime();
-
-        return character.getAnimation().getKeyFrame(stateTime, true);
+        return character.getCurrentFrame();
     }
 
     // If that player is at the start square (which is off the grid)
@@ -129,6 +129,26 @@ public class Player {
         this.y = y;
     }
 
+    // Update the visible area of the player based on their current position
+    public void updateVisibleArea() {
+        // The player can see a 3 by 3 area around them
+        for (int i = -1; i <= 1; i++) {
+            for (int j = -1; j <= 1; j++) {
+                if (x + i >= 0 && x + i <= 9 && y + j >= 0 && y + j <= 9) {
+                    final int squareX = Math.max(0, Math.min(9, x + i));
+                    final int squareY = Math.max(0, Math.min(9, y + j));
+
+                    visibleArea[squareX][squareY] = true;
+                }
+            }
+        }
+    }
+
+    // Check if a player has explored a certain square
+    public boolean canPlayerSee(int x, int y) {
+        return visibleArea[x][y];
+    }
+
     // draw the player on the gamegrid at its current pos
     public void render(GameGrid gameGrid) {
         render(gameGrid, this.x, this.y);
@@ -144,7 +164,6 @@ public class Player {
     }
 
     public List<LootItems> getItems() {
-
         return loot;
     }
 
@@ -160,10 +179,9 @@ public class Player {
         return damage;
     }
 
-    public void addCoins(LootItems item) {
-        this.coins += item.getSellPrice();
+    public void addCoins(int coins) {
+        this.coins += coins;
     }
-
     public void removeCoins(int amount) {
         this.coins -= amount;
     }

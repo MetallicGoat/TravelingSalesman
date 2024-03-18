@@ -1,9 +1,11 @@
 package com.guelphengg.gameproject;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.guelphengg.gameproject.griditems.Player;
 
 public enum Character {
 
@@ -15,23 +17,10 @@ public enum Character {
   YELLOWIE(4, 6, new Color(1, (float)43/255, (float)58/255, 0.4F)),
   BALDIE(4, 9, new Color(1, (float)43/255, (float)58/255, 0.4F));
 
-  private Animation<TextureRegion> animation;
+  public static float stateTime = 0F;
 
-  private Color colour;
-
-  public Animation<TextureRegion> getAnimation() {
-    return animation;
-  }
-
-  public String getName() {
-    final String name = this.name();
-
-    return name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
-  }
-
-  public Color getColour(){
-    return this.colour;
-  }
+  private final Animation<TextureRegion> animation;
+  private final Color colour;
 
   Character(int textureRow, int textureCol, Color colour) {
     final Texture spriteSheet = Textures.SPRITE_SHEET.get();
@@ -53,23 +42,67 @@ public enum Character {
     animation = new Animation<>(0.15f, walkFrames);
   }
 
-  public static Character getNextCharacter(Character character) {
-    final int pos = character.ordinal();
+  public String getName() {
+    final String name = this.name();
 
-    if (pos == Character.values().length - 1) {
-      return Character.values()[0];
-    } else {
-      return Character.values()[pos + 1];
-    }
+    return name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
   }
 
-  public static Character getPreviousCharacter(Character character) {
-    final int pos = character.ordinal();
+  public Color getColour(){
+    return this.colour;
+  }
 
-    if (pos == 0) {
-      return Character.values()[Character.values().length - 1];
-    } else {
-      return Character.values()[pos - 1];
+  public TextureRegion getCurrentFrame() {
+    return animation.getKeyFrame(stateTime, true);
+  }
+
+  public static void updateStateTime() {
+    stateTime += Gdx.graphics.getDeltaTime();
+  }
+
+  public static Character getNextCharacter(Player player) {
+    final GameManager manager = Accessor.getGameManager();
+    final Player otherPlayer = manager.getPlayer1() == player ? manager.getPlayer2() : manager.getPlayer1();
+    final Character ignoreCharacter = otherPlayer.getCharacter();
+
+    Character next = null;
+    int pos = player.getCharacter().ordinal() + 1;
+
+    while (next == null) {
+      if (pos >= Character.values().length) {
+        pos = 0;
+      }
+
+      if (Character.values()[pos] != ignoreCharacter) {
+        next = Character.values()[pos];
+      }
+
+      pos++;
     }
+
+    return next;
+  }
+
+  public static Character getPreviousCharacter(Player player) {
+    final GameManager manager = Accessor.getGameManager();
+    final Player otherPlayer = manager.getPlayer1() == player ? manager.getPlayer2() : manager.getPlayer1();
+    final Character ignoreCharacter = otherPlayer.getCharacter();
+
+    Character next = null;
+    int pos = player.getCharacter().ordinal() - 1;
+
+    while (next == null) {
+      if (pos < 0) {
+        pos = Character.values().length - 1;
+      }
+
+      if (Character.values()[pos] != ignoreCharacter) {
+        next = Character.values()[pos];
+      }
+
+      pos--;
+    }
+
+    return next;
   }
 }

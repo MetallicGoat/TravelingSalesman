@@ -8,6 +8,7 @@ import com.guelphengg.gameproject.GameState;
 import com.guelphengg.gameproject.SceneManager;
 import com.guelphengg.gameproject.Textures;
 
+
 public abstract class Scene {
 
   GameState type;
