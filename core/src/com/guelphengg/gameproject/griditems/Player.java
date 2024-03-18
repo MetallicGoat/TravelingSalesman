@@ -1,9 +1,7 @@
 package com.guelphengg.gameproject.griditems;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.guelphengg.gameproject.Character;
-import com.guelphengg.gameproject.GameManager;
 import com.guelphengg.gameproject.scenes.scenecomponents.GameGrid;
 
 import java.util.ArrayList;
@@ -60,6 +58,18 @@ public class Player {
     // changes based on the current time (for movement animation)
     public TextureRegion getCurrFrame() {
         return character.getCurrentFrame();
+    }
+
+    // The current frame that should be displayed for the player
+    // changes based on the current time (for movement animation)
+    public TextureRegion getCurrFrameLeft() {
+        return character.getCurrentFrameLeft();
+    }
+
+    // The current frame that should be displayed for the player
+    // changes based on the current time (for movement animation)
+    public TextureRegion getCurrFrameRight() {
+        return character.getCurrentFrameRight();
     }
 
     // If that player is at the start square (which is off the grid)

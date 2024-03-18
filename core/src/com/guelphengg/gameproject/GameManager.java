@@ -20,13 +20,15 @@ public class GameManager {
   private int nextRoll = 0;
   private int turnsLeft = 0;
   private Sound jump = Gdx.audio.newSound(Gdx.files.internal("JumpTS.wav"));
+  private Sound battlestart = Gdx.audio.newSound(Gdx.files.internal("LowImpact.mp3"));
+  private Sound epicBram = Gdx.audio.newSound(Gdx.files.internal("EpicBram.mp3"));
 
   // What phase the game is currently in
   private GameState state = GameState.MAIN_MENU;
 
   // TODO allow players to pick their character
   private final Player player1 = new Player(10, 0, Character.GREENIE);
-  private final Player player2 = new Player(10, 0, Character.REDDIE);
+  private final Player player2 = new Player(10, 0, Character.GRAYIE);
 
   private Player playingPlayer = player1;
 
@@ -41,6 +43,8 @@ public class GameManager {
   private Sound lootSound;
   private Sound bootSound;
   private Sound sellSound;
+
+  private Music battleMusic;
 
   public void startGame() {
 
@@ -137,7 +141,6 @@ public class GameManager {
     }
     //TODO Give items values and give player gold for trading items
   }
-
   public boolean playerOn(GridObject obj) {
     if (!playingPlayer.isAtStart() && obj == gridObjects[playingPlayer.getX()][playingPlayer.getY()]) {
       return true;
@@ -205,6 +208,12 @@ public class GameManager {
 
   public void battleCheck(){
     if ((player1.getX() == player2.getX() && player1.getY() == player2.getY()) && !player1.isAtStart()) {
+      battleMusic = Gdx.audio.newMusic(Gdx.files.internal("BattleMusic.mp3"));
+      battleMusic.setLooping(true);
+      gameMusic.stop();
+      battlestart.play();
+      battleMusic.play(); //TODO Dispose of music (idk how Christian Help)
+      //GameState.BATTLE.getScene().reset();
       smoothlySetState(GameState.BATTLE);
     }
   }

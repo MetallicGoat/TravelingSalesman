@@ -4,13 +4,17 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.guelphengg.gameproject.griditems.Player;
 
 public enum Character {
 
   GREENIE(0, 0, new Color((float)81/255, (float)115/255, (float)56/255, 0.4F)),
-  REDDIE(0, 3, new Color(1, (float)43/255, (float)58/255, 0.4F)),
+
+  // Reddie does not have left/right animations
+  //REDDIE(0, 3, new Color(1, (float)43/255, (float)58/255, 0.4F)),
+
   GRAYIE(0, 9, new Color(1, (float)43/255, (float)58/255, 0.4F)),
   PRUPLEY(4, 0, new Color(1, (float)43/255, (float)58/255, 0.4F)),
   WHITEY(4, 3, new Color(1, (float)43/255, (float)58/255, 0.4F)),
@@ -19,7 +23,10 @@ public enum Character {
 
   public static float stateTime = 0F;
 
-  private final Animation<TextureRegion> animation;
+  private final Animation<TextureRegion> animationStraight;
+  private final Animation<TextureRegion> animationLeft;
+  private final Animation<TextureRegion> animationRight;
+
   private final Color colour;
 
   Character(int textureRow, int textureCol, Color colour) {
@@ -30,16 +37,22 @@ public enum Character {
         spriteSheet.getWidth() / 12,
         spriteSheet.getHeight() / 8);
 
+    animationStraight = getAnimation(tmp, textureCol, textureRow);
+    animationLeft = getAnimation(tmp, textureCol, textureRow + 1);
+    animationRight = getAnimation(tmp, textureCol, textureRow + 2);
+  }
+
+  private Animation<TextureRegion> getAnimation(TextureRegion[][] tmp, int x, int y) {
     // Place the regions into a 1D array in the correct order, starting from the top
     // left, going across first. The Animation constructor requires a 1D array.
     TextureRegion[] walkFrames = new TextureRegion[3];
 
-    walkFrames[0] = tmp[textureRow][textureCol];
-    walkFrames[1] = tmp[textureRow][textureCol + 1];
-    walkFrames[2] = tmp[textureRow][textureCol + 2];
+    walkFrames[0] = tmp[y][x];
+    walkFrames[1] = tmp[y][x + 1];
+    walkFrames[2] = tmp[y][x + 2];
 
     // Initialize the Animation with the frame interval and array of frames
-    animation = new Animation<>(0.15f, walkFrames);
+    return new Animation<>(0.15f, walkFrames);
   }
 
   public String getName() {
@@ -53,7 +66,15 @@ public enum Character {
   }
 
   public TextureRegion getCurrentFrame() {
-    return animation.getKeyFrame(stateTime, true);
+    return animationStraight.getKeyFrame(stateTime, true);
+  }
+
+  public TextureRegion getCurrentFrameLeft() {
+    return animationLeft.getKeyFrame(stateTime, true);
+  }
+
+  public TextureRegion getCurrentFrameRight() {
+    return animationRight.getKeyFrame(stateTime, true);
   }
 
   public static void updateStateTime() {
