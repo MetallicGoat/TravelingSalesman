@@ -35,33 +35,30 @@ public enum LootItems {
         this.itemType = type;
     }
 
-    // Returns a random LootItem
-    public static LootItems getRandomItem() {
-        return values()[(int) (Math.random() * values().length)];
-    }
 
-    // Method to draw the LootItem in certian square on whatever grid u want
-    public void render(GameGrid grid, int x, int y) {
-        grid.renderTextureInGrid(x, y, texture);
-    }
+  // Method to draw the LootItem in certian square on whatever grid u want
+  public void render(GameGrid grid, int x, int y) {
+    grid.renderTextureInGrid(x, y, texture);
+  }
 
-    public int getDamage() {
-        return damage;
-    }
+  public int getDamage() {
+    return damage;
+  }
 
-    public int getDurability() {
-        return durability;
-    }
+  public int getDurability() {
+    return durability;
+  }
 
-    public int getSellPrice() {
-        return sellPrice;
-    }
+  public int getSellPrice() {
+    return sellPrice;
+  }
 
-    public double getProtection() {
-        return protection;
-    }
+  public double getProtection() {
+    return protection;
+  }
 
-    public ItemType getItemType() {
-        return itemType;
-    }
+  // Returns a random LootItem
+  public static LootItems getRandomItem() {
+    return values()[(int) (Math.random() * values().length)];
+  }
 }

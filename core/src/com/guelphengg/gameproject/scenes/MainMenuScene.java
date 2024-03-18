@@ -36,7 +36,8 @@ public class MainMenuScene extends Scene {
     }
 
     // Method for automatically centering the text for the main menu
-    private void drawCenteredText(SpriteBatch batch, int yOffset, float scale, String text) {
+    @Override
+    public void drawCenteredText(SpriteBatch batch, int yOffset, float scale, String text) {
         final BitmapFont font = SceneManager.getFont();
         final GlyphLayout glyphLayout = new GlyphLayout();
 

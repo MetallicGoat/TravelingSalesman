@@ -2,6 +2,8 @@ package com.guelphengg.gameproject.scenes;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.guelphengg.gameproject.GameState;
@@ -55,5 +57,19 @@ public abstract class Scene {
 
   public GameState getSceneType() {
     return type;
+  }
+
+  public void drawCenteredText(SpriteBatch batch, int yOffset, float scale, String text) {
+    final BitmapFont font = SceneManager.getFont();
+    final GlyphLayout glyphLayout = new GlyphLayout();
+
+    font.getData().setScale(scale);
+    glyphLayout.setText(font, text);
+
+    float w = glyphLayout.width;
+    float h = glyphLayout.height;
+
+    // draw magic (some mathies to find the center)
+    font.draw(batch, glyphLayout, (SceneManager.getViewWidth() - w)/2, (SceneManager.getViewHeight() + h) / 2 + yOffset);
   }
 }

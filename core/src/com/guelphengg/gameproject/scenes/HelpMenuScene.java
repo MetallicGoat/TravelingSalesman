@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.guelphengg.gameproject.Accessor;
 import com.guelphengg.gameproject.GameManager;
 import com.guelphengg.gameproject.SceneManager;
+
 //this scene is for a help menu with game instructions
 public class HelpMenuScene extends Scene {
 
@@ -46,7 +47,8 @@ public class HelpMenuScene extends Scene {
     }
 
     //method to print text in center of scene
-    private void drawCenteredText(SpriteBatch batch, int yOffset, float scale, String text) {
+    @Override
+    public void drawCenteredText(SpriteBatch batch, int yOffset, float scale, String text) {
         final BitmapFont font = SceneManager.getFont();
         final GlyphLayout glyphLayout = new GlyphLayout();
 
