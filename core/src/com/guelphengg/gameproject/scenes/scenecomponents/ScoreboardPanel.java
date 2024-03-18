@@ -78,7 +78,7 @@ public class ScoreboardPanel {
         font.draw(batch, "Player 2: "+manager.getPlayer2().getName(), x + 10, y + height - 250);
         font.draw(batch, "    Health: "+manager.getPlayer2().getHealth(), x + 10, y + height - 275);
         font.draw(batch, "    Strength: "+manager.getPlayer2().getStrength(), x + 10, y + height - 300);
-        font.draw(batch, "    Power: "+manager.getPlayer1().getPower(), x + 10, y + height - 325);
+        font.draw(batch, "    Power: "+manager.getPlayer2().getPower(), x + 10, y + height - 325);
         font.draw(batch, "    Coins: "+manager.getPlayer2().getCoins(), x + 10, y + height - 350);
 
         batch.end();
