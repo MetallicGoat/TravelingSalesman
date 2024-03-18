@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Random;
 
 public class GameManager {
-
   private boolean waitingForRoll = true; // true by default cause first turn is always ready
   private int nextRoll = 0;
   private int turnsLeft = 0;
@@ -25,6 +24,7 @@ public class GameManager {
 
   // What phase the game is currently in
   private GameState state = GameState.MAIN_MENU;
+  private int[][] houseCounter = new int[10][10];
 
   // TODO allow players to pick their character
   private final Player player1 = new Player(10, 0, Character.GREENIE);
@@ -112,7 +112,7 @@ public class GameManager {
         // The strength is then reset back to the base number
         playingPlayer.setStrength(0);
       }
-
+      houseCounter[playingPlayer.getX()][playingPlayer.getY()]++;
       // and the loot is added and the strength is adjusted
       playingPlayer.addLoot(lootedItem);
       playingPlayer.addStrength(lootedItem);
@@ -123,16 +123,17 @@ public class GameManager {
       lootSound = Gdx.audio.newSound(Gdx.files.internal("LootSound1.wav"));
       lootSound.play();
 
-      playingPlayer.addHouseCoins(r.nextInt(15,45));
+      playingPlayer.addCoins(r.nextInt(15,45));
       gridObjects[playingPlayer.getX()][playingPlayer.getY()] = GridObject.EMPTY_HOUSE;
     }
+    houseCounter[playingPlayer.getX()][playingPlayer.getY()] ++;
   }
 
 
   public void tradeItems() {
     if (playerOn(GridObject.CASTLE)) {
       for (int i = 0; i < playingPlayer.getItems().size(); i++) {
-        playingPlayer.addCoins(playingPlayer.getItems().get(i));
+        playingPlayer.addCoins(playingPlayer.getItems().get(i).getSellPrice());
         // This iterates through the player's inventory, checks
         // what the object is, and then adds the set value to the player's coins
       }
@@ -273,10 +274,21 @@ public class GameManager {
 
           break;
 
-        case Input.Keys.R:
-          if (waitingForRoll && !diceRolling)
+        case Input.Keys.R: {
+          if (waitingForRoll && !diceRolling) {
             startRolling();
-
+            for (int i = 0; i < 10; i++) {
+              for (int m = 0; m < 10; m++) {
+                if (houseCounter[i][m] > 3) {
+                  houseCounter[i][m] = 0;
+                  gridObjects[i][m] = GridObject.TREASURE_HOUSE;
+                } else if (houseCounter[i][m] > 0) {
+                  houseCounter[i][m]++;
+                }
+              }
+            }
+          }
+        }
           break;
 
         case Input.Keys.L: // Player is trying to loot house
