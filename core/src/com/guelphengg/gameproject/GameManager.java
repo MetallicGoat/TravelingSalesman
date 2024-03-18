@@ -360,7 +360,7 @@ public class GameManager {
       switch (keyCode){
         case Input.Keys.NUM_1:
           //lose power
-          playingPlayer.removePower(1);
+          playingPlayer.removeStrength(1);
           smoothlySetState(GameState.RUNNING);
           break;
         case Input.Keys.NUM_2:

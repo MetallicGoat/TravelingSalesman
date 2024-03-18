@@ -203,5 +203,7 @@ public class Player {
         // The strength is then reset back to the base number
         this.setStrength(0);
     }
-
+    public void removeStrength(int amount){
+        this.strength -= amount;
+    }
 }
