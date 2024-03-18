@@ -35,6 +35,8 @@ public class GameManager {
   private boolean diceRolling = false;
   private long lastRollTime = 0;
 
+  private final int COUNT_MAX = 5;
+
   public GridObject[][] gridObjects = new GridObject[10][10];
 
   private Music gameMusic;
@@ -270,7 +272,7 @@ public class GameManager {
             startRolling();
             for (int i = 0; i < 10; i++) {
               for (int m = 0; m < 10; m++) {
-                if (houseCounter[i][m] > 3) {
+                if (houseCounter[i][m] > COUNT_MAX) {
                   houseCounter[i][m] = 0;
                   gridObjects[i][m] = GridObject.TREASURE_HOUSE;
                 } else if (houseCounter[i][m] > 0) {
