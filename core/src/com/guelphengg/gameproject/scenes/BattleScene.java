@@ -77,6 +77,7 @@ public class BattleScene extends Scene {
       if (Accessor.getGameManager().getPlayingPlayer() == Accessor.getGameManager().getPlayer1()){
         player1Win();
       }
+
       else{
         player2Win();
       }

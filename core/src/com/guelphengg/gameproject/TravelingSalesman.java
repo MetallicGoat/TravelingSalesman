@@ -13,7 +13,6 @@ public class TravelingSalesman extends ApplicationAdapter {
     private static TravelingSalesman instance;
     private Music Backgr;
 
-
     public Music getBackgr(){
         return Backgr;
     }
