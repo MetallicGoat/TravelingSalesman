@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.guelphengg.gameproject.scenes.scenecomponents.AttackAnimation;
 
 
 public class TravelingSalesman extends ApplicationAdapter {
@@ -37,6 +38,8 @@ public class TravelingSalesman extends ApplicationAdapter {
 
     @Override
     public void render() {
+        AttackAnimation.incrementTime();
+
         ScreenUtils.clear(0, 0, 0, 1);
 
         SceneManager.getCurrentScene().render();
