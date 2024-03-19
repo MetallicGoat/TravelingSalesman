@@ -36,6 +36,7 @@ public class TravelingSalesman extends ApplicationAdapter {
 
     @Override
     public void render() {
+        AttackAnimation.incrementTime();
 
         // Update the player animation frames
         Character.updateStateTime();
