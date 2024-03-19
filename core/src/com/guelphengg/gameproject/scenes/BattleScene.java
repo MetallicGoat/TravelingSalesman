@@ -91,7 +91,7 @@ public class BattleScene extends Scene {
     //TODO make a method for setting things back to how they were before we changed in battle method
     //(eg make colours make to transparent)
 
-
+    manager.getPlayer1().getSolidColour();
     batch.end();
   }
 
