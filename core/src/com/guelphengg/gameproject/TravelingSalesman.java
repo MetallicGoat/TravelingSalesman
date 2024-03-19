@@ -40,8 +40,10 @@ public class TravelingSalesman extends ApplicationAdapter {
     public void render() {
         AttackAnimation.incrementTime();
 
-        ScreenUtils.clear(0, 0, 0, 1);
+        // Update the player animation frames
+        Character.updateStateTime();
 
+        ScreenUtils.clear(0, 0, 0, 1);
         SceneManager.getCurrentScene().render();
     }
 
