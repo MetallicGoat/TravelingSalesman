@@ -7,7 +7,6 @@ import com.badlogic.gdx.audio.Sound;
 import com.guelphengg.gameproject.griditems.GridObject;
 import com.guelphengg.gameproject.griditems.LootItems;
 import com.guelphengg.gameproject.griditems.Player;
-import com.guelphengg.gameproject.scenes.BattleScene;
 import com.guelphengg.gameproject.scenes.TransitionScene;
 
 import java.util.Iterator;
@@ -155,9 +154,11 @@ public class GameManager {
     if (playerOn(GridObject.CASTLE)) {
       for (int i = 0; i < playingPlayer.getItems().size(); i++) {
         playingPlayer.addCoins(playingPlayer.getItems().get(i).getSellPrice());
+        playingPlayer.addPower(playingPlayer.getItems().get(i));
         // This iterates through the player's inventory, checks
         // what the object is, and then adds the set value to the player's coins + power
       }
+
       playingPlayer.setStrength(0); // sets the strength back to the original value
       playingPlayer.getItems().clear();
     }

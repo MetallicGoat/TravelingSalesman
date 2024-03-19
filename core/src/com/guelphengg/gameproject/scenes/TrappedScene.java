@@ -13,7 +13,10 @@ import com.guelphengg.gameproject.SceneManager;
 
 public class TrappedScene extends  Scene{
 
-    public TrappedScene(){super(GameState.TRAPPED);}
+    public TrappedScene() {
+        super(GameState.TRAPPED);
+    }
+
     @Override
     public void render(){
         //renderBackground(0.5f);

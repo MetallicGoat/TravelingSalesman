@@ -26,7 +26,7 @@ public class Player {
     // If the player is currently small
     private boolean small = true;
     // misc player attributes
-    private int strength = 10, health = 100, coins = 0;
+    private int strength = 10, health = 100, coins = 0, power = 0;
     // The x and y position of the player on the game grid
     private int x;
     private int y;
@@ -200,13 +200,26 @@ public class Player {
     }
 
     public void removeWeapon() { // This is for removing in general
-
         this.getItems().removeIf(item -> item == LootItems.SWORD || item == LootItems.BOW || item == LootItems.BEJEWELED_SWORD);
 
         // The strength is then reset back to the base number
         this.setStrength(0);
     }
+
     public void removeStrength(int amount){
         this.strength -= amount;
+    }
+
+    // Get the power player has
+    public int getPower() {
+        return power;
+    }
+
+    public void addPower(LootItems item) {
+        this.power += item.getItemPower();
+    }
+
+    public void removePower(int pwr) {
+        this.power -= pwr;
     }
 }
