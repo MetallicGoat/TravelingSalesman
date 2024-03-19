@@ -215,10 +215,13 @@ public class Player {
         return power;
     }
 
+    // adds to the players power based on the item
     public void addPower(LootItems item) {
         this.power += item.getItemPower();
     }
 
+
+    // removes power from a player
     public void removePower(int pwr) {
         this.power -= pwr;
     }
