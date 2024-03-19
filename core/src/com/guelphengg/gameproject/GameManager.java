@@ -24,6 +24,7 @@ public class GameManager {
 
   // What phase the game is currently in
   private GameState state = GameState.MAIN_MENU;
+  private int[][] houseCounter = new int[10][10];
 
   // TODO allow players to pick their character
   private final Player player1 = new Player(10, 0, Character.GREENIE);
@@ -35,6 +36,8 @@ public class GameManager {
   private boolean diceRolling = false;
   private long lastRollTime = 0;
 
+  private final int COUNT_MAX = 5;
+
   public GridObject[][] gridObjects = new GridObject[10][10];
 
   private Music gameMusic;
@@ -42,8 +45,6 @@ public class GameManager {
   private Sound lootSound;
   private Sound bootSound;
   private Sound sellSound;
-
-  private Music battleMusic;
 
   public void startGame() {
 
@@ -79,6 +80,27 @@ public class GameManager {
     return 0;
   }
 
+  public void battleCalculation(){ //calculations for battles between players
+    if(getPlayer1().getStrength() > getPlayer2().getStrength()){ //checks if p1 strength > p2 strength
+      int money = ((getPlayer1().getStrength() - getPlayer2().getStrength()) / (getPlayer1().getStrength() + getPlayer2().getStrength()) * getPlayer2().getCoins());
+      getPlayer1().addCoins(money);
+      getPlayer2().removeCoins(money);
+
+      int newStrength = getPlayer1().getStrength() - getPlayer2().getStrength();
+      getPlayer1().setStrength(newStrength);
+      getPlayer2().setStrength(0);
+    }
+    else if(getPlayer1().getStrength() < getPlayer2().getStrength()){ //checks if p1 strength < p2 strength
+      int money = ((getPlayer2().getStrength() - getPlayer1().getStrength()) / (getPlayer1().getStrength() + getPlayer2().getStrength()) * getPlayer1().getCoins());
+      getPlayer2().addCoins(money);
+      getPlayer1().removeCoins(money);
+
+      int newStrength = getPlayer2().getStrength() - getPlayer1().getStrength();
+      getPlayer2().setStrength(newStrength);
+      getPlayer1().setStrength(0);
+    }
+  }
+
   // Make the playing player loot the current house
   public void lootHouse() {
     LootItems lootedItem; // I made this a variable so I could use it to change strength
@@ -111,7 +133,7 @@ public class GameManager {
         // The strength is then reset back to the base number
         playingPlayer.setStrength(0);
       }
-
+      houseCounter[playingPlayer.getX()][playingPlayer.getY()]++;
       // and the loot is added and the strength is adjusted
       playingPlayer.addLoot(lootedItem);
       playingPlayer.addStrength(lootedItem);
@@ -122,18 +144,19 @@ public class GameManager {
       lootSound = Gdx.audio.newSound(Gdx.files.internal("LootSound1.wav"));
       lootSound.play();
 
-      playingPlayer.addHouseCoins(r.nextInt(15,45));
+      playingPlayer.addCoins(r.nextInt(15,45));
       gridObjects[playingPlayer.getX()][playingPlayer.getY()] = GridObject.EMPTY_HOUSE;
     }
+    houseCounter[playingPlayer.getX()][playingPlayer.getY()] ++;
   }
 
 
   public void tradeItems() {
     if (playerOn(GridObject.CASTLE)) {
       for (int i = 0; i < playingPlayer.getItems().size(); i++) {
-        playingPlayer.addCoins(playingPlayer.getItems().get(i));
+        playingPlayer.addCoins(playingPlayer.getItems().get(i).getSellPrice());
         // This iterates through the player's inventory, checks
-        // what the object is, and then adds the set value to the player's coins
+        // what the object is, and then adds the set value to the player's coins + power
       }
       playingPlayer.setStrength(0); // sets the strength back to the original value
       playingPlayer.getItems().clear();
@@ -207,12 +230,6 @@ public class GameManager {
 
   public void battleCheck(){
     if ((player1.getX() == player2.getX() && player1.getY() == player2.getY()) && !player1.isAtStart()) {
-      battleMusic = Gdx.audio.newMusic(Gdx.files.internal("BattleMusic.mp3"));
-      battleMusic.setLooping(true);
-      gameMusic.stop();
-      battlestart.play();
-      battleMusic.play(); //TODO Dispose of music (idk how Christian Help)
-      ((BattleScene) GameState.BATTLE.getScene()).resetBattle();
       smoothlySetState(GameState.BATTLE);
     }
   }
@@ -272,10 +289,21 @@ public class GameManager {
 
           break;
 
-        case Input.Keys.R:
-          if (waitingForRoll && !diceRolling)
+        case Input.Keys.R: {
+          if (waitingForRoll && !diceRolling) {
             startRolling();
-
+            for (int i = 0; i < 10; i++) {
+              for (int m = 0; m < 10; m++) {
+                if (houseCounter[i][m] > COUNT_MAX) {
+                  houseCounter[i][m] = 0;
+                  gridObjects[i][m] = GridObject.TREASURE_HOUSE;
+                } else if (houseCounter[i][m] > 0) {
+                  houseCounter[i][m]++;
+                }
+              }
+            }
+          }
+        }
           break;
 
         case Input.Keys.L: // Player is trying to loot house
@@ -331,6 +359,9 @@ public class GameManager {
           smoothlySetState(GameState.HELP_MENU);
           break;
       }
+      if (playerOn(GridObject.TRAPPED_HOUSE)) {
+        smoothlySetState(GameState.TRAPPED);
+      }
     }
 
     // when in help menu scene, waits for H to be pressed, then returns to scene that they initially came from
@@ -345,6 +376,22 @@ public class GameManager {
             smoothlySetState(GameState.MAIN_MENU);
             break;
           }
+      }
+    }
+
+    //logic for trapped houses and the inputs while in that scene
+    else if(this.state == GameState.TRAPPED){
+      switch (keyCode){
+        case Input.Keys.NUM_1:
+          //lose power
+          playingPlayer.removeStrength(1);
+          smoothlySetState(GameState.RUNNING);
+          break;
+        case Input.Keys.NUM_2:
+          //lose coins
+          playingPlayer.removeCoins(30);
+          smoothlySetState(GameState.RUNNING);
+          break;
       }
     }
     if (this.state == GameState.BATTLE) {

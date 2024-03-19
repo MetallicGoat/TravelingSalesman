@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
-
+import com.guelphengg.gameproject.scenes.scenecomponents.AttackAnimation;
 
 public class TravelingSalesman extends ApplicationAdapter {
     private static TravelingSalesman instance;
@@ -36,6 +36,7 @@ public class TravelingSalesman extends ApplicationAdapter {
 
     @Override
     public void render() {
+
         // Update the player animation frames
         Character.updateStateTime();
 

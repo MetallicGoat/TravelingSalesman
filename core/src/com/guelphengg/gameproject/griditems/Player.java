@@ -11,13 +11,10 @@ import java.util.List;
 public class Player {
     // base strength for a character
     private final int BASE_STRENGTH = 10;
-
     // This array of loot items represents the players inventory
     private final List<LootItems> loot = new ArrayList<>();
-
     // The area the player is currently able to see
     private final boolean[][] visibleArea = new boolean[10][10];
-
     // Offset used for offseting the players position when drawing it on the game grid
     // For when one is small and to thr right
     public int yOffset = 0;
@@ -183,14 +180,6 @@ public class Player {
         return loot;
     }
 
-    public void inflictDamage(Player otherPlayer) {
-        if (otherPlayer.loot.contains(LootItems.PALADIN_SHIELD))
-            otherPlayer.health -= (int) ((this.getDamage()) * (LootItems.PALADIN_SHIELD.getProtection()));
-        //  otherPlayer.loot Maybe shield class????? that extends the loot Items enum?
-        // TODO Make it so that the sheild's durability belongs to the shield the player has and not the player
-        // TODO we don't want the durability to carry over if the shield is lost or gets used
-    }
-
     public int getDamage() {
         int damage = 1;
         if (this.loot.contains(LootItems.SWORD)) {
@@ -203,21 +192,21 @@ public class Player {
         return damage;
     }
 
-    public void addCoins(LootItems item) {
-        this.coins += item.getSellPrice();
+    public void addCoins(int coins) {
+        this.coins += coins;
     }
-    public void addHouseCoins(int coins){this.coins += coins;}
     public void removeCoins(int amount) {
         this.coins -= amount;
     }
 
-    public Color getSolidColour() {
-        this.solidColour.a = 1F;
-        return solidColour;
-    }
-    public Color getTransColour() {
-        this.solidColour.a = 0.4F;
-        return solidColour;
-    }
+    public void removeWeapon() { // This is for removing in general
 
+        this.getItems().removeIf(item -> item == LootItems.SWORD || item == LootItems.BOW || item == LootItems.BEJEWELED_SWORD);
+
+        // The strength is then reset back to the base number
+        this.setStrength(0);
+    }
+    public void removeStrength(int amount){
+        this.strength -= amount;
+    }
 }

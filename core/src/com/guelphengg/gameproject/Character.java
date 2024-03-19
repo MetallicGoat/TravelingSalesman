@@ -10,17 +10,16 @@ import com.guelphengg.gameproject.griditems.Player;
 
 public enum Character {
 
-  GREENIE(0, 0, new Color((float)81/255, (float)115/255, (float)56/255, 0.4F)),
+  GREENIE(0, 0, new Color((float)19/255, (float)115/255, (float)56/255, 0.4F)),
 
   // Reddie does not have left/right animations
   //REDDIE(0, 3, new Color(1, (float)43/255, (float)58/255, 0.4F)),
-  //just make reddie turn into a woman
-
-  GRAYIE(0, 9, new Color((float)128/255, (float)128/255, (float)128/255, 0.4F)),
-  PURPLEY(4, 0, new Color((float)128/255, (float)0/255, (float)128/255, 0.4F)),
-  WHITEY(4, 3, new Color((float)255/255, (float)255/255, (float)255/255, 0.4F)),
-  YELLOWIE(4, 6, new Color((float)255/255, (float)255/255, (float)0/255, 0.4F)),
-  BALDIE(4, 9, new Color((float)210/255, (float)180/255, (float)140/255, 0.4F));
+  WIZEY(0, 6, new Color(1, (float)43/255, (float)60/255, 0.4F)),
+  GRAYIE(0, 9, new Color((float)75/255, (float)90/255, (float)99/255, 0.4F)),
+  PURPLEY(4, 0, new Color((float)168/255, (float)65/255, (float)197/255, 0.4F)),
+  WHITEY(4, 3, new Color((float)251/255, (float)251/255, (float)232/255, 0.4F)),
+  YELLOWIE(4, 6, new Color((float)253/255, (float)214/255, (float)19/255, 0.4F)),
+  BALDIE(4, 9, new Color((float)48/255, (float)59/255, (float)90/255, 0.4F));
 
   public static float stateTime = 0F;
 

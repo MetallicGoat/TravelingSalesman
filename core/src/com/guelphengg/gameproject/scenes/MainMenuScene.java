@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.guelphengg.gameproject.GameState;
 import com.guelphengg.gameproject.SceneManager;
 import com.guelphengg.gameproject.Textures;
+import com.guelphengg.gameproject.scenes.scenecomponents.AttackAnimation;
 
 public class MainMenuScene extends Scene {
 
@@ -36,7 +37,8 @@ public class MainMenuScene extends Scene {
     }
 
     // Method for automatically centering the text for the main menu
-    private void drawCenteredText(SpriteBatch batch, int yOffset, float scale, String text) {
+    @Override
+    public void drawCenteredText(SpriteBatch batch, int yOffset, float scale, String text) {
         final BitmapFont font = SceneManager.getFont();
         final GlyphLayout glyphLayout = new GlyphLayout();
 
