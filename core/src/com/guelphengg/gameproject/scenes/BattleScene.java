@@ -88,6 +88,7 @@ public class BattleScene extends Scene {
     //(eg make colours make to transparent)
 
     manager.getPlayer1().getTransColour();
+    manager.getPlayer2().getTransColour();
     batch.end();
   }
 
