@@ -98,16 +98,6 @@ public class Player {
         this.strength += item.getDamage();
     }
 
-    // get the health of the player
-    public int getHealth() {
-        return health;
-    }
-
-    // change the health of the player
-    void setHealth(int health) {
-        this.health = health;
-    }
-
     // get the amount of coins the player has
     public int getCoins() {
         return coins;
@@ -118,6 +108,7 @@ public class Player {
         return character;
     }
 
+    // sets the character of the player
     public void setCharacter(Character character) {
         this.character = character;
     }
@@ -172,14 +163,17 @@ public class Player {
         gameGrid.renderTextureInGrid(x, y, getCurrFrame(), this.small ? 0.5 : 1, xOffset, yOffset);
     }
 
+    // adds loot to the players inventory
     public void addLoot(LootItems item) {
         loot.add(item);
     }
 
+    // returns a list of the players loot
     public List<LootItems> getItems() {
         return loot;
     }
 
+    // gets the damage based on weapon in the inventory
     public int getDamage() {
         int damage = 1;
         if (this.loot.contains(LootItems.SWORD)) {
@@ -192,20 +186,26 @@ public class Player {
         return damage;
     }
 
+    // adds and removes coins to the players variable
     public void addCoins(int coins) {
         this.coins += coins;
     }
     public void removeCoins(int amount) {
         this.coins -= amount;
+        if(this.coins<0){
+            this.coins = 0;
+        }
     }
 
-    public void removeWeapon() { // This is for removing in general
+    // removes the weapon from the player's inventory
+    public void removeWeapon() {
         this.getItems().removeIf(item -> item == LootItems.SWORD || item == LootItems.BOW || item == LootItems.BEJEWELED_SWORD);
 
         // The strength is then reset back to the base number
         this.setStrength(0);
     }
 
+    // removes the strength from a player
     public void removeStrength(int amount){
         this.strength -= amount;
     }
