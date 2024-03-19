@@ -83,8 +83,8 @@ public class GameManager {
   public void battleCalculation(){ //calculations for battles between players
     if(getPlayer1().getStrength() > getPlayer2().getStrength()){ //checks if p1 strength > p2 strength
       int money = ((getPlayer1().getStrength() - getPlayer2().getStrength()) / (getPlayer1().getStrength() + getPlayer2().getStrength()) * getPlayer2().getCoins());
-      getPlayer1().gainCoins(money);
-      getPlayer2().loseCoins(money);
+      getPlayer1().addCoins(money);
+      getPlayer2().removeCoins(money);
 
       int newStrength = getPlayer1().getStrength() - getPlayer2().getStrength();
       getPlayer1().setStrength(newStrength);
@@ -92,8 +92,8 @@ public class GameManager {
     }
     else if(getPlayer1().getStrength() < getPlayer2().getStrength()){ //checks if p1 strength < p2 strength
       int money = ((getPlayer2().getStrength() - getPlayer1().getStrength()) / (getPlayer1().getStrength() + getPlayer2().getStrength()) * getPlayer1().getCoins());
-      getPlayer2().gainCoins(money);
-      getPlayer1().loseCoins(money);
+      getPlayer2().addCoins(money);
+      getPlayer1().removeCoins(money);
 
       int newStrength = getPlayer2().getStrength() - getPlayer1().getStrength();
       getPlayer2().setStrength(newStrength);
