@@ -199,7 +199,8 @@ public class Player {
 
     // removes the weapon from the player's inventory
     public void removeWeapon() {
-        this.getItems().removeIf(item -> item == LootItems.SWORD || item == LootItems.BOW || item == LootItems.BEJEWELED_SWORD);
+        this.getItems().removeIf(item -> item.getItemType() == ItemType.WEAPON);
+//        this.getItems().removeIf(item -> item == LootItems.SWORD || item == LootItems.BOW || item == LootItems.BEJEWELED_SWORD);
 
         // The strength is then reset back to the base number
         this.setStrength(0);
