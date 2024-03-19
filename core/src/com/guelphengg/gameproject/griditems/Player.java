@@ -1,5 +1,6 @@
 package com.guelphengg.gameproject.griditems;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.guelphengg.gameproject.Character;
 import com.guelphengg.gameproject.scenes.scenecomponents.GameGrid;
@@ -32,6 +33,7 @@ public class Player {
     // The x and y position of the player on the game grid
     private int x;
     private int y;
+    private Color solidColour;
 
     // constructor for the player
     public Player(int x, int y, Character character) {
@@ -39,6 +41,7 @@ public class Player {
         this.y = y;
 
         this.character = character;
+        this.solidColour = this.character.getColour();
     }
 
     // get the name of the player using their character
@@ -207,4 +210,10 @@ public class Player {
     public void removeCoins(int amount) {
         this.coins -= amount;
     }
+
+    public Color getSolidColour() {
+        this.solidColour.a = 1F;
+        return solidColour;
+    }
+
 }
