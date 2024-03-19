@@ -17,10 +17,6 @@ import com.guelphengg.gameproject.griditems.Player;
 
 public class BattleScene extends Scene {
 
-  SpriteBatch batch;
-  Texture play1;
-  Texture play2;
-  private Rectangle bucket;
   int i;
   int j;
   //temporary knowledge for learning how to move sprites
@@ -91,7 +87,7 @@ public class BattleScene extends Scene {
     //TODO make a method for setting things back to how they were before we changed in battle method
     //(eg make colours make to transparent)
 
-    manager.getPlayer1().getSolidColour();
+    manager.getPlayer1().getTransColour();
     batch.end();
   }
 
