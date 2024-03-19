@@ -8,6 +8,7 @@ public enum Textures {
   STARTER_HOUSE("start_house.png"),
   SPRITE_SHEET("sprite_sheet.png"),
   DICE_SHEET("dice.png"),
+  SLASH_SHEET("slash_sprite_sheet.png"),
   MAP_SCROLL("Main Scroll.png"),;
 
   private final Texture texture;

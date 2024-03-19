@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.guelphengg.gameproject.GameState;
 import com.guelphengg.gameproject.SceneManager;
 import com.guelphengg.gameproject.Textures;
+import com.guelphengg.gameproject.scenes.scenecomponents.AttackAnimation;
 
 public class MainMenuScene extends Scene {
 

@@ -5,15 +5,16 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.guelphengg.gameproject.griditems.GridObject;
-import com.guelphengg.gameproject.griditems.ItemType;
 import com.guelphengg.gameproject.griditems.LootItems;
 import com.guelphengg.gameproject.griditems.Player;
+import com.guelphengg.gameproject.scenes.BattleScene;
 import com.guelphengg.gameproject.scenes.TransitionScene;
 
 import java.util.Iterator;
 import java.util.Random;
 
 public class GameManager {
+
   private boolean waitingForRoll = true; // true by default cause first turn is always ready
   private int nextRoll = 0;
   private int turnsLeft = 0;
@@ -77,6 +78,27 @@ public class GameManager {
 
     else
     return 0;
+  }
+
+  public void battleCalculation(){ //calculations for battles between players
+    if(getPlayer1().getStrength() > getPlayer2().getStrength()){ //checks if p1 strength > p2 strength
+      int money = ((getPlayer1().getStrength() - getPlayer2().getStrength()) / (getPlayer1().getStrength() + getPlayer2().getStrength()) * getPlayer2().getCoins());
+      getPlayer1().gainCoins(money);
+      getPlayer2().loseCoins(money);
+
+      int newStrength = getPlayer1().getStrength() - getPlayer2().getStrength();
+      getPlayer1().setStrength(newStrength);
+      getPlayer2().setStrength(0);
+    }
+    else if(getPlayer1().getStrength() < getPlayer2().getStrength()){ //checks if p1 strength < p2 strength
+      int money = ((getPlayer2().getStrength() - getPlayer1().getStrength()) / (getPlayer1().getStrength() + getPlayer2().getStrength()) * getPlayer1().getCoins());
+      getPlayer2().gainCoins(money);
+      getPlayer1().loseCoins(money);
+
+      int newStrength = getPlayer2().getStrength() - getPlayer1().getStrength();
+      getPlayer2().setStrength(newStrength);
+      getPlayer1().setStrength(0);
+    }
   }
 
   // Make the playing player loot the current house
@@ -371,6 +393,13 @@ public class GameManager {
           smoothlySetState(GameState.RUNNING);
           break;
       }
+    }
+    if (this.state == GameState.BATTLE) {
+    switch(keyCode){
+      case Input.Keys.SPACE:
+
+        Accessor.getGameManager().smoothlySetState(GameState.RUNNING);
+    }
     }
   }
 
