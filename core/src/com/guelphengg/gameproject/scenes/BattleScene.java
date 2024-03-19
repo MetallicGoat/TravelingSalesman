@@ -79,10 +79,10 @@ public class BattleScene extends Scene {
     }
     else if (manager.getPlayer2().getStrength() == manager.getPlayer1().getStrength()){
       if (Accessor.getGameManager().getPlayingPlayer() == Accessor.getGameManager().getPlayer1()){
-        player1Win();
+        player1WinDraw();
       }
       else{
-        player2Win();
+        player2WinDraw();
       }
     }
 
@@ -99,7 +99,7 @@ public class BattleScene extends Scene {
     player2Attack();
     //SET A WAIT TIME IN BETWEEN ATTACKS
     player1Attack();
-    int money = ((Accessor.getGameManager().getPlayer1().getStrength() - Accessor.getGameManager().getPlayer2().getStrength()) / (Accessor.getGameManager().getPlayer1().getStrength() + Accessor.getGameManager().getPlayer2().getStrength()) * Accessor.getGameManager().getPlayer2().getCoins());
+    int money = (((Accessor.getGameManager().getPlayer1().getStrength() - Accessor.getGameManager().getPlayer2().getStrength()) / (Accessor.getGameManager().getPlayer1().getStrength() + Accessor.getGameManager().getPlayer2().getStrength())) * Accessor.getGameManager().getPlayer2().getCoins());
     Accessor.getGameManager().getPlayer1().gainCoins(money);
     Accessor.getGameManager().getPlayer2().loseCoins(money);
 
@@ -115,12 +115,28 @@ public class BattleScene extends Scene {
     player1Attack();
     //SET A WAIT TIME IN BETWEEN ATTACKS
     player2Attack();
-    int money = ((Accessor.getGameManager().getPlayer2().getStrength() - Accessor.getGameManager().getPlayer1().getStrength()) / (Accessor.getGameManager().getPlayer1().getStrength() + Accessor.getGameManager().getPlayer2().getStrength()) * Accessor.getGameManager().getPlayer1().getCoins());
+    int money = (((Accessor.getGameManager().getPlayer2().getStrength() - Accessor.getGameManager().getPlayer1().getStrength()) / (Accessor.getGameManager().getPlayer1().getStrength() + Accessor.getGameManager().getPlayer2().getStrength())) * Accessor.getGameManager().getPlayer1().getCoins());
     Accessor.getGameManager().getPlayer2().gainCoins(money);
     Accessor.getGameManager().getPlayer1().loseCoins(money);
 
     int newStrength = Accessor.getGameManager().getPlayer2().getStrength() - Accessor.getGameManager().getPlayer1().getStrength();
     Accessor.getGameManager().getPlayer2().setStrength(newStrength);
+    Accessor.getGameManager().getPlayer1().setStrength(0);
+
+    Accessor.getGameManager().getPlayer1().setX(10);
+    Accessor.getGameManager().getPlayer1().setY(0);
+  }
+
+  public void player1WinDraw(){
+    Accessor.getGameManager().getPlayer1().setStrength(0);
+    Accessor.getGameManager().getPlayer2().setStrength(0);
+
+    Accessor.getGameManager().getPlayer2().setX(10);
+    Accessor.getGameManager().getPlayer2().setY(0);
+  }
+
+  public void player2WinDraw(){
+    Accessor.getGameManager().getPlayer2().setStrength(0);
     Accessor.getGameManager().getPlayer1().setStrength(0);
 
     Accessor.getGameManager().getPlayer1().setX(10);
