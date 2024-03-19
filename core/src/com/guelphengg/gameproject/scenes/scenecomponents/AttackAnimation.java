@@ -40,15 +40,14 @@ public class AttackAnimation {
 
     public static void incrementTime() {
         stateTime += Gdx.graphics.getDeltaTime();
-        System.out.println(stateTime);
     }
 
-    public void draw(int x, int y, double scale) {
+    public void draw(float x, float y, double scale) {
         final SpriteBatch batch = SceneManager.getSpriteBatch();
         final TextureRegion currFrame = this.animation.getKeyFrame(stateTime, true);
 
-        batch.begin();
-        batch.draw(currFrame, x, y, (int) (currFrame.getRegionWidth() * scale), (int) (currFrame.getRegionHeight() * scale));
-        batch.end();
+        //batch.begin();
+        batch.draw(currFrame, x, y, (float) (currFrame.getRegionWidth() * scale), (float) (currFrame.getRegionHeight() * scale));
+        //batch.end();
     }
 }

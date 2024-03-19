@@ -68,4 +68,8 @@ public enum LootItems {
   public static LootItems getRandomItem() {
     return values()[(int) (Math.random() * values().length)];
   }
+
+  public ItemType getItemType() {
+    return itemType;
+  }
 }
