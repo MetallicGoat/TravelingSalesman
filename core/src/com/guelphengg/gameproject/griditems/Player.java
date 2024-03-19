@@ -222,7 +222,6 @@ public class Player {
         this.power += item.getItemPower();
     }
 
-
     // removes power from a player
     public void removePower(int pwr) {
         this.power -= pwr;
@@ -232,6 +231,7 @@ public class Player {
         this.solidColour.a = 1F;
         return solidColour;
     }
+
     public Color getTransColour() {
         this.solidColour.a = 0.4F;
         return solidColour;

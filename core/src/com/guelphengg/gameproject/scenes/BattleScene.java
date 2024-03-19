@@ -55,12 +55,12 @@ public class BattleScene extends Scene {
 
     //every time new battle reset values.
     // gets colours associated with each character and then attributes it to the title
-    font.setColor(manager.getPlayer1().getCharacter().getColour());
-    font.setColor(manager.getPlayer1().getSolidColour()); // TODO Change the colour by getting the colour attributed to the correct character
+    font.setColor(manager.getPlayer1().getCharacter().getColour());// TODO Change the colour by getting the colour attributed to the correct character
+    font.setColor(font.getColor().r,font.getColor().g,font.getColor().b, 1);
     font.draw(batch, manager.getPlayer1().getName(), 30, 770);
 
     font.setColor(manager.getPlayer2().getCharacter().getColour());
-    font.setColor(manager.getPlayer2().getSolidColour());
+    font.setColor(font.getColor().r,font.getColor().g,font.getColor().b, 1);
     font.draw(batch, manager.getPlayer2().getName(), 1030, 770);
 
     // TODO make reset method so that the players reset to their positions off screen.
