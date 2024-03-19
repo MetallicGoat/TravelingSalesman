@@ -1,19 +1,14 @@
 package com.guelphengg.gameproject.scenes;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.guelphengg.gameproject.Accessor;
-import com.guelphengg.gameproject.Character;
 import com.guelphengg.gameproject.GameManager;
 import com.guelphengg.gameproject.GameState;
 import com.guelphengg.gameproject.SceneManager;
-import com.guelphengg.gameproject.griditems.Player;
 
 public class BattleScene extends Scene {
 
