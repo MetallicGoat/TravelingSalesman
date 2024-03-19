@@ -72,16 +72,20 @@ public class BattleScene extends Scene {
 
     //TODO Finish Attacks
     if(manager.getPlayer1().getStrength()<manager.getPlayer2().getStrength()){
-      player1Attack();
-      //SET A WAIT TIME IN BETWEEN ATTACKS
-      player2Attack();
+      player2Win();
+    }
+    if(manager.getPlayer2().getStrength()<manager.getPlayer1().getStrength()){
+      player1Win();
+    }
+    else if (manager.getPlayer2().getStrength() == manager.getPlayer1().getStrength()){
+      if (Accessor.getGameManager().getPlayingPlayer() == Accessor.getGameManager().getPlayer1()){
+        player1Win();
+      }
+      else{
+        player2Win();
+      }
     }
 
-    if(manager.getPlayer2().getStrength()<manager.getPlayer1().getStrength()){
-      player2Attack();
-      //SET A WAIT TIME IN BETWEEN ATTACKS
-      player1Attack();
-    }
 
 
     //TODO make a method for setting things back to how they were before we changed in battle method
@@ -89,6 +93,22 @@ public class BattleScene extends Scene {
 
 
     batch.end();
+  }
+
+  public void player1Win(){
+    player2Attack();
+    //SET A WAIT TIME IN BETWEEN ATTACKS
+    player1Attack();
+    Accessor.getGameManager().getPlayer2().setX(10);
+    Accessor.getGameManager().getPlayer2().setY(0);
+  }
+
+  public void player2Win(){
+    player1Attack();
+    //SET A WAIT TIME IN BETWEEN ATTACKS
+    player2Attack();
+    Accessor.getGameManager().getPlayer1().setX(10);
+    Accessor.getGameManager().getPlayer1().setY(0);
   }
 
   public void resetBattle() {
@@ -104,16 +124,6 @@ public class BattleScene extends Scene {
   private void player2Attack(){
 //play player animation and calculate damage accordingly
   }
-//  private void endScene(int keyCode) {
-//    {
-//      switch (keyCode) {
-//        //moves into character select scene
-//        case Input.Keys.SPACE:
-//          Accessor.getGameManager().smoothlySetState(GameState.RUNNING);
-//          break;
-//      }
-//    }
-//
-//  }
+
 }
 

@@ -215,5 +215,9 @@ public class Player {
         this.solidColour.a = 1F;
         return solidColour;
     }
+    public Color getTransColour() {
+        this.solidColour.a = 0.4F;
+        return solidColour;
+    }
 
 }

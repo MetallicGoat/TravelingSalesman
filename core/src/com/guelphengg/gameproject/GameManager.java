@@ -350,6 +350,7 @@ public class GameManager {
     if (this.state == GameState.BATTLE) {
     switch(keyCode){
       case Input.Keys.SPACE:
+
         Accessor.getGameManager().smoothlySetState(GameState.RUNNING);
     }
     }
