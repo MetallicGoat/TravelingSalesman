@@ -90,9 +90,9 @@ public class Player {
 
     // change the strength of the player
     public void setStrength(int newStrength) {
-        if (newStrength < 10) { // catches if the new value is less than the base strength
-            newStrength = BASE_STRENGTH;
-        }
+//        if (newStrength < 10) { // catches if the new value is less than the base strength
+//            newStrength = BASE_STRENGTH;
+//        }
 
         this.strength = newStrength;
     }

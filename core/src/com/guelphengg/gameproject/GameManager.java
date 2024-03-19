@@ -79,26 +79,26 @@ public class GameManager {
     return 0;
   }
 
-  public void battleCalculation(){ //calculations for battles between players
-    if(getPlayer1().getStrength() > getPlayer2().getStrength()){ //checks if p1 strength > p2 strength
-      int money = ((getPlayer1().getStrength() - getPlayer2().getStrength()) / (getPlayer1().getStrength() + getPlayer2().getStrength()) * getPlayer2().getCoins());
-      getPlayer1().gainCoins(money);
-      getPlayer2().loseCoins(money);
-
-      int newStrength = getPlayer1().getStrength() - getPlayer2().getStrength();
-      getPlayer1().setStrength(newStrength);
-      getPlayer2().setStrength(0);
-    }
-    else if(getPlayer1().getStrength() < getPlayer2().getStrength()){ //checks if p1 strength < p2 strength
-      int money = ((getPlayer2().getStrength() - getPlayer1().getStrength()) / (getPlayer1().getStrength() + getPlayer2().getStrength()) * getPlayer1().getCoins());
-      getPlayer2().gainCoins(money);
-      getPlayer1().loseCoins(money);
-
-      int newStrength = getPlayer2().getStrength() - getPlayer1().getStrength();
-      getPlayer2().setStrength(newStrength);
-      getPlayer1().setStrength(0);
-    }
-  }
+//  public void battleCalculation(){ //calculations for battles between players
+//    if(){ //checks if p1 strength > p2 strength
+//      int money = ((getPlayer1().getStrength() - getPlayer2().getStrength()) / (getPlayer1().getStrength() + getPlayer2().getStrength()) * getPlayer2().getCoins());
+//      getPlayer1().gainCoins(money);
+//      getPlayer2().loseCoins(money);
+//
+//      int newStrength = getPlayer1().getStrength() - getPlayer2().getStrength();
+//      getPlayer1().setStrength(newStrength);
+//      getPlayer2().setStrength(0);
+//    }
+//    else if(){ //checks if p1 strength < p2 strength
+//      int money = ((getPlayer2().getStrength() - getPlayer1().getStrength()) / (getPlayer1().getStrength() + getPlayer2().getStrength()) * getPlayer1().getCoins());
+//      getPlayer2().gainCoins(money);
+//      getPlayer1().loseCoins(money);
+//
+//      int newStrength = getPlayer2().getStrength() - getPlayer1().getStrength();
+//      getPlayer2().setStrength(newStrength);
+//      getPlayer1().setStrength(0);
+//    }
+//  }
 
   // Make the playing player loot the current house
   public void lootHouse() {
