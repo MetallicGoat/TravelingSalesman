@@ -1,6 +1,7 @@
 package com.guelphengg.gameproject.scenes;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -9,6 +10,8 @@ import com.guelphengg.gameproject.Accessor;
 import com.guelphengg.gameproject.GameManager;
 import com.guelphengg.gameproject.GameState;
 import com.guelphengg.gameproject.SceneManager;
+import com.guelphengg.gameproject.griditems.Player;
+import com.guelphengg.gameproject.scenes.scenecomponents.AttackAnimation;
 
 public class BattleScene extends Scene {
 
@@ -19,6 +22,7 @@ public class BattleScene extends Scene {
   int i;
   int j;
   //temporary knowledge for learning how to move sprites
+  AttackAnimation animation = new AttackAnimation();
 
   public BattleScene() {
     super(GameState.BATTLE);
@@ -108,6 +112,8 @@ public class BattleScene extends Scene {
 
     Accessor.getGameManager().getPlayer2().setX(10);
     Accessor.getGameManager().getPlayer2().setY(0);
+
+    System.out.println(money);
   }
 
   public void player2Win(){
@@ -124,9 +130,17 @@ public class BattleScene extends Scene {
 
     Accessor.getGameManager().getPlayer1().setX(10);
     Accessor.getGameManager().getPlayer1().setY(0);
+
+    System.out.println(money);
   }
 
   public void player1WinDraw(){
+    if(i>439) {
+      player2Attack();
+      //SET A WAIT TIME IN BETWEEN ATTACKS
+      player1Attack();
+    }
+
     Accessor.getGameManager().getPlayer1().setStrength(0);
     Accessor.getGameManager().getPlayer2().setStrength(0);
 
@@ -135,6 +149,11 @@ public class BattleScene extends Scene {
   }
 
   public void player2WinDraw(){
+    if(i>439) {
+      player1Attack();
+      //SET A WAIT TIME IN BETWEEN ATTACKS
+      player2Attack();
+    }
     Accessor.getGameManager().getPlayer2().setStrength(0);
     Accessor.getGameManager().getPlayer1().setStrength(0);
 
@@ -149,11 +168,13 @@ public class BattleScene extends Scene {
 
   }
   private void player1Attack(){
-    // play player animation and calculate damage accordingly
+//play player animation and calculate damage accordingly
+    animation.draw(620,25,1.5);
   }
 
   private void player2Attack(){
-    // play player animation and calculate damage accordingly
+//play player animation and calculate damage accordingly
+    animation.draw(290,25,1.5);
   }
 
 }
