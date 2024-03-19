@@ -321,7 +321,9 @@ public class GameManager {
             sellSound = Gdx.audio.newSound(Gdx.files.internal("Sell.wav"));
             sellSound.play();
             tradeItems();
-          }//TODO Make it so that the selling sound only plays when the player actually sold something....
+          }
+
+          //TODO Make it so that the selling sound only plays when the player actually sold something....
           //TODO Give items values and give player gold for trading items
           //since the middle will ALWAYS be the castle, if player is at the point on the grid where the castle exists,
           //pressing 's' will clear the inventory and give player the gold that is equal to the sum of the players inv.
@@ -360,9 +362,6 @@ public class GameManager {
           smoothlySetState(GameState.HELP_MENU);
           break;
       }
-      if (playerOn(GridObject.TRAPPED_HOUSE)) {
-        smoothlySetState(GameState.TRAPPED);
-      }
     }
 
     // when in help menu scene, waits for H to be pressed, then returns to scene that they initially came from
@@ -380,7 +379,7 @@ public class GameManager {
       }
     }
 
-    //logic for trapped houses and the inputs while in that scene
+    // logic for trapped houses and the inputs while in that scene
     else if(this.state == GameState.TRAPPED){
       switch (keyCode){
         case Input.Keys.NUM_1:
@@ -395,12 +394,13 @@ public class GameManager {
           break;
       }
     }
-    if (this.state == GameState.BATTLE) {
-    switch(keyCode){
-      case Input.Keys.SPACE:
 
-        Accessor.getGameManager().smoothlySetState(GameState.RUNNING);
-    }
+    if (this.state == GameState.BATTLE) {
+      switch(keyCode){
+         case Input.Keys.SPACE:
+             Accessor.getGameManager().smoothlySetState(GameState.RUNNING);
+
+      }
     }
   }
 
@@ -468,6 +468,10 @@ public class GameManager {
 
     // Check if the players can battle
     battleCheck();
+
+    // Did they land on a trapped house?
+    if (playerOn(GridObject.TRAPPED_HOUSE))
+      smoothlySetState(GameState.TRAPPED);
 
     // Update player visibilities
     playingPlayer.updateVisibleArea();
