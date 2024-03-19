@@ -7,6 +7,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.guelphengg.gameproject.griditems.GridObject;
 import com.guelphengg.gameproject.griditems.LootItems;
 import com.guelphengg.gameproject.griditems.Player;
+import com.guelphengg.gameproject.scenes.BattleScene;
 import com.guelphengg.gameproject.scenes.TransitionScene;
 
 import java.util.Iterator;
@@ -232,7 +233,7 @@ public class GameManager {
       gameMusic.stop();
       battlestart.play();
       battleMusic.play(); //TODO Dispose of music (idk how Christian Help)
-      //GameState.BATTLE.getScene().reset();
+      ((BattleScene) GameState.BATTLE.getScene()).resetBattle();
       smoothlySetState(GameState.BATTLE);
     }
   }
@@ -366,6 +367,13 @@ public class GameManager {
             break;
           }
       }
+    }
+    if (this.state == GameState.BATTLE) {
+    switch(keyCode){
+      case Input.Keys.SPACE:
+
+        Accessor.getGameManager().smoothlySetState(GameState.RUNNING);
+    }
     }
   }
 

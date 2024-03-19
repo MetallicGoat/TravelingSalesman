@@ -14,12 +14,13 @@ public enum Character {
 
   // Reddie does not have left/right animations
   //REDDIE(0, 3, new Color(1, (float)43/255, (float)58/255, 0.4F)),
+  //just make reddie turn into a woman
 
-  GRAYIE(0, 9, new Color(1, (float)43/255, (float)58/255, 0.4F)),
-  PRUPLEY(4, 0, new Color(1, (float)43/255, (float)58/255, 0.4F)),
-  WHITEY(4, 3, new Color(1, (float)43/255, (float)58/255, 0.4F)),
-  YELLOWIE(4, 6, new Color(1, (float)43/255, (float)58/255, 0.4F)),
-  BALDIE(4, 9, new Color(1, (float)43/255, (float)58/255, 0.4F));
+  GRAYIE(0, 9, new Color((float)128/255, (float)128/255, (float)128/255, 0.4F)),
+  PURPLEY(4, 0, new Color((float)128/255, (float)0/255, (float)128/255, 0.4F)),
+  WHITEY(4, 3, new Color((float)255/255, (float)255/255, (float)255/255, 0.4F)),
+  YELLOWIE(4, 6, new Color((float)255/255, (float)255/255, (float)0/255, 0.4F)),
+  BALDIE(4, 9, new Color((float)210/255, (float)180/255, (float)140/255, 0.4F));
 
   public static float stateTime = 0F;
 
