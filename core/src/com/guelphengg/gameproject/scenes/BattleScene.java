@@ -56,11 +56,11 @@ public class BattleScene extends Scene {
     //every time new battle reset values.
     // gets colours associated with each character and then attributes it to the title
     font.setColor(manager.getPlayer1().getCharacter().getColour());
-    font.setColor(font.getColor().r, font.getColor().g, font.getColor().b, 1);
+    font.setColor(manager.getPlayer1().getSolidColour()); // TODO Change the colour by getting the colour attributed to the correct character
     font.draw(batch, manager.getPlayer1().getName(), 30, 770);
 
     font.setColor(manager.getPlayer2().getCharacter().getColour());
-    font.setColor(font.getColor().r, font.getColor().g, font.getColor().b, 1);
+    font.setColor(manager.getPlayer2().getSolidColour());
     font.draw(batch, manager.getPlayer2().getName(), 1030, 770);
 
     // TODO make reset method so that the players reset to their positions off screen.
@@ -75,10 +75,10 @@ public class BattleScene extends Scene {
     }
     else if (manager.getPlayer2().getStrength() == manager.getPlayer1().getStrength()){
       if (Accessor.getGameManager().getPlayingPlayer() == Accessor.getGameManager().getPlayer1()){
-        player1Win();
+        player1WinDraw();
       }
       else{
-        player2Win();
+        player2WinDraw();
       }
     }
 
@@ -88,6 +88,9 @@ public class BattleScene extends Scene {
     //(eg make colours make to transparent)
 
 
+    manager.getPlayer1().getTransColour();
+    manager.getPlayer2().getTransColour();
+
     batch.end();
   }
 
@@ -95,6 +98,14 @@ public class BattleScene extends Scene {
     player2Attack();
     //SET A WAIT TIME IN BETWEEN ATTACKS
     player1Attack();
+    int money = (((Accessor.getGameManager().getPlayer1().getStrength() - Accessor.getGameManager().getPlayer2().getStrength()) / (Accessor.getGameManager().getPlayer1().getStrength() + Accessor.getGameManager().getPlayer2().getStrength())) * Accessor.getGameManager().getPlayer2().getCoins());
+    Accessor.getGameManager().getPlayer1().addCoins(money);
+    Accessor.getGameManager().getPlayer2().removeCoins(money);
+
+    int newStrength = Accessor.getGameManager().getPlayer1().getStrength() - Accessor.getGameManager().getPlayer2().getStrength();
+    Accessor.getGameManager().getPlayer1().setStrength(newStrength);
+    Accessor.getGameManager().getPlayer2().setStrength(0);
+
     Accessor.getGameManager().getPlayer2().setX(10);
     Accessor.getGameManager().getPlayer2().setY(0);
   }
@@ -103,6 +114,30 @@ public class BattleScene extends Scene {
     player1Attack();
     //SET A WAIT TIME IN BETWEEN ATTACKS
     player2Attack();
+    int money = (((Accessor.getGameManager().getPlayer2().getStrength() - Accessor.getGameManager().getPlayer1().getStrength()) / (Accessor.getGameManager().getPlayer1().getStrength() + Accessor.getGameManager().getPlayer2().getStrength())) * Accessor.getGameManager().getPlayer1().getCoins());
+    Accessor.getGameManager().getPlayer2().addCoins(money);
+    Accessor.getGameManager().getPlayer1().removeCoins(money);
+
+    int newStrength = Accessor.getGameManager().getPlayer2().getStrength() - Accessor.getGameManager().getPlayer1().getStrength();
+    Accessor.getGameManager().getPlayer2().setStrength(newStrength);
+    Accessor.getGameManager().getPlayer1().setStrength(0);
+
+    Accessor.getGameManager().getPlayer1().setX(10);
+    Accessor.getGameManager().getPlayer1().setY(0);
+  }
+
+  public void player1WinDraw(){
+    Accessor.getGameManager().getPlayer1().setStrength(0);
+    Accessor.getGameManager().getPlayer2().setStrength(0);
+
+    Accessor.getGameManager().getPlayer2().setX(10);
+    Accessor.getGameManager().getPlayer2().setY(0);
+  }
+
+  public void player2WinDraw(){
+    Accessor.getGameManager().getPlayer2().setStrength(0);
+    Accessor.getGameManager().getPlayer1().setStrength(0);
+
     Accessor.getGameManager().getPlayer1().setX(10);
     Accessor.getGameManager().getPlayer1().setY(0);
   }
@@ -114,11 +149,11 @@ public class BattleScene extends Scene {
 
   }
   private void player1Attack(){
-//play player animation and calculate damage accordingly
+    // play player animation and calculate damage accordingly
   }
 
   private void player2Attack(){
-//play player animation and calculate damage accordingly
+    // play player animation and calculate damage accordingly
   }
 
 }

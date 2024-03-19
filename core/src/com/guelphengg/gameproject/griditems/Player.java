@@ -87,9 +87,9 @@ public class Player {
 
     // change the strength of the player
     public void setStrength(int newStrength) {
-        if (newStrength < 10) { // catches if the new value is less than the base strength
-            newStrength = BASE_STRENGTH;
-        }
+//        if (newStrength < 10) { // catches if the new value is less than the base strength
+//            newStrength = BASE_STRENGTH;
+//        }
 
         this.strength = newStrength;
     }
@@ -190,6 +190,7 @@ public class Player {
     public void addCoins(int coins) {
         this.coins += coins;
     }
+
     public void removeCoins(int amount) {
         this.coins -= amount;
         if(this.coins<0){
@@ -225,5 +226,14 @@ public class Player {
     // removes power from a player
     public void removePower(int pwr) {
         this.power -= pwr;
+    }
+
+    public Color getSolidColour() {
+        this.solidColour.a = 1F;
+        return solidColour;
+    }
+    public Color getTransColour() {
+        this.solidColour.a = 0.4F;
+        return solidColour;
     }
 }
