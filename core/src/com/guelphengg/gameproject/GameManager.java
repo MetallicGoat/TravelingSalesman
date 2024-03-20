@@ -7,6 +7,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.guelphengg.gameproject.griditems.GridObject;
 import com.guelphengg.gameproject.griditems.LootItems;
 import com.guelphengg.gameproject.griditems.Player;
+import com.guelphengg.gameproject.scenes.BattleScene;
 import com.guelphengg.gameproject.scenes.TransitionScene;
 
 import java.util.Iterator;
@@ -40,6 +41,7 @@ public class GameManager {
   public GridObject[][] gridObjects = new GridObject[10][10];
 
   private Music gameMusic;
+  private Music battleMusic;
   private Sound rollSound;
   private Sound lootSound;
   private Sound bootSound;
@@ -210,6 +212,12 @@ public class GameManager {
 
   public void battleCheck(){
     if ((player1.getX() == player2.getX() && player1.getY() == player2.getY()) && !player1.isAtStart()) {
+      battleMusic = Gdx.audio.newMusic(Gdx.files.internal("BattleMusic.mp3"));
+      battleMusic.setLooping(true);
+      gameMusic.stop();
+      battlestart.play();
+      battleMusic.play(); //TODO Dispose of music (idk how Christian Help)
+      ((BattleScene) GameState.BATTLE.getScene()).resetBattle();
       smoothlySetState(GameState.BATTLE);
     }
   }
