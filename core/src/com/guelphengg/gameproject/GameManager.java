@@ -38,6 +38,7 @@ public class GameManager {
   private Music gameMusic;
   private Music battleMusic;
   private Music marketMusic;
+  private Music trappedMusic;
   private Sound rollSound;
   private Sound lootSound;
   private Sound bootSound;
@@ -373,11 +374,17 @@ public class GameManager {
           //lose power
           playingPlayer.removeStrength(1);
           smoothlySetState(GameState.RUNNING);
+          trappedMusic.stop();
+          gameMusic.setLooping(true);
+          gameMusic.play();
           break;
         case Input.Keys.NUM_2:
           //lose coins
           playingPlayer.removeCoins(30);
           smoothlySetState(GameState.RUNNING);
+          trappedMusic.stop();
+          gameMusic.setLooping(true);
+          gameMusic.play();
           break;
       }
     }
@@ -470,8 +477,13 @@ public class GameManager {
     battleCheck();
 
     // Did they land on a trapped house?
-    if (playerOn(GridObject.TRAPPED_HOUSE))
+    if (playerOn(GridObject.TRAPPED_HOUSE)) {
       smoothlySetState(GameState.TRAPPED);
+      gameMusic.stop();
+      trappedMusic = Gdx.audio.newMusic(Gdx.files.internal("TrappedMusic.mp3"));
+      trappedMusic.setLooping(true);
+      trappedMusic.play();
+    }
 
     if (playerOn(GridObject.MARKET)) {
       smoothlySetState(GameState.MARKET);
