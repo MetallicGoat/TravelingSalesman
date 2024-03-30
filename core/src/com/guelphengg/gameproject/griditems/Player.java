@@ -302,7 +302,7 @@ public class Player {
 
   // removes the strength from a player
   public void removeStrength(int amount) {
-    this.strength -= amount;
+    this.strength = Math.max(this.strength - amount, 0);
   }
 
   // Get the power player has
@@ -313,11 +313,6 @@ public class Player {
   // adds to the players power based on the item
   public void addPower(LootItems item) {
     this.power += item.getItemPower();
-  }
-
-  // removes power from a player
-  public void removePower(int pwr) {
-    this.power -= pwr;
   }
 
   public Color getSolidColour() {

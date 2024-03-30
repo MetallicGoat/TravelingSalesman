@@ -10,8 +10,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.guelphengg.gameproject.SceneManager;
 import com.guelphengg.gameproject.Textures;
 
-import java.util.Random;
-
 public class GameGrid {
 
   // grid position and size attributes
