@@ -4,22 +4,21 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.guelphengg.gameproject.griditems.Player;
 
 public enum Character {
 
-  GREENIE(0, 0, new Color((float)19/255, (float)115/255, (float)56/255, 0.4F)),
+  GREENIE(0, 0, new Color((float) 19 / 255, (float) 115 / 255, (float) 56 / 255, 0.4F)),
 
   // Reddie does not have left/right animations
   //REDDIE(0, 3, new Color(1, (float)43/255, (float)58/255, 0.4F)),
-  WIZEY(0, 6, new Color(1, (float)43/255, (float)60/255, 0.4F)),
-  GRAYIE(0, 9, new Color((float)75/255, (float)90/255, (float)99/255, 0.4F)),
-  PURPLEY(4, 0, new Color((float)168/255, (float)65/255, (float)197/255, 0.4F)),
-  WHITEY(4, 3, new Color((float)251/255, (float)251/255, (float)232/255, 0.4F)),
-  YELLOWIE(4, 6, new Color((float)253/255, (float)214/255, (float)19/255, 0.4F)),
-  BALDIE(4, 9, new Color((float)48/255, (float)59/255, (float)90/255, 0.4F));
+  WIZEY(0, 6, new Color(1, (float) 43 / 255, (float) 60 / 255, 0.4F)),
+  GRAYIE(0, 9, new Color((float) 75 / 255, (float) 90 / 255, (float) 99 / 255, 0.4F)),
+  PURPLEY(4, 0, new Color((float) 168 / 255, (float) 65 / 255, (float) 197 / 255, 0.4F)),
+  WHITEY(4, 3, new Color((float) 251 / 255, (float) 251 / 255, (float) 232 / 255, 0.4F)),
+  YELLOWIE(4, 6, new Color((float) 253 / 255, (float) 214 / 255, (float) 19 / 255, 0.4F)),
+  BALDIE(4, 9, new Color((float) 48 / 255, (float) 59 / 255, (float) 90 / 255, 0.4F));
 
   public static float stateTime = 0F;
 
@@ -40,41 +39,6 @@ public enum Character {
     animationStraight = getAnimation(tmp, textureCol, textureRow);
     animationLeft = getAnimation(tmp, textureCol, textureRow + 1);
     animationRight = getAnimation(tmp, textureCol, textureRow + 2);
-  }
-
-  private Animation<TextureRegion> getAnimation(TextureRegion[][] tmp, int x, int y) {
-    // Place the regions into a 1D array in the correct order, starting from the top
-    // left, going across first. The Animation constructor requires a 1D array.
-    TextureRegion[] walkFrames = new TextureRegion[3];
-
-    walkFrames[0] = tmp[y][x];
-    walkFrames[1] = tmp[y][x + 1];
-    walkFrames[2] = tmp[y][x + 2];
-
-    // Initialize the Animation with the frame interval and array of frames
-    return new Animation<>(0.15f, walkFrames);
-  }
-
-  public String getName() {
-    final String name = this.name();
-
-    return name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
-  }
-
-  public Color getColour(){
-    return this.colour;
-  }
-
-  public TextureRegion getCurrentFrame() {
-    return animationStraight.getKeyFrame(stateTime, true);
-  }
-
-  public TextureRegion getCurrentFrameLeft() {
-    return animationLeft.getKeyFrame(stateTime, true);
-  }
-
-  public TextureRegion getCurrentFrameRight() {
-    return animationRight.getKeyFrame(stateTime, true);
   }
 
   public static void updateStateTime() {
@@ -125,5 +89,40 @@ public enum Character {
     }
 
     return next;
+  }
+
+  private Animation<TextureRegion> getAnimation(TextureRegion[][] tmp, int x, int y) {
+    // Place the regions into a 1D array in the correct order, starting from the top
+    // left, going across first. The Animation constructor requires a 1D array.
+    TextureRegion[] walkFrames = new TextureRegion[3];
+
+    walkFrames[0] = tmp[y][x];
+    walkFrames[1] = tmp[y][x + 1];
+    walkFrames[2] = tmp[y][x + 2];
+
+    // Initialize the Animation with the frame interval and array of frames
+    return new Animation<>(0.15f, walkFrames);
+  }
+
+  public String getName() {
+    final String name = this.name();
+
+    return name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
+  }
+
+  public Color getColour() {
+    return this.colour;
+  }
+
+  public TextureRegion getCurrentFrame() {
+    return animationStraight.getKeyFrame(stateTime, true);
+  }
+
+  public TextureRegion getCurrentFrameLeft() {
+    return animationLeft.getKeyFrame(stateTime, true);
+  }
+
+  public TextureRegion getCurrentFrameRight() {
+    return animationRight.getKeyFrame(stateTime, true);
   }
 }

@@ -3,55 +3,53 @@ package com.guelphengg.gameproject;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.guelphengg.gameproject.scenes.scenecomponents.AttackAnimation;
 
 public class TravelingSalesman extends ApplicationAdapter {
-    private static TravelingSalesman instance;
-    private Music Backgr;
+  private static TravelingSalesman instance;
+  private Music Backgr;
 
-    public Music getBackgr(){
-        return Backgr;
-    }
-    @Override
-    public void create() {
-        instance = this;
+  public static TravelingSalesman getInstance() {
+    return instance;
+  }
 
-        // Start listening for input
-        Gdx.input.setInputProcessor(new InputListener());
+  public Music getBackgr() {
+    return Backgr;
+  }
 
-        // Initialize the scene manager
-        SceneManager.init();
+  @Override
+  public void create() {
+    instance = this;
 
-        Backgr = Gdx.audio.newMusic(Gdx.files.internal("MainMenuTS.mp3"));
+    // Start listening for input
+    Gdx.input.setInputProcessor(new InputListener());
 
-        Backgr.setLooping(true);
-        Backgr.play();
+    // Initialize the scene manager
+    SceneManager.init();
 
-        Accessor.getGameManager().smoothlySetState(GameState.MAIN_MENU, true, 500);
-    }
+    Backgr = Gdx.audio.newMusic(Gdx.files.internal("MainMenuTS.mp3"));
 
-    @Override
-    public void render() {
-        AttackAnimation.incrementTime();
+    Backgr.setLooping(true);
+    Backgr.play();
 
-        // Update the player animation frames
-        Character.updateStateTime();
+    Accessor.getGameManager().smoothlySetState(GameState.MAIN_MENU, true, 500);
+  }
 
-        ScreenUtils.clear(0, 0, 0, 1);
-        SceneManager.getCurrentScene().render();
-    }
+  @Override
+  public void render() {
+    AttackAnimation.incrementTime();
 
-    @Override
-    public void dispose() {
-        SceneManager.dispose();
-        Textures.dispose();
-    }
+    // Update the player animation frames
+    Character.updateStateTime();
 
-    public static TravelingSalesman getInstance() {
-        return instance;
-    }
+    ScreenUtils.clear(0, 0, 0, 1);
+    SceneManager.getCurrentScene().render();
+  }
+
+  @Override
+  public void dispose() {
+    SceneManager.dispose();
+    Textures.dispose();
+  }
 }

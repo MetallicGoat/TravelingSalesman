@@ -71,8 +71,8 @@ public class GameScene extends Scene {
       font.getData().setScale(3F);
 
       //Open help menu
-      font.draw(batch, "Press [H] for Help",30,60);
-      font.draw(batch,"Press [V] to Toggle Map",30,110);
+      font.draw(batch, "Press [H] for Help", 30, 60);
+      font.draw(batch, "Press [V] to Toggle Map", 30, 110);
 
       // Can they loot?
       if (manager.playerOn(GridObject.TREASURE_HOUSE) || manager.playerOn(GridObject.LOST_ITEM_HOUSE)) {
@@ -105,7 +105,7 @@ public class GameScene extends Scene {
         for (int j = 0; j <= 9; j++) {
           final GridObject object = manager.gridObjects[i][j];
 
-          if (!manager.getPlayingPlayer().canPlayerSee(i, j)) {
+          if (!manager.getPlayingPlayer().canPlayerSee(i, j) && object != GridObject.CASTLE) {
             GridObject.HIDDEN_SQUARE.render(largeGrid, i, j);
             continue;
           }
@@ -138,7 +138,7 @@ public class GameScene extends Scene {
           } else if (x + i == 10 && y + j == 0) { // start square
             miniGrid.renderTextureInGrid(i + 1, j + 1, Textures.STARTER_HOUSE.get(), 1, 0, 0);
           } else {
-            miniGrid.renderRectInGrid(i + 1, j + 1, new Color(1, 0, 0,.5F));
+            miniGrid.renderRectInGrid(i + 1, j + 1, new Color(1, 0, 0, .5F));
           }
         }
       }

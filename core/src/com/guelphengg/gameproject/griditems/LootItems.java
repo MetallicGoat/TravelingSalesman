@@ -37,6 +37,10 @@ public enum LootItems {
     this.itemType = type;
   }
 
+  // Returns a random LootItem
+  public static LootItems getRandomItem() {
+    return values()[(int) (Math.random() * values().length)];
+  }
 
   // Method to draw the LootItem in certian square on whatever grid u want
   public void render(GameGrid grid, int x, int y) {
@@ -46,7 +50,6 @@ public enum LootItems {
   public int getItemPower() {
     return itemPower;
   }
-
 
   public int getDamage() {
     return damage;
@@ -62,11 +65,6 @@ public enum LootItems {
 
   public double getProtection() {
     return protection;
-  }
-
-  // Returns a random LootItem
-  public static LootItems getRandomItem() {
-    return values()[(int) (Math.random() * values().length)];
   }
 
   public ItemType getItemType() {
