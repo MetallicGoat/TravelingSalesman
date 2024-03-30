@@ -105,7 +105,7 @@ public class GameScene extends Scene {
         for (int j = 0; j <= 9; j++) {
           final GridObject object = manager.gridObjects[i][j];
 
-          if (!manager.getPlayingPlayer().canPlayerSee(i, j) && object != GridObject.CASTLE) {
+          if (!manager.getPlayingPlayer().canPlayerSee(i, j) && object != GridObject.CASTLE && object != GridObject.MARKET) {
             GridObject.HIDDEN_SQUARE.render(largeGrid, i, j);
             continue;
           }
@@ -115,6 +115,10 @@ public class GameScene extends Scene {
 
         }
       }
+
+      // Display the treasure X
+      if (manager.getPlayingPlayer().isTreasureLocVisible())
+        largeGrid.renderTextureInGrid(manager.getPlayingPlayer().getTreasureX(), manager.getPlayingPlayer().getTreasureY(), Textures.TREASURE_X.get());
 
     } else {
       addGridBackground(miniGrid, 0.45F);
@@ -130,6 +134,8 @@ public class GameScene extends Scene {
       for (int i = -1; i <= 1; i++) {
         for (int j = -1; j <= 1; j++) {
           if (x + i >= 0 && x + i <= 9 && y + j >= 0 && y + j <= 9) {
+
+            // Render nearby grid objects
             final GridObject object = manager.gridObjects[x + i][y + j];
 
             if (object != null)

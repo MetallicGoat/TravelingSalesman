@@ -20,7 +20,7 @@ public class GameManager {
   public GridObject[][] gridObjects = new GridObject[10][10];
 
   // How many turns before a house can be looted again
-  private final int COUNT_MAX = 5;
+  private final int COUNT_MAX = 20;
 
   // for help menu to know where to return to after they press H
   boolean fromMenu = false;
@@ -455,6 +455,10 @@ public class GameManager {
 
     // Check if the players can battle
     battleCheck();
+
+    // Check if the player has reached the treasure location
+    // And reward them if they have
+    playingPlayer.tryCollectTreasure();
 
     // Did they land on a trapped house?
     if (playerOn(GridObject.TRAPPED_HOUSE))

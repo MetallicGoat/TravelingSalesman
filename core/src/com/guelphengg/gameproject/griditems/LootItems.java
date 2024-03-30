@@ -19,7 +19,8 @@ public enum LootItems {
   GOLDEN_GOBLET("Golden_Goblet.png", 0, 45, 0, 10000, 1, ItemType.TREASURE),
   CRYSTAL_GOBLET("Crystal_Goblet.png", 0, 77, 0, 10000, 1, ItemType.TREASURE),
   DIAMOND_RING("Diamond_Ring.png", 0, 80, 0, 10000, 1, ItemType.TREASURE),
-  DRAGON_SCROLL("Dragon_Scroll.png", 0, 100, 0, 10000, 1, ItemType.TREASURE);
+  DRAGON_SCROLL("Dragon_Scroll.png", 0, 100, 0, 10000, 1, ItemType.TREASURE),
+  TREASURE_MAP("TreasureMap.png", 0, 100, 0, 10000, 1, ItemType.TREASURE);
 
   private final Texture texture;
   private final int damage;
@@ -44,7 +45,8 @@ public enum LootItems {
   public static LootItems getRandomItem(Player player) {
     final List<LootItems> values = new ArrayList<>(List.of(values()));
 
-    values.removeIf(player.getItems()::contains);
+    // Remove all items the player already has (+ treasure maps are not given at treasure houses)
+    values.removeIf(item -> player.getItems().contains(item) || item == TREASURE_MAP);
 
     // They have all the items, so just return a random one
     if (values.isEmpty())

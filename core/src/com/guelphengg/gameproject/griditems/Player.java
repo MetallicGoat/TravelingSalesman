@@ -2,6 +2,7 @@ package com.guelphengg.gameproject.griditems;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.guelphengg.gameproject.Accessor;
 import com.guelphengg.gameproject.Character;
 import com.guelphengg.gameproject.scenes.scenecomponents.GameGrid;
 
@@ -9,28 +10,39 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Player {
-  // base strength for a character
-  private final int BASE_STRENGTH = 10;
+
   // This array of loot items represents the players inventory
   private final List<LootItems> loot = new ArrayList<>();
+
   // The area the player is currently able to see
   private final boolean[][] visibleArea = new boolean[10][10];
+
   // Offset used for offseting the players position when drawing it on the game grid
   // For when one is small and to thr right
   public int yOffset = 0;
   public int xOffset = 0;
-  // stateTime is used to keep track of the current frame of the player's animation
-  float stateTime = 0f;
+
   // The character of the player
   private Character character;
+
   // If the player is currently small
   private boolean small = true;
+
   // misc player attributes
   private int strength = 10, health = 100, coins = 0, power = 0;
+
   // The x and y position of the player on the game grid
   private int x;
   private int y;
-  private Color solidColour;
+
+  // The colour of the player
+  private final Color solidColour;
+
+  private boolean treasureLocated = false;
+  private boolean tresaureCollected = false;
+  private int tresaureX = 0;
+  private int tresaureY = 0;
+
 
   // constructor for the player
   public Player(int x, int y, Character character) {
@@ -87,10 +99,6 @@ public class Player {
 
   // change the strength of the player
   public void setStrength(int newStrength) {
-//        if (newStrength < 10) { // catches if the new value is less than the base strength
-//            newStrength = BASE_STRENGTH;
-//        }
-
     this.strength = newStrength;
   }
 
@@ -166,6 +174,65 @@ public class Player {
   // adds loot to the players inventory
   public void addLoot(LootItems item) {
     loot.add(item);
+
+    if (item == LootItems.TREASURE_MAP)
+      findTreasure();
+  }
+
+  // Generate a random location where the player will find a treasure
+  public void findTreasure() {
+    if (treasureLocated)
+      return;
+
+    final int[] treasureLocation = getRandomHiddenTreasure();
+
+    if (treasureLocation == null)
+      return;
+
+    treasureLocated = true;
+    tresaureX = treasureLocation[0];
+    tresaureY = treasureLocation[1];
+  }
+
+  public boolean hasLocatedTreasure() {
+    return treasureLocated;
+  }
+
+  public boolean isTreasureLocVisible() {
+    return treasureLocated && !tresaureCollected;
+  }
+
+  public int getTreasureX() {
+    return tresaureX;
+  }
+
+  public int getTreasureY() {
+    return tresaureY;
+  }
+
+  public void tryCollectTreasure() {
+    if (!tresaureCollected && tresaureX == x && tresaureY == y) {
+      tresaureCollected = true;
+      loot.remove(LootItems.TREASURE_MAP);
+      addCoins(1000);
+    }
+  }
+
+  private int[] getRandomHiddenTreasure() {
+    final List<int[]> locations = new ArrayList<>();
+
+    for (int i = 0; i < 10; i++) {
+      for (int j = 0; j < 10; j++) {
+        if (!visibleArea[i][j] && Accessor.getGameManager().gridObjects[i][j] == GridObject.TREASURE_HOUSE) {
+          locations.add(new int[] {i, j});
+        }
+      }
+    }
+
+    if (locations.isEmpty())
+      return null;
+
+    return locations.get((int) (Math.random() * locations.size()));
   }
 
   // returns a list of the players loot

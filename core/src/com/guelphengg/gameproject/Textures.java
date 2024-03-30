@@ -10,7 +10,7 @@ public enum Textures {
   DICE_SHEET("dice.png"),
   SLASH_SHEET("slash_sprite_sheet.png"),
   MAP_SCROLL("Main Scroll.png"),
-  ;
+  TREASURE_X("TreasureX.png");
 
   private final Texture texture;
 
