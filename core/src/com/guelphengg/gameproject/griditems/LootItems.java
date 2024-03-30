@@ -3,6 +3,9 @@ package com.guelphengg.gameproject.griditems;
 import com.badlogic.gdx.graphics.Texture;
 import com.guelphengg.gameproject.scenes.scenecomponents.GameGrid;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public enum LootItems {
   /**
    * This enum represents every collectable item in the game
@@ -37,9 +40,17 @@ public enum LootItems {
     this.itemType = type;
   }
 
-  // Returns a random LootItem
-  public static LootItems getRandomItem() {
-    return values()[(int) (Math.random() * values().length)];
+  // Tries to generate a random LootItem that the player does not already have
+  public static LootItems getRandomItem(Player player) {
+    final List<LootItems> values = new ArrayList<>(List.of(values()));
+
+    values.removeIf(player.getItems()::contains);
+
+    // They have all the items, so just return a random one
+    if (values.isEmpty())
+      return values()[(int) (Math.random() * values().length)];
+    else // Return one of the remaining
+      return values.get((int) (Math.random() * values.size()));
   }
 
   // Method to draw the LootItem in certian square on whatever grid u want

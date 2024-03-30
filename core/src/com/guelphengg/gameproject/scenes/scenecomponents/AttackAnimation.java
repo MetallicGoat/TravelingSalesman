@@ -1,16 +1,15 @@
 package com.guelphengg.gameproject.scenes.scenecomponents;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.guelphengg.gameproject.SceneManager;
 import com.guelphengg.gameproject.Textures;
+import com.guelphengg.gameproject.util.Util;
 
 public class AttackAnimation {
   // Used to keep track of the current frame of the animation
-  private static float stateTime = 0F;
   final Animation<TextureRegion> animation;
 
   public AttackAnimation() {
@@ -37,13 +36,9 @@ public class AttackAnimation {
     this.animation = new Animation<>(0.05F, textures1d);
   }
 
-  public static void incrementTime() {
-    stateTime += Gdx.graphics.getDeltaTime();
-  }
-
   public void draw(float x, float y, double scale) {
     final SpriteBatch batch = SceneManager.getSpriteBatch();
-    final TextureRegion currFrame = this.animation.getKeyFrame(stateTime, true);
+    final TextureRegion currFrame = this.animation.getKeyFrame(Util.getStateTime(), true);
 
     //batch.begin();
     batch.draw(currFrame, x, y, (float) (currFrame.getRegionWidth() * scale), (float) (currFrame.getRegionHeight() * scale));

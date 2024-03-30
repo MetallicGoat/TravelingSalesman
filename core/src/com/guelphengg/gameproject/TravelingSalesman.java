@@ -5,17 +5,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.guelphengg.gameproject.scenes.scenecomponents.AttackAnimation;
+import com.guelphengg.gameproject.util.Util;
 
 public class TravelingSalesman extends ApplicationAdapter {
   private static TravelingSalesman instance;
-  private Music Backgr;
 
   public static TravelingSalesman getInstance() {
     return instance;
-  }
-
-  public Music getBackgr() {
-    return Backgr;
   }
 
   @Override
@@ -28,20 +24,16 @@ public class TravelingSalesman extends ApplicationAdapter {
     // Initialize the scene manager
     SceneManager.init();
 
-    Backgr = Gdx.audio.newMusic(Gdx.files.internal("MainMenuTS.mp3"));
-
-    Backgr.setLooping(true);
-    Backgr.play();
+    // Play background music
+    TSGameMusic.MAIN_MENU_MUSIC.play();
 
     Accessor.getGameManager().smoothlySetState(GameState.MAIN_MENU, true, 500);
   }
 
   @Override
   public void render() {
-    AttackAnimation.incrementTime();
-
     // Update the player animation frames
-    Character.updateStateTime();
+    Util.incrementStateTime();
 
     ScreenUtils.clear(0, 0, 0, 1);
     SceneManager.getCurrentScene().render();
@@ -51,5 +43,7 @@ public class TravelingSalesman extends ApplicationAdapter {
   public void dispose() {
     SceneManager.dispose();
     Textures.dispose();
+    TSGameMusic.dispose();
+    TSGameSound.dispose();
   }
 }
