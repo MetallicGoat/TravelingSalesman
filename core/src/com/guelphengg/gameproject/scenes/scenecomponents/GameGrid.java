@@ -8,6 +8,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.guelphengg.gameproject.SceneManager;
+import com.guelphengg.gameproject.Textures;
+
+import java.util.Random;
 
 public class GameGrid {
 
@@ -75,29 +78,43 @@ public class GameGrid {
     batch.end();
   }
 
-//  public void renderTextureInGrid(int x, int y, Texture texture, int xOffset, int yOffset) {
-//    final SpriteBatch batch = SceneManager.getSpriteBatch();
-//
-//    final int width = texture.getWidth();
-//    final int height = texture.getHeight();
-//
-//    // Calculate scaling factors
-//    float scaleX = (float) getBoxWidth() / width;
-//    float scaleY = (float) getBoxHeight() / height;
-//    float scale = Math.min(scaleX, scaleY);
-//
-//    // Calculate scaled dimensions
-//    float scaledWidth = width * scale;
-//    float scaledHeight = height * scale;
-//
-//    // Calculate position for centering
-//    float posX = (this.cornerX + (x * getBoxWidth())) + xOffset + (getBoxWidth() - scaledWidth) / 2;
-//    float posY = (this.cornerY + (y * getBoxHeight())) + yOffset + (getBoxHeight() - scaledHeight) / 2;
-//
-//    batch.begin();
-//    batch.draw(texture, posX, posY, scaledWidth, scaledHeight);
-//    batch.end();
-//  }
+  public void renderCloudsInGrid(int x, int y) {
+    final SpriteBatch batch = SceneManager.getSpriteBatch();
+    final Texture cloud = Textures.HIDDEN_SQUARE.get();
+
+    final double scale =  ((double) getBoxWidth() * 0.9)  / (double) cloud.getWidth();
+
+    batch.begin();
+    batch.draw(cloud, (this.cornerX + (x * getBoxWidth()) + (int) (getBoxWidth() * 0.05)) , (this.cornerY + (y * getBoxHeight())) + 35, (int) (cloud.getWidth() * scale * .70), (int) (cloud.getHeight() * scale * .70));
+    batch.draw(cloud, (this.cornerX + (x * getBoxWidth()) + (int) (getBoxWidth() * 0.05)) + 10, (this.cornerY + (y * getBoxHeight())) + 20, (int) (cloud.getWidth() * scale * .80), (int) (cloud.getHeight() * scale * .80));
+    batch.draw(cloud, (this.cornerX + (x * getBoxWidth()) + (int) (getBoxWidth() * 0.05)), (this.cornerY + (y * getBoxHeight())) + 5, (int) (cloud.getWidth() * scale), (int) (cloud.getHeight() * scale));
+    batch.end();
+  }
+
+  // This tries to center stuff better than above methods
+  public void renderTextureInGrid(int x, int y, TextureRegion texture, boolean centerX, int xOffset) {
+    final SpriteBatch batch = SceneManager.getSpriteBatch();
+
+    final int width = texture.getRegionWidth();
+    final int height = texture.getRegionHeight();
+
+    // Calculate scaling factors
+    float scaleX = (float) getBoxWidth() / width;
+    float scaleY = (float) getBoxHeight() / height;
+    float scale = Math.min(scaleX, scaleY);
+
+    // Calculate scaled dimensions
+    float scaledWidth = width * scale;
+    float scaledHeight = height * scale;
+
+    // Calculate position for centering
+    float posX = (this.cornerX + (x * getBoxWidth())) + xOffset + (centerX ? (getBoxWidth() - scaledWidth) / 2 : 0);
+    float posY = (this.cornerY + (y * getBoxHeight())) + (getBoxHeight() - scaledHeight) / 2;
+
+    batch.begin();
+    batch.draw(texture, posX, posY, scaledWidth, scaledHeight);
+    batch.end();
+  }
 
   // draws a rectangle in a certain square on the grid
   public void renderRectInGrid(int x, int y, Color color) {

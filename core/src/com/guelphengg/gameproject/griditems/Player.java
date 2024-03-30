@@ -168,7 +168,7 @@ public class Player {
 
   // draw the player on the gamegrid at a specific pos (overriding player position)
   public void render(GameGrid gameGrid, int x, int y) {
-    gameGrid.renderTextureInGrid(x, y, getCurrFrame(), this.small ? 0.5 : 1, xOffset, yOffset);
+    gameGrid.renderTextureInGrid(x, y, getCurrFrame(), !isSmall(), xOffset);
   }
 
   // adds loot to the players inventory

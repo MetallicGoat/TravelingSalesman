@@ -9,6 +9,7 @@ public enum Textures {
   SPRITE_SHEET("sprite_sheet.png"),
   DICE_SHEET("dice.png"),
   SLASH_SHEET("slash_sprite_sheet.png"),
+  HIDDEN_SQUARE("cloud_cover_2.png"),
   MAP_SCROLL("Main Scroll.png"),
   TREASURE_X("TreasureX.png");
 

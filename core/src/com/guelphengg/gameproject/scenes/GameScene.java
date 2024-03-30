@@ -106,7 +106,8 @@ public class GameScene extends Scene {
           final GridObject object = manager.gridObjects[i][j];
 
           if (!manager.getPlayingPlayer().canPlayerSee(i, j) && object != GridObject.CASTLE && object != GridObject.MARKET) {
-            GridObject.HIDDEN_SQUARE.render(largeGrid, i, j);
+            largeGrid.renderCloudsInGrid(i, j);
+
             continue;
           }
 
