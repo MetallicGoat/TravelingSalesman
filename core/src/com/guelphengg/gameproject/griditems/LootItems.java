@@ -7,15 +7,16 @@ public enum LootItems {
   /**
    * This enum represents every collectable item in the game
    */
-  SWORD("Sword.png", 2, 10, 10000, 1, ItemType.WEAPON, ItemType.SWORD),
-  BEJEWELED_SWORD("Bejeweled_Sword.png", 10, 30, 10000, 1, ItemType.WEAPON, ItemType.SWORD),
-  BOW("Bow.png", 5, 16, 10000, 1, ItemType.WEAPON, ItemType.BOW),
+  SWORD("Sword.png", 2, 10, 0, 10000, 1, ItemType.WEAPON),
+  BEJEWELED_SWORD("Bejeweled_Sword.png", 10, 30, 0, 10000, 1, ItemType.WEAPON),
+  BOW("Bow.png", 5, 16, 0, 10000, 1, ItemType.WEAPON),
 
-  GOLDEN_KEY("Golden_Key.png", 0, 30, 10000, 0, ItemType.TREASURE, ItemType.TREASURE),
-  GOLDEN_GOBLET("Golden_Goblet.png", 0, 45,  10000, 0, ItemType.TREASURE, ItemType.TREASURE),
-  CRYSTAL_GOBLET("Crystal_Goblet.png", 0, 77,  10000, 0, ItemType.TREASURE, ItemType.TREASURE),
-  DIAMOND_RING("Diamond_Ring.png", 0, 80,  10000, 0, ItemType.TREASURE, ItemType.TREASURE),
-  DRAGON_SCROLL("Dragon_Scroll.png", 0, 100,  10000, 0, ItemType.TREASURE, ItemType.TREASURE);
+  PALADIN_SHIELD("Paladin_Shield.png", 0, 50, 0.8, 10, 1, ItemType.TREASURE),
+  GOLDEN_KEY("Golden_Key.png", 0, 30, 0, 10000, 1, ItemType.TREASURE),
+  GOLDEN_GOBLET("Golden_Goblet.png", 0, 45, 0, 10000, 1, ItemType.TREASURE),
+  CRYSTAL_GOBLET("Crystal_Goblet.png", 0, 77, 0, 10000, 1, ItemType.TREASURE),
+  DIAMOND_RING("Diamond_Ring.png", 0, 80, 0, 10000, 1, ItemType.TREASURE),
+  DRAGON_SCROLL("Dragon_Scroll.png", 0, 100, 0, 10000, 1, ItemType.TREASURE);
 
   private final Texture texture;
   private final int damage;
@@ -23,19 +24,21 @@ public enum LootItems {
   private final int durability;
   private final int itemPower;
   private final ItemType itemType;
-  private final ItemType fancyItemType; // this specifically is used for tie breaking mechanics to distinguish between a sword, wand, and bow.
 
   // id represents the file name of the texture
-  LootItems(String id, int damage, int sellPrice, int durability, int power, ItemType type, ItemType fancy) {
+  LootItems(String id, int damage, int sellPrice, double protection, int durability, int power, ItemType type) {
     this.texture = new Texture(id);
     this.damage = damage;
     this.durability = durability;
     this.sellPrice = sellPrice;
     this.itemPower = power;
     this.itemType = type;
-    this.fancyItemType = fancy;
   }
 
+  // Returns a random LootItem
+  public static LootItems getRandomItem() {
+    return values()[(int) (Math.random() * values().length)];
+  }
 
   // Method to draw the LootItem in certian square on whatever grid u want
   public void render(GameGrid grid, int x, int y) {
@@ -45,7 +48,6 @@ public enum LootItems {
   public int getItemPower() {
     return itemPower;
   }
-
 
   public int getDamage() {
     return damage;
@@ -57,11 +59,6 @@ public enum LootItems {
 
   public int getSellPrice() {
     return sellPrice;
-  }
-
-  // Returns a random LootItem
-  public static LootItems getRandomItem() {
-    return values()[(int) (Math.random() * values().length)];
   }
 
   public ItemType getItemType() {

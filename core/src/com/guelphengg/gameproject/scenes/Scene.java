@@ -22,7 +22,7 @@ public abstract class Scene {
   public abstract void render();
 
   // Some scenes share a common background
-  protected void renderBackground(float transparency){
+  protected void renderBackground(float transparency) {
     renderBackground();
 
     final ShapeRenderer render = SceneManager.getShapeRenderer();
@@ -46,7 +46,7 @@ public abstract class Scene {
     batch.end();
   }
 
-  protected void renderBattleBackground(){
+  protected void renderBattleBackground() {
     final SpriteBatch batch = SceneManager.getSpriteBatch();
 
     batch.begin();
@@ -70,6 +70,6 @@ public abstract class Scene {
     float h = glyphLayout.height;
 
     // draw magic (some mathies to find the center)
-    font.draw(batch, glyphLayout, (SceneManager.getViewWidth() - w)/2, (SceneManager.getViewHeight() + h) / 2 + yOffset);
+    font.draw(batch, glyphLayout, (SceneManager.getViewWidth() - w) / 2, (SceneManager.getViewHeight() + h) / 2 + yOffset);
   }
 }

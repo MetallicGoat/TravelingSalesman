@@ -15,31 +15,27 @@ import java.util.Random;
 
 public class GameManager {
 
+  // TODO allow players to pick their character
+  private final Player player1 = new Player(10, 0, Character.GREENIE);
+  private final Player player2 = new Player(10, 0, Character.GRAYIE);
+  private final int COUNT_MAX = 5;
+  public GridObject[][] gridObjects = new GridObject[10][10];
+  //for help menu to know where to return to
+  boolean fromMenu = false;
+  boolean fromRunning = false;
   private boolean waitingForRoll = true; // true by default cause first turn is always ready
   private int nextRoll = 0;
   private int turnsLeft = 0;
   private Sound jump = Gdx.audio.newSound(Gdx.files.internal("JumpTS.wav"));
   private Sound battlestart = Gdx.audio.newSound(Gdx.files.internal("LowImpact.mp3"));
   private Sound epicBram = Gdx.audio.newSound(Gdx.files.internal("EpicBram.mp3"));
-
   // What phase the game is currently in
   private GameState state = GameState.MAIN_MENU;
   private int[][] houseCounter = new int[10][10];
-
-  // TODO allow players to pick their character
-  private final Player player1 = new Player(10, 0, Character.GREENIE);
-  private final Player player2 = new Player(10, 0, Character.GRAYIE);
-
   private Player playingPlayer = player1;
-
   private boolean largeMap = false;
   private boolean diceRolling = false;
   private long lastRollTime = 0;
-
-  private final int COUNT_MAX = 5;
-
-  public GridObject[][] gridObjects = new GridObject[10][10];
-
   private Music gameMusic;
   private Music battleMusic;
   private Sound rollSound;
@@ -78,7 +74,7 @@ public class GameManager {
       return 1;
 
     else
-    return 0;
+      return 0;
   }
 
   // Make the playing player loot the current house
@@ -120,16 +116,15 @@ public class GameManager {
     }
     //logic for looting for lost items aka coins
     Random r = new Random();
-    if(object == GridObject.LOST_ITEM_HOUSE){
+    if (object == GridObject.LOST_ITEM_HOUSE) {
       lootSound = Gdx.audio.newSound(Gdx.files.internal("LootSound1.wav"));
       lootSound.play();
 
-      playingPlayer.addCoins(r.nextInt(15,45));
+      playingPlayer.addCoins(r.nextInt(15, 45));
       gridObjects[playingPlayer.getX()][playingPlayer.getY()] = GridObject.EMPTY_HOUSE;
     }
-    houseCounter[playingPlayer.getX()][playingPlayer.getY()] ++;
+    houseCounter[playingPlayer.getX()][playingPlayer.getY()]++;
   }
-
 
   public void tradeItems() {
     if (playerOn(GridObject.CASTLE)) {
@@ -145,6 +140,7 @@ public class GameManager {
     }
     //TODO Give items values and give player gold for trading items
   }
+
   public boolean playerOn(GridObject obj) {
     if (!playingPlayer.isAtStart() && obj == gridObjects[playingPlayer.getX()][playingPlayer.getY()]) {
       return true;
@@ -210,7 +206,7 @@ public class GameManager {
     this.state = nextState;
   }
 
-  public void battleCheck(){
+  public void battleCheck() {
     if ((player1.getX() == player2.getX() && player1.getY() == player2.getY()) && !player1.isAtStart()) {
       battleMusic = Gdx.audio.newMusic(Gdx.files.internal("BattleMusic.mp3"));
       battleMusic.setLooping(true);
@@ -222,10 +218,6 @@ public class GameManager {
     }
   }
 
-  //for help menu to know where to return to
-  boolean fromMenu = false;
-  boolean fromRunning = false;
-
   // Handles all game input for pressing down on a key
   public void gameInputKeyDown(int keyCode) {
 
@@ -235,7 +227,7 @@ public class GameManager {
         case Input.Keys.SPACE:
           smoothlySetState(GameState.GAME_SETUP);
           break;
-          //moves into help menu scene
+        //moves into help menu scene
         case Input.Keys.H:
           smoothlySetState(GameState.HELP_MENU);
           fromMenu = true;
@@ -292,7 +284,7 @@ public class GameManager {
             }
           }
         }
-          break;
+        break;
 
         case Input.Keys.L: // Player is trying to loot house
           if (playerOn(GridObject.TREASURE_HOUSE)) {
@@ -352,14 +344,14 @@ public class GameManager {
     }
 
     // when in help menu scene, waits for H to be pressed, then returns to scene that they initially came from
-    else if(this.state == GameState.HELP_MENU){
-      switch (keyCode){
+    else if (this.state == GameState.HELP_MENU) {
+      switch (keyCode) {
         case Input.Keys.H:
-          if(fromRunning){
+          if (fromRunning) {
             smoothlySetState(GameState.RUNNING);
             break;
           }
-          if(fromMenu){
+          if (fromMenu) {
             smoothlySetState(GameState.MAIN_MENU);
             break;
           }
@@ -367,8 +359,8 @@ public class GameManager {
     }
 
     // logic for trapped houses and the inputs while in that scene
-    else if(this.state == GameState.TRAPPED){
-      switch (keyCode){
+    else if (this.state == GameState.TRAPPED) {
+      switch (keyCode) {
         case Input.Keys.NUM_1:
           //lose power
           playingPlayer.removeStrength(1);
@@ -383,9 +375,9 @@ public class GameManager {
     }
 
     if (this.state == GameState.BATTLE) {
-      switch(keyCode){
-         case Input.Keys.SPACE:
-             Accessor.getGameManager().smoothlySetState(GameState.RUNNING);
+      switch (keyCode) {
+        case Input.Keys.SPACE:
+          Accessor.getGameManager().smoothlySetState(GameState.RUNNING);
 
       }
     }
@@ -401,7 +393,7 @@ public class GameManager {
     }
   }
 
-  public GridObject[][] getGridObjectArray(){
+  public GridObject[][] getGridObjectArray() {
     return this.gridObjects;
   }
 

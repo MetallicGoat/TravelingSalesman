@@ -9,7 +9,8 @@ public enum Textures {
   SPRITE_SHEET("sprite_sheet.png"),
   DICE_SHEET("dice.png"),
   SLASH_SHEET("slash_sprite_sheet.png"),
-  MAP_SCROLL("Main Scroll.png"),;
+  MAP_SCROLL("Main Scroll.png"),
+  ;
 
   private final Texture texture;
 
@@ -17,13 +18,13 @@ public enum Textures {
     this.texture = new Texture(id);
   }
 
-  public Texture get() {
-    return texture;
-  }
-
   public static void dispose() {
     for (Textures texture : values()) {
       texture.texture.dispose();
     }
+  }
+
+  public Texture get() {
+    return texture;
   }
 }

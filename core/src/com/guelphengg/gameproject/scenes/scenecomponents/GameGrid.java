@@ -113,7 +113,7 @@ public class GameGrid {
 
     shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
     shapeRenderer.setColor(color);
-    shapeRenderer.rect((this.cornerX + (x * getBoxWidth())) + xOffset ,(this.cornerY + (y * getBoxHeight())) + yOffset,  (float) (getBoxWidth() * scale), (float) (getBoxHeight() * scale));
+    shapeRenderer.rect((this.cornerX + (x * getBoxWidth())) + xOffset, (this.cornerY + (y * getBoxHeight())) + yOffset, (float) (getBoxWidth() * scale), (float) (getBoxHeight() * scale));
     shapeRenderer.end();
   }
 

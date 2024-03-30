@@ -9,7 +9,7 @@ import com.guelphengg.gameproject.GameState;
 import com.guelphengg.gameproject.SceneManager;
 
 // This scene is used before a game starts to allow players to select their characters
-public class GameSetupScene extends Scene{
+public class GameSetupScene extends Scene {
 
   public GameSetupScene() {
     super(GameState.GAME_SETUP);
@@ -47,13 +47,12 @@ public class GameSetupScene extends Scene{
 
     //text to give instruction to how to change character
     font.getData().setScale(2F);
-    font.draw(batch,"Use [A] and [D] to cycle", 150, 150);
-    font.draw(batch,"Use [<-] and [->] to cycle", 725, 150);
+    font.draw(batch, "Use [A] and [D] to cycle", 150, 150);
+    font.draw(batch, "Use [<-] and [->] to cycle", 725, 150);
 
     // Draw start text
     font.getData().setScale(3F);
     font.draw(batch, "Press [SPACE] to start", 375, 75);
-
 
     batch.end();
   }
