@@ -296,9 +296,8 @@ public class GameManager {
         break;
 
         case Input.Keys.L: // Player is trying to loot house
-          if (playerOn(GridObject.TREASURE_HOUSE)) {
-            lootHouse();
-          } else if (playerOn(GridObject.LOST_ITEM_HOUSE)) {
+          if (playerOn(GridObject.TREASURE_HOUSE) || playerOn(GridObject.LOST_ITEM_HOUSE)) {
+            playingPlayer.addLootedHouse();
             lootHouse();
           }
 
@@ -385,8 +384,10 @@ public class GameManager {
     if (this.state == GameState.BATTLE) {
       switch (keyCode) {
         case Input.Keys.SPACE:
-          Accessor.getGameManager().smoothlySetState(GameState.RUNNING);
+          TSGameMusic.BATTLE_MUSIC.stop();
+          TSGameMusic.MAIN_GAME_MUSIC.play();
 
+          Accessor.getGameManager().smoothlySetState(GameState.RUNNING);
       }
     }
   }

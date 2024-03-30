@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.guelphengg.gameproject.Accessor;
 import com.guelphengg.gameproject.Character;
 import com.guelphengg.gameproject.scenes.scenecomponents.GameGrid;
+import com.guelphengg.gameproject.util.Util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +30,7 @@ public class Player {
   private boolean small = true;
 
   // misc player attributes
-  private int strength = 10, health = 100, coins = 0, power = 0;
+  private int strength = 10, coins = 0, power = 0;
 
   // The x and y position of the player on the game grid
   private int x;
@@ -38,6 +39,13 @@ public class Player {
   // The colour of the player
   private final Color solidColour;
 
+  // Stat: amount of houses a player has looted
+  private int housesLooted = 0;
+
+  // Stat: amount of time a player has played
+  private float playTime = 0;
+
+  // Used when a player has found a treasure map
   private boolean treasureLocated = false;
   private boolean tresaureCollected = false;
   private int tresaureX = 0;
@@ -251,6 +259,24 @@ public class Player {
       damage += LootItems.BOW.getDamage();
     }
     return damage;
+  }
+
+  // add 1 to the houses looted stat
+  public void addLootedHouse() {
+    housesLooted++;
+  }
+
+  // get the amount of houses looted
+  public int getHousesLooted() {
+    return housesLooted;
+  }
+
+  public void addPlayTime(float time) {
+    playTime += time;
+  }
+
+  public String getPlayTime() {
+    return Util.convertSecondsToString(playTime);
   }
 
   // adds and removes coins to the players variable
