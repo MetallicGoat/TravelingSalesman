@@ -1,5 +1,7 @@
 package com.guelphengg.gameproject.scenes;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -23,15 +25,14 @@ public class MarketScene extends Scene{
 
     @Override
     public void render() {
-    renderMarketBackground();
+        renderMarketBackground();
 
-    final SpriteBatch batch = SceneManager.getSpriteBatch();
+        final SpriteBatch batch = SceneManager.getSpriteBatch();
 
-    batch.begin();
+        batch.begin();
+        drawCenteredText(batch, 300,4,"Welcome To The Market");
 
-    drawCenteredText(batch, 300,4,"Welcome To The Market");
-
-    batch.end();
+        batch.end();
     }
 
     @Override
