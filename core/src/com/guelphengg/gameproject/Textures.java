@@ -10,6 +10,7 @@ public enum Textures {
   DICE_SHEET("dice.png"),
   SLASH_SHEET("slash_sprite_sheet.png"),
   MAP_SCROLL("Main Scroll.png"),
+  MARKET_BACKGROUND("MarketStall.png")
   ;
 
   private final Texture texture;
