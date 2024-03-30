@@ -9,7 +9,8 @@ public enum GameState {
   RUNNING(new GameScene()),
   TRANSITION(new TransitionScene()),
   TRAPPED(new TrappedScene()),
-  BATTLE(new BattleScene());
+  BATTLE(new BattleScene()),
+  MARKET(new MarketScene());
 
   private final Scene scene;
 
