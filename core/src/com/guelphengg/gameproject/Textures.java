@@ -11,7 +11,8 @@ public enum Textures {
   SLASH_SHEET("slash_sprite_sheet.png"),
   HIDDEN_SQUARE("cloud_cover_2.png"),
   MAP_SCROLL("Main Scroll.png"),
-  TREASURE_X("TreasureX.png");
+  TREASURE_X("TreasureX.png"),
+  MARKET_BACKGROUND("MarketStall.png");
 
   private final Texture texture;
 

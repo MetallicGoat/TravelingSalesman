@@ -59,7 +59,7 @@ public abstract class Scene {
     final SpriteBatch batch = SceneManager.getSpriteBatch();
 
     batch.begin();
-    batch.draw(Textures.BATTLE_BACKGROUND.get(), 0, 0, SceneManager.getViewWidth(), SceneManager.getViewHeight());
+    batch.draw(Textures.MARKET_BACKGROUND.get(), 0, 0, SceneManager.getViewWidth(), SceneManager.getViewHeight());
     batch.end();
 
   }
