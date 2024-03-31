@@ -1,9 +1,6 @@
 package com.guelphengg.gameproject;
 
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.utils.Null;
 import com.guelphengg.gameproject.griditems.*;
 import com.guelphengg.gameproject.griditems.GridObject;
 import com.guelphengg.gameproject.griditems.LootItems;
