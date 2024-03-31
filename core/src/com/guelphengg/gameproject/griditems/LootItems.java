@@ -55,7 +55,7 @@ public enum LootItems {
       return values.get((int) (Math.random() * values.size()));
   }
 
-  // Method to draw the LootItem in certian square on whatever grid u want
+  // Method to draw the LootItem in certain square on whatever grid u want
   public void render(GameGrid grid, int x, int y) {
     grid.renderTextureInGrid(x, y, texture);
   }

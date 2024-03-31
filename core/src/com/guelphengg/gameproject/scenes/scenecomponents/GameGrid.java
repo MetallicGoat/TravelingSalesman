@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -111,6 +112,31 @@ public class GameGrid {
 
     batch.begin();
     batch.draw(texture, posX, posY, scaledWidth, scaledHeight);
+    batch.end();
+  }
+  public void renderTextInGrid(int x, int y, String string, boolean centerX, int xOffset, int scaled) {
+    final SpriteBatch batch = SceneManager.getSpriteBatch();
+    final BitmapFont font = SceneManager.getFont();
+
+    final int width = string.length();
+    final int height = y/3;
+
+    font.getData().setScale(scaled);
+    // Calculate scaling factors
+    float scaleX = (float) getBoxWidth() / width;
+    float scaleY = (float) getBoxHeight() / height;
+    float scale = Math.min(scaleX, scaleY);
+
+    // Calculate scaled dimensions
+    float scaledWidth = width * scale;
+    float scaledHeight = height * scale;
+
+    // Calculate position for centering
+    float posX = (this.cornerX + (x * getBoxWidth())) + xOffset + (centerX ? (getBoxWidth() - scaledWidth) / 2 : 0);
+    float posY = (this.cornerY + (y * getBoxHeight())) + (getBoxHeight() - scaledHeight) / 2;
+
+    batch.begin();
+    font.draw(batch, string, posX, posY, scaledWidth,1,  false);
     batch.end();
   }
 
