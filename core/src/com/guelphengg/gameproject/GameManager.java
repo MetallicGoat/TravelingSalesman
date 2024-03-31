@@ -1,9 +1,6 @@
 package com.guelphengg.gameproject;
 
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.utils.Null;
 import com.guelphengg.gameproject.griditems.*;
 import com.guelphengg.gameproject.griditems.GridObject;
 import com.guelphengg.gameproject.griditems.LootItems;
@@ -53,8 +50,6 @@ public class GameManager {
 
   // The last time a user pressed R successfully (in ms)
   private long lastRollTime = 0;
-    private Music marketMusic;
-    private Music trappedMusic;
 
   public void startGame() {
     // Stop main menu music, and play main game music
@@ -385,40 +380,43 @@ public class GameManager {
           //lose power
           playingPlayer.removeStrength(1);
           smoothlySetState(GameState.RUNNING);
-          trappedMusic.stop();
-          gameMusic.setLooping(true);
-          gameMusic.play();
+
+          TSGameMusic.TRAPPED_MUSIC.stop();
+          TSGameMusic.MAIN_GAME_MUSIC.play();
+
           break;
         case Input.Keys.NUM_2:
           //lose coins
           playingPlayer.removeCoins(30);
           smoothlySetState(GameState.RUNNING);
-          trappedMusic.stop();
-          gameMusic.setLooping(true);
-          gameMusic.play();
+
+          TSGameMusic.TRAPPED_MUSIC.stop();
+          TSGameMusic.MAIN_GAME_MUSIC.play();
+
           break;
       }
     }
 
     if (this.state == GameState.BATTLE) {
       switch (keyCode) {
-        case Input.Keys.SPACE:
+        case Input.Keys.SPACE: {
+          Accessor.getGameManager().smoothlySetState(GameState.RUNNING);
+
           TSGameMusic.BATTLE_MUSIC.stop();
           TSGameMusic.MAIN_GAME_MUSIC.play();
-
-          Accessor.getGameManager().smoothlySetState(GameState.RUNNING);
+        }
       }
     }
-      if (this.state == GameState.MARKET) {
-          switch (keyCode) {
-              case Input.Keys.SPACE: {
-                  Accessor.getGameManager().smoothlySetState(GameState.RUNNING);
-                  marketMusic.stop();
-                  gameMusic.setLooping(true);
-                  gameMusic.play();
-              }
-          }
+    if (this.state == GameState.MARKET) {
+      switch (keyCode) {
+        case Input.Keys.SPACE: {
+          Accessor.getGameManager().smoothlySetState(GameState.RUNNING);
+
+          TSGameMusic.MARKET_MUSIC.stop();
+          TSGameMusic.MAIN_GAME_MUSIC.stop();
+        }
       }
+    }
   }
 
   public void gameInputKeyUp(int keyCode) {
@@ -493,18 +491,16 @@ public class GameManager {
     // Did they land on a trapped house?
     if (playerOn(GridObject.TRAPPED_HOUSE)) {
       smoothlySetState(GameState.TRAPPED);
-      gameMusic.stop();
-      trappedMusic = Gdx.audio.newMusic(Gdx.files.internal("TrappedMusic.mp3"));
-      trappedMusic.setLooping(true);
-      trappedMusic.play();
+
+      TSGameMusic.MAIN_GAME_MUSIC.stop();
+      TSGameMusic.TRAPPED_MUSIC.play();
     }
 
     if (playerOn(GridObject.MARKET)) {
       smoothlySetState(GameState.MARKET);
-      gameMusic.stop();
-      marketMusic = Gdx.audio.newMusic(Gdx.files.internal("MarketMusic.mp3"));
-      marketMusic.setLooping(true);
-      marketMusic.play();
+
+      TSGameMusic.MAIN_GAME_MUSIC.stop();
+      TSGameMusic.MARKET_MUSIC.play();
     }
 
     // Update player visibilities

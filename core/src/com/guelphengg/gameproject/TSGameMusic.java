@@ -6,7 +6,9 @@ import com.badlogic.gdx.audio.Music;
 public enum TSGameMusic {
   MAIN_MENU_MUSIC("MainMenuTS.mp3"),
   MAIN_GAME_MUSIC("MainGameTS.mp3"),
-  BATTLE_MUSIC("BattleMusic.mp3");
+  BATTLE_MUSIC("BattleMusic.mp3"),
+  TRAPPED_MUSIC("TrappedMusic.mp3"),
+  MARKET_MUSIC("MarketMusic.mp3");
 
   final Music music;
 
