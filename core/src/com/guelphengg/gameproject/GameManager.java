@@ -1,6 +1,10 @@
 package com.guelphengg.gameproject;
 
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.utils.Null;
+import com.guelphengg.gameproject.griditems.*;
 import com.guelphengg.gameproject.griditems.GridObject;
 import com.guelphengg.gameproject.griditems.LootItems;
 import com.guelphengg.gameproject.griditems.Player;
@@ -99,26 +103,33 @@ public class GameManager {
       gridObjects[playingPlayer.getX()][playingPlayer.getY()] = GridObject.EMPTY_HOUSE;
 
       // The below if loop checks if there is a weapon in the inventory already.
-      if ((lootedItem == LootItems.SWORD || lootedItem == LootItems.BEJEWELED_SWORD || lootedItem == LootItems.BOW)
+      if ((lootedItem.getItemType() == ItemType.WEAPON)
           && (playingPlayer.getItems().contains(LootItems.SWORD) || playingPlayer.getItems().contains(LootItems.BEJEWELED_SWORD) || playingPlayer.getItems().contains(LootItems.BOW))) {
 
         // If there is a weapon, the below for loop will run and remove all weapons from the inventory
         Iterator<LootItems> iterator = playingPlayer.getItems().iterator();
-
         while (iterator.hasNext()) {
           final LootItems item = iterator.next();
-
-          if (item == LootItems.SWORD || item == LootItems.BOW || item == LootItems.BEJEWELED_SWORD)
+          // If the weapon's looted damage is greater than the item in the inventory's, the inventory weapon is converted to coins
+          if ((item.getItemType() == ItemType.WEAPON)&&(lootedItem.getDamage()> item.getDamage())) {
+            playingPlayer.addCoins((int)(item.getSellPrice()*0.8));
+            // Is removed from the inventory
             iterator.remove();
+            // And the appropriate values and inventory are adjusted based on the item.
+            playingPlayer.setStrength(0);
+            playingPlayer.addLoot(lootedItem);
+            playingPlayer.addStrength(lootedItem);
+          }else{
+            playingPlayer.addCoins(item.getSellPrice());
+            System.out.println("Hello");
+          }
         }
-
-        // The strength is then reset back to the base number
-        playingPlayer.setStrength(0);
+      }else{
+        playingPlayer.addLoot(lootedItem);
       }
+
       houseCounter[playingPlayer.getX()][playingPlayer.getY()]++;
       // and the loot is added and the strength is adjusted
-      playingPlayer.addLoot(lootedItem);
-      playingPlayer.addStrength(lootedItem);
     }
     //logic for looting for lost items aka coins
     Random r = new Random();
@@ -464,6 +475,9 @@ public class GameManager {
     // Did they land on a trapped house?
     if (playerOn(GridObject.TRAPPED_HOUSE))
       smoothlySetState(GameState.TRAPPED);
+
+    if (playerOn(GridObject.MARKET))
+      smoothlySetState(GameState.MARKET);
 
     // Update player visibilities
     playingPlayer.updateVisibleArea();

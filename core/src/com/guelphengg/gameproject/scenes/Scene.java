@@ -55,6 +55,15 @@ public abstract class Scene {
 
   }
 
+  protected void renderMarketBackground() {
+    final SpriteBatch batch = SceneManager.getSpriteBatch();
+
+    batch.begin();
+    batch.draw(Textures.BATTLE_BACKGROUND.get(), 0, 0, SceneManager.getViewWidth(), SceneManager.getViewHeight());
+    batch.end();
+
+  }
+
   public GameState getSceneType() {
     return type;
   }
