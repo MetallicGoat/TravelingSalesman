@@ -1,11 +1,13 @@
 package com.guelphengg.gameproject;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.utils.Null;
 import com.guelphengg.gameproject.griditems.*;
+import com.guelphengg.gameproject.griditems.GridObject;
+import com.guelphengg.gameproject.griditems.LootItems;
+import com.guelphengg.gameproject.griditems.Player;
 import com.guelphengg.gameproject.scenes.BattleScene;
 import com.guelphengg.gameproject.scenes.TransitionScene;
 
@@ -14,42 +16,50 @@ import java.util.Random;
 
 public class GameManager {
 
-  // TODO allow players to pick their character
+  // Initialize Default Players
   private final Player player1 = new Player(10, 0, Character.GREENIE);
   private final Player player2 = new Player(10, 0, Character.GRAYIE);
-  private final int COUNT_MAX = 5;
+
+  // This grid defines what exists on what grid tiles (null = empty)
   public GridObject[][] gridObjects = new GridObject[10][10];
-  //for help menu to know where to return to
+
+  // How many turns before a house can be looted again
+  private final int COUNT_MAX = 20;
+
+  // for help menu to know where to return to after they press H
   boolean fromMenu = false;
   boolean fromRunning = false;
-  private boolean waitingForRoll = true; // true by default cause first turn is always ready
-  private int nextRoll = 0;
-  private int turnsLeft = 0;
-  private Sound jump = Gdx.audio.newSound(Gdx.files.internal("JumpTS.wav"));
-  private Sound battlestart = Gdx.audio.newSound(Gdx.files.internal("LowImpact.mp3"));
-  private Sound epicBram = Gdx.audio.newSound(Gdx.files.internal("EpicBram.mp3"));
+
+  // IF we are waiting for the user to press R
+  // true by default cause first turn is always ready
+  private boolean waitingForRoll = true;
+  private int nextRoll = 0; // Used to determine the roll of the dice
+  private int turnsLeft = 0; // How many more moves the playing player has left
+
+  // The player who is currently playing
+  private Player playingPlayer = player1; // Player 1 always starts
+
   // What phase the game is currently in
   private GameState state = GameState.MAIN_MENU;
-  private int[][] houseCounter = new int[10][10];
-  private Player playingPlayer = player1;
+
+  // Keeps track of how long ago a house was looted
+  private final int[][] houseCounter = new int[10][10];
+
+  // Weather or not the user is trying to view the large map (By holding V)
   private boolean largeMap = false;
+
+  // If the dice is currently spinning to a predetermined roll
   private boolean diceRolling = false;
+
+  // The last time a user pressed R successfully (in ms)
   private long lastRollTime = 0;
-  private Music gameMusic;
-  private Music battleMusic;
-  private Music marketMusic;
-  private Music trappedMusic;
-  private Sound rollSound;
-  private Sound lootSound;
-  private Sound bootSound;
-  private Sound sellSound;
+    private Music marketMusic;
+    private Music trappedMusic;
 
   public void startGame() {
-
-    TravelingSalesman.getInstance().getBackgr().pause();
-    gameMusic = Gdx.audio.newMusic(Gdx.files.internal("MainGameTS.mp3"));
-    gameMusic.setLooping(true);
-    gameMusic.play();
+    // Stop main menu music, and play main game music
+    TSGameMusic.MAIN_MENU_MUSIC.stop();
+    TSGameMusic.MAIN_GAME_MUSIC.play();
 
     //generate all landmarks
     Generation.generateLandmarks();
@@ -87,10 +97,10 @@ public class GameManager {
     final GridObject object = gridObjects[playingPlayer.getX()][playingPlayer.getY()];
 
     if (object == GridObject.TREASURE_HOUSE) {
-      lootSound = Gdx.audio.newSound(Gdx.files.internal("LootSound1.wav"));
-      lootSound.play();
+      // Play Loot Sound
+      TSGameSound.LOOT.play();
 
-      lootedItem = LootItems.getRandomItem();
+      lootedItem = LootItems.getRandomItem(playingPlayer);
       gridObjects[playingPlayer.getX()][playingPlayer.getY()] = GridObject.EMPTY_HOUSE;
 
       // The below if loop checks if there is a weapon in the inventory already.
@@ -126,8 +136,8 @@ public class GameManager {
     //logic for looting for lost items aka coins
     Random r = new Random();
     if (object == GridObject.LOST_ITEM_HOUSE) {
-      lootSound = Gdx.audio.newSound(Gdx.files.internal("LootSound1.wav"));
-      lootSound.play();
+      // Play Loot sound
+      TSGameSound.LOOT.play();
 
       playingPlayer.addCoins(r.nextInt(15, 45));
       gridObjects[playingPlayer.getX()][playingPlayer.getY()] = GridObject.EMPTY_HOUSE;
@@ -170,8 +180,8 @@ public class GameManager {
 
   // Notify that the dice has been rolled
   public void startRolling() {
-    rollSound = Gdx.audio.newSound(Gdx.files.internal("DiceRoll.wav"));
-    rollSound.play();
+    // Play roll sound
+    TSGameSound.DICE_ROLL.play();
 
     this.nextRoll = new Random().nextInt(6) + 1;
     this.diceRolling = true;
@@ -217,11 +227,14 @@ public class GameManager {
 
   public void battleCheck() {
     if ((player1.getX() == player2.getX() && player1.getY() == player2.getY()) && !player1.isAtStart()) {
-      battleMusic = Gdx.audio.newMusic(Gdx.files.internal("BattleMusic.mp3"));
-      battleMusic.setLooping(true);
-      gameMusic.stop();
-      battlestart.play();
-      battleMusic.play(); //TODO Dispose of music (idk how Christian Help)
+
+      // Start Battle music
+      TSGameMusic.MAIN_GAME_MUSIC.stop();
+      TSGameMusic.BATTLE_MUSIC.play();
+
+      // Play battle sound
+      TSGameSound.BATTLE_START.play();
+
       ((BattleScene) GameState.BATTLE.getScene()).resetBattle();
       smoothlySetState(GameState.BATTLE);
     }
@@ -246,8 +259,7 @@ public class GameManager {
     } else if (this.state == GameState.GAME_SETUP) {
       switch (keyCode) {
         case Input.Keys.SPACE:
-          bootSound = Gdx.audio.newSound(Gdx.files.internal("Begin.wav"));
-          bootSound.play();
+          TSGameSound.BEGIN.play();
           startGame(); // TODO this could not be called every time they press space
           break;
 
@@ -281,6 +293,7 @@ public class GameManager {
         case Input.Keys.R: {
           if (waitingForRoll && !diceRolling) {
             startRolling();
+
             for (int i = 0; i < 10; i++) {
               for (int m = 0; m < 10; m++) {
                 if (houseCounter[i][m] > COUNT_MAX) {
@@ -296,9 +309,8 @@ public class GameManager {
         break;
 
         case Input.Keys.L: // Player is trying to loot house
-          if (playerOn(GridObject.TREASURE_HOUSE)) {
-            lootHouse();
-          } else if (playerOn(GridObject.LOST_ITEM_HOUSE)) {
+          if (playerOn(GridObject.TREASURE_HOUSE) || playerOn(GridObject.LOST_ITEM_HOUSE)) {
+            playingPlayer.addLootedHouse();
             lootHouse();
           }
 
@@ -306,8 +318,7 @@ public class GameManager {
 
         case Input.Keys.T://Trade Tings for Gold lol
           if (playerOn(GridObject.CASTLE)) {
-            sellSound = Gdx.audio.newSound(Gdx.files.internal("Sell.wav"));
-            sellSound.play();
+            TSGameSound.SELL.play();
             tradeItems();
           }
 
@@ -391,24 +402,23 @@ public class GameManager {
 
     if (this.state == GameState.BATTLE) {
       switch (keyCode) {
-        case Input.Keys.SPACE: {
+        case Input.Keys.SPACE:
+          TSGameMusic.BATTLE_MUSIC.stop();
+          TSGameMusic.MAIN_GAME_MUSIC.play();
+
           Accessor.getGameManager().smoothlySetState(GameState.RUNNING);
-          battleMusic.stop();
-          gameMusic.setLooping(true);
-          gameMusic.play();
-        }
       }
     }
-    if (this.state == GameState.MARKET) {
-      switch (keyCode) {
-        case Input.Keys.SPACE: {
-          Accessor.getGameManager().smoothlySetState(GameState.RUNNING);
-          marketMusic.stop();
-          gameMusic.setLooping(true);
-          gameMusic.play();
-        }
+      if (this.state == GameState.MARKET) {
+          switch (keyCode) {
+              case Input.Keys.SPACE: {
+                  Accessor.getGameManager().smoothlySetState(GameState.RUNNING);
+                  marketMusic.stop();
+                  gameMusic.setLooping(true);
+                  gameMusic.play();
+              }
+          }
       }
-    }
   }
 
   public void gameInputKeyUp(int keyCode) {
@@ -476,6 +486,10 @@ public class GameManager {
     // Check if the players can battle
     battleCheck();
 
+    // Check if the player has reached the treasure location
+    // And reward them if they have
+    playingPlayer.tryCollectTreasure();
+
     // Did they land on a trapped house?
     if (playerOn(GridObject.TRAPPED_HOUSE)) {
       smoothlySetState(GameState.TRAPPED);
@@ -498,7 +512,7 @@ public class GameManager {
 
     this.turnsLeft--;
 
-    jump.play(10000);
+    TSGameSound.JUMP.play();
   }
 }
 

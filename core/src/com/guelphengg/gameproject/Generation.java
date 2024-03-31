@@ -72,7 +72,7 @@ public class Generation {
           break;
       }
 
-      if (gridObjects[randRow][randCol] == null) {
+      if (gridObjects[randRow][randCol] == null && !(randCol == 9 && randRow == 0)) {
         gridObjects[randRow][randCol] = object;
         success = true;
       }

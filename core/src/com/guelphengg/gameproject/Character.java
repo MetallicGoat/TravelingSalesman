@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.guelphengg.gameproject.griditems.Player;
+import com.guelphengg.gameproject.util.Util;
 
 public enum Character {
 
@@ -19,8 +20,6 @@ public enum Character {
   WHITEY(4, 3, new Color((float) 251 / 255, (float) 251 / 255, (float) 232 / 255, 0.4F)),
   YELLOWIE(4, 6, new Color((float) 253 / 255, (float) 214 / 255, (float) 19 / 255, 0.4F)),
   BALDIE(4, 9, new Color((float) 48 / 255, (float) 59 / 255, (float) 90 / 255, 0.4F));
-
-  public static float stateTime = 0F;
 
   private final Animation<TextureRegion> animationStraight;
   private final Animation<TextureRegion> animationLeft;
@@ -39,10 +38,6 @@ public enum Character {
     animationStraight = getAnimation(tmp, textureCol, textureRow);
     animationLeft = getAnimation(tmp, textureCol, textureRow + 1);
     animationRight = getAnimation(tmp, textureCol, textureRow + 2);
-  }
-
-  public static void updateStateTime() {
-    stateTime += Gdx.graphics.getDeltaTime();
   }
 
   public static Character getNextCharacter(Player player) {
@@ -115,14 +110,14 @@ public enum Character {
   }
 
   public TextureRegion getCurrentFrame() {
-    return animationStraight.getKeyFrame(stateTime, true);
+    return animationStraight.getKeyFrame(Util.getStateTime(), true);
   }
 
   public TextureRegion getCurrentFrameLeft() {
-    return animationLeft.getKeyFrame(stateTime, true);
+    return animationLeft.getKeyFrame(Util.getStateTime(), true);
   }
 
   public TextureRegion getCurrentFrameRight() {
-    return animationRight.getKeyFrame(stateTime, true);
+    return animationRight.getKeyFrame(Util.getStateTime(), true);
   }
 }
