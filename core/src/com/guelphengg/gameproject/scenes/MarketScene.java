@@ -12,7 +12,9 @@ import com.guelphengg.gameproject.GameManager;
 import com.guelphengg.gameproject.GameState;
 import com.guelphengg.gameproject.SceneManager;
 import com.guelphengg.gameproject.griditems.LootItems;
+import com.guelphengg.gameproject.griditems.Player;
 import com.guelphengg.gameproject.scenes.scenecomponents.GameGrid;
+import com.guelphengg.gameproject.scenes.scenecomponents.MarketInventoryPanel;
 import com.guelphengg.gameproject.scenes.scenecomponents.ScoreboardPanel;
 
 public class MarketScene extends Scene {
@@ -23,8 +25,11 @@ public class MarketScene extends Scene {
     LootItems item_3 = LootItems.CRYSTAL_GOBLET;
     LootItems item_4 = LootItems.PALADIN_SHIELD;
     LootItems treasureMap = LootItems.TREASURE_MAP;
-    Texture blank = new Texture("Blank.png");
+
     ScoreboardPanel scoreboardPanel = new ScoreboardPanel(true);
+    MarketInventoryPanel inventoryPanel = new MarketInventoryPanel();
+
+
     final SpriteBatch batch = SceneManager.getSpriteBatch();
 
     final GameGrid leftMarketGrid = new GameGrid((int) (SceneManager.getViewWidth() / (3.5 * 3)), (int) (SceneManager.getViewWidth() / 3.5), (int) (SceneManager.getViewWidth() / 20.0), (int) (SceneManager.getViewHeight() / 3.7), 3, 1);
@@ -42,6 +47,7 @@ public class MarketScene extends Scene {
             (int) (SceneManager.getViewWidth() * .58), // y
             7, 2 // boxesX, boxesY
     );
+
     public MarketScene() {
         super(GameState.MARKET);
         sellItems[0] = treasureMap;
@@ -62,7 +68,8 @@ public class MarketScene extends Scene {
         Gdx.gl.glEnable(GL20.GL_BLEND);
 
         batch.begin();
-        drawCenteredText(batch, 300, 4, "Welcome To The Market");
+
+        drawCenteredText(batch, 300, 3, "Welcome To The Market");
 
         // rendering grids in the market to store the items
         leftMarketGrid.renderGrid(new Color(0, 0, 0, 0));
@@ -77,27 +84,38 @@ public class MarketScene extends Scene {
         treasureMap.render(centreMarketGrid, 0, 0);
         centreMarketGrid.renderTextInGrid(0, 0, "$"+sellItems[0].getSellPrice(), true, -1, 3);
         centreMarketGridNum.renderTextInGrid(0, 0, "0", true, 0, 3);
+
         scoreboardPanel.render();
+        inventoryPanel.render();
+
+        final Player playingPlayer = Accessor.getGameManager().getPlayingPlayer();
+
         for(int i = 1; i<=6; i++){
             if(i<=3) {
-                sellItems[i].render(leftMarketGrid, i-1, 0);
+
+                if (playingPlayer.getItems().contains(sellItems[i])){
+                    LootItems.BLANK.render(leftMarketGrid, i-1, 0);
+                } else {
+                    sellItems[i].render(leftMarketGrid, i - 1, 0);
+                }
+
                 leftMarketGrid.renderTextInGrid(i-1, 0, "$"+sellItems[i].getSellPrice(), true, -1, 3);
                 leftMarketGridNum.renderTextInGrid(i-1, 0, " "+i+" ", true, 0, 3);
-
             }
+
             if(i==4) {
                 sellItems[i].render(rightMarketGrid, 0, 0);
                 rightMarketGrid.renderTextInGrid(0, 0, "$"+sellItems[i].getSellPrice(), true, -1, 3);
                 rightMarketGridNum.renderTextInGrid(0, 0, " "+i+" ", true, 0, 3);
-
             }
+
             if((Accessor.getGameManager().getPlayingPlayer().getStrength()>=20)&&i==5){
                 sellItems[i] = LootItems.DIAMOND_RING;
                 sellItems[i].render(rightMarketGrid, 1, 0);
                 rightMarketGrid.renderTextInGrid(1, 0, "$"+sellItems[i].getSellPrice(), true, -1, 3);
                 rightMarketGridNum.renderTextInGrid(i-4, 0, " "+i+" ", true, 0, 3);
-
             } else if (i==5) {
+
                 rightMarketGrid.renderTextInGrid(1, 0, "GET\nMORE\nPOWER", true, 0,40, 2);
             }
 

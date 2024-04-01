@@ -120,7 +120,7 @@ public class GameManager {
 
   // Make the playing player loot the current house
   public void lootHouse() {
-    LootItems lootedItem; // I made this a variable so I could use it to change strength
+    LootItems lootedItem; // I made this a variable, so I could use it to change strength
     if (canPlayerLoot() == 0)
       return;
 
