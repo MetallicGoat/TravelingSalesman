@@ -62,6 +62,8 @@ public class MarketScene extends Scene {
     @Override
     public void render() {
 
+//        inventoryPanel.render(Accessor.getGameManager().getPlayingPlayer());
+
         renderMarketBackground();
 
         final SpriteBatch batch = SceneManager.getSpriteBatch();
