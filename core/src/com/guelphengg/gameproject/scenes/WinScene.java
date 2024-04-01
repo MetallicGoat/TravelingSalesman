@@ -3,15 +3,11 @@ package com.guelphengg.gameproject.scenes;
 import com.guelphengg.gameproject.Accessor;
 import com.guelphengg.gameproject.GameManager;
 import com.guelphengg.gameproject.GameState;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.guelphengg.gameproject.SceneManager;
-import com.guelphengg.gameproject.griditems.GridObject;
-import com.guelphengg.gameproject.griditems.LootItems;
-import com.guelphengg.gameproject.scenes.scenecomponents.GameGrid;
+
 public class WinScene extends Scene{
 
     public WinScene(){super(GameState.WINSCREEN);}
@@ -25,11 +21,11 @@ public class WinScene extends Scene{
 
         batch.begin();
 
-        if(manager.getPlayer1().getPower() == 1) {
+        if(manager.getPlayer1().getPoints() == 1) {
             drawCenteredText(batch, 0, 4, manager.getPlayer1().getCharacter().getName() + " WINS!");
         }
 
-        if(manager.getPlayer2().getPower() == 1) {
+        if(manager.getPlayer2().getPoints() == 1) {
             drawCenteredText(batch, 0, 4,  manager.getPlayer2().getCharacter().getName() + " WINS!");
         }
 

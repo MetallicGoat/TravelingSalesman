@@ -27,9 +27,6 @@ public class GameManager {
   boolean fromMenu = false;
   boolean fromRunning = false;
 
-  int p1Points = player1.getPower();
-  int p2Points = player2.getPower();
-
   // IF we are waiting for the user to press R
   // true by default cause first turn is always ready
   private boolean waitingForRoll = true;
@@ -115,9 +112,9 @@ public class GameManager {
             // Is removed from the inventory
             iterator.remove();
             // And the appropriate values and inventory are adjusted based on the item.
-            playingPlayer.setStrength(0);
+            playingPlayer.setPower(0);
             playingPlayer.addLoot(lootedItem);
-            playingPlayer.addStrength(lootedItem);
+            playingPlayer.addPower(lootedItem);
           }else{
             playingPlayer.addCoins(item.getSellPrice());
             System.out.println("Hello");
@@ -125,7 +122,7 @@ public class GameManager {
         }
       }else{
         playingPlayer.addLoot(lootedItem);
-        playingPlayer.addStrength(lootedItem);
+        playingPlayer.addPower(lootedItem);
       }
 
       houseCounter[playingPlayer.getX()][playingPlayer.getY()]++;
@@ -147,12 +144,12 @@ public class GameManager {
     if (playerOn(GridObject.CASTLE)) {
       for (int i = 0; i < playingPlayer.getItems().size(); i++) {
         playingPlayer.addCoins(playingPlayer.getItems().get(i).getSellPrice());
-        playingPlayer.addPower(playingPlayer.getItems().get(i));
+        playingPlayer.addPoints(playingPlayer.getItems().get(i));
         // This iterates through the player's inventory, checks
         // what the object is, and then adds the set value to the player's coins + power
       }
 
-      playingPlayer.setStrength(0); // sets the strength back to the original value
+      playingPlayer.setPower(0); // sets the strength back to the original value
       playingPlayer.getItems().clear();
     }
     //TODO Give items values and give player gold for trading items
@@ -319,7 +316,8 @@ public class GameManager {
             TSGameSound.SELL.play();
             tradeItems();
           }
-          if(p1Points == 1 || p2Points == 1){
+
+          if (player1.getPoints() >= 1 || player2.getPoints() >= 1){
             smoothlySetState(GameState.WINSCREEN);
           }
 
