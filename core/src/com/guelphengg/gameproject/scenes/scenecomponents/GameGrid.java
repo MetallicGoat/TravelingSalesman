@@ -156,20 +156,16 @@ public class GameGrid {
   public void renderGrid(Color color) {
     final ShapeRenderer shapeRenderer = SceneManager.getShapeRenderer();
 
-    shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+    shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
     shapeRenderer.setColor(color);
 
-    Gdx.gl.glLineWidth(3);
-
     // Horizontal Lines
-    for (int i = 0; i <= boxesY; i++) {
-      shapeRenderer.line(this.cornerX, this.cornerY + (getBoxHeight() * i), this.cornerX + this.gridWidth, this.cornerY + (getBoxHeight() * i));
-    }
+    for (int i = 0; i <= boxesY; i++)
+      shapeRenderer.rect(this.cornerX -1, this.cornerY + (getBoxHeight() * i) -1, this.gridWidth, 3);
 
     // Vertical Lines
-    for (int i = 0; i <= boxesX; i++) {
-      shapeRenderer.line(this.cornerX + (getBoxWidth() * i), this.cornerY, this.cornerX + (getBoxWidth() * i), this.cornerY + this.gridHeight);
-    }
+    for (int i = 0; i <= boxesX; i++)
+      shapeRenderer.rect(this.cornerX + (getBoxWidth() * i) -1, this.cornerY -1, 3, this.gridHeight);
 
     shapeRenderer.end();
   }
