@@ -231,7 +231,7 @@ public class Player {
 
     for (int i = 0; i < 10; i++) {
       for (int j = 0; j < 10; j++) {
-        if (!visibleArea[i][j] && Accessor.getGameManager().gridObjects[i][j] == GridObject.TREASURE_HOUSE) {
+        if (!visibleArea[i][j] && Accessor.getGameManager().getGridObjectArray()[i][j] == GridObject.TREASURE_HOUSE) {
           locations.add(new int[] {i, j});
         }
       }

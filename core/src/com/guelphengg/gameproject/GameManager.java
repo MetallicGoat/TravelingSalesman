@@ -10,48 +10,79 @@ import com.guelphengg.gameproject.scenes.MarketScene;
 import com.guelphengg.gameproject.scenes.TransitionScene;
 //import jdk.vm.ci.code.site.Mark;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 
 public class GameManager {
 
   // Initialize Default Players
-  private final Player player1 = new Player(10, 0, Character.GREENIE);
-  private final Player player2 = new Player(10, 0, Character.GRAYIE);
+  private Player player1;
+  private Player player2;
 
   // This grid defines what exists on what grid tiles (null = empty)
-  public GridObject[][] gridObjects = new GridObject[10][10];
+  private GridObject[][] gridObjects;
 
   // How many turns before a house can be looted again
   private final int COUNT_MAX = 20;
 
   // for help menu to know where to return to after they press H
-  boolean fromMenu = false;
-  boolean fromRunning = false;
+  boolean fromMenu;
+  boolean fromRunning;
 
   // IF we are waiting for the user to press R
   // true by default cause first turn is always ready
-  private boolean waitingForRoll = true;
-  private int nextRoll = 0; // Used to determine the roll of the dice
-  private int turnsLeft = 0; // How many more moves the playing player has left
+  private boolean waitingForRoll;
+  private int nextRoll; // Used to determine the roll of the dice
+  private int turnsLeft; // How many more moves the playing player has left
 
   // The player who is currently playing
-  private Player playingPlayer = player1; // Player 1 always starts
+  private Player playingPlayer; // Player 1 always starts
 
   // What phase the game is currently in
-  private GameState state = GameState.MAIN_MENU;
+  private GameState state;
 
   // Keeps track of how long ago a house was looted
-  private final int[][] houseCounter = new int[10][10];
+  private int[][] houseCounter;
 
   // Weather or not the user is trying to view the large map (By holding V)
-  private boolean largeMap = false;
+  private boolean largeMap;
 
   // If the dice is currently spinning to a predetermined roll
-  private boolean diceRolling = false;
+  private boolean diceRolling;
 
   // The last time a user pressed R successfully (in ms)
-  private long lastRollTime = 0;
+  private long lastRollTime;
+
+  // Basic constructor
+  public GameManager() {
+    // Initialize the game manager for the first time
+    resetManager();
+  }
+
+  // Reset the game manager to its default state
+  // Useful for starting a new game
+  // New player instance are created with default data
+  // All variables initialized to default values
+  public void resetManager() {
+    player1 = new Player(10, 0, Character.GREENIE);
+    player2 = new Player(10, 0, Character.GRAYIE);
+    gridObjects = new GridObject[10][10];
+    fromMenu = false;
+    fromRunning = false;
+    waitingForRoll = true;
+    nextRoll = 0;
+    turnsLeft = 0;
+    playingPlayer = player1;
+    houseCounter = new int[10][10];
+    largeMap = false;
+    diceRolling = false;
+    lastRollTime = 0;
+
+    // TODO Maybe this should not be set here?
+    state = GameState.MAIN_MENU;
+  }
 
   MarketScene marketScene = new MarketScene();
 
@@ -60,7 +91,7 @@ public class GameManager {
     TSGameMusic.MAIN_MENU_MUSIC.stop();
     TSGameMusic.MAIN_GAME_MUSIC.play();
 
-    //generate all landmarks
+    // Generate all landmarks
     Generation.generateLandmarks();
 
     // Update player visibilities
@@ -103,23 +134,28 @@ public class GameManager {
       gridObjects[playingPlayer.getX()][playingPlayer.getY()] = GridObject.EMPTY_HOUSE;
 
       // The below if loop checks if there is a weapon in the inventory already.
-      if ((lootedItem.getItemType() == ItemType.WEAPON)
-          && (playingPlayer.getItems().contains(LootItems.SWORD) || playingPlayer.getItems().contains(LootItems.BEJEWELED_SWORD) || playingPlayer.getItems().contains(LootItems.BOW))) {
+      if ((lootedItem.getItemType() == ItemType.WEAPON) &&
+          (playingPlayer.getItems().contains(LootItems.SWORD) ||
+          playingPlayer.getItems().contains(LootItems.BEJEWELED_SWORD) ||
+          playingPlayer.getItems().contains(LootItems.BOW))) {
 
         // If there is a weapon, the below for loop will run and remove all weapons from the inventory
-        Iterator<LootItems> iterator = playingPlayer.getItems().iterator();
-        while (iterator.hasNext()) {
-          final LootItems item = iterator.next();
+        final List<LootItems> currPlayerItems = new ArrayList<>(playingPlayer.getItems());
+
+        for (LootItems item : currPlayerItems) {
           // If the weapon's looted damage is greater than the item in the inventory's, the inventory weapon is converted to coins
-          if ((item.getItemType() == ItemType.WEAPON)&&(lootedItem.getDamage()> item.getDamage())) {
-            playingPlayer.addCoins((int)(item.getSellPrice()*0.8));
-            // Is removed from the inventory
-            iterator.remove();
+          if ((item.getItemType() == ItemType.WEAPON) && (lootedItem.getDamage()> item.getDamage())) {
+
             // And the appropriate values and inventory are adjusted based on the item.
             playingPlayer.setStrength(10);
             playingPlayer.addLoot(lootedItem);
             playingPlayer.addStrength(lootedItem);
-          }else{
+            playingPlayer.addCoins((int)(item.getSellPrice()*0.8));
+
+            // Rem ove the old weapon from the inventory
+            playingPlayer.getItems().remove(item);
+
+          } else { // TODO Check what the point of this is
             playingPlayer.addCoins(item.getSellPrice());
           }
         }
@@ -223,7 +259,8 @@ public class GameManager {
     this.state = nextState;
   }
 
-  public void battleCheck() {
+  // Returns true if they go into a battle
+  public boolean battleCheck() {
     if ((player1.getX() == player2.getX() && player1.getY() == player2.getY()) && !player1.isAtStart()) {
 
       // Start Battle music
@@ -235,7 +272,11 @@ public class GameManager {
 
       ((BattleScene) GameState.BATTLE.getScene()).resetBattle();
       smoothlySetState(GameState.BATTLE);
+
+      return true;
     }
+
+    return false;
   }
 
   // Handles all game input for pressing down on a key
@@ -314,7 +355,7 @@ public class GameManager {
 
           break;
 
-        case Input.Keys.T://Trade Tings for Gold lol
+        case Input.Keys.T: // Trade Tings for Gold lol
           if (playerOn(GridObject.CASTLE)) {
             TSGameSound.SELL.play();
             tradeItems();
@@ -347,13 +388,13 @@ public class GameManager {
           movePlayingPlayer(1, 0);
           break;
 
-        //mapsize toggle
+        // Map size toggle
         case Input.Keys.V:
           // Change the grid view
           largeMap = true;
           break;
 
-        //help menu toggle
+        // Help menu toggle
         case Input.Keys.H:
           fromRunning = true;
           smoothlySetState(GameState.HELP_MENU);
@@ -400,17 +441,27 @@ public class GameManager {
       }
     }
 
-    if (this.state == GameState.BATTLE) {
+    else if (this.state == GameState.BATTLE) {
       switch (keyCode) {
         case Input.Keys.SPACE: {
-          Accessor.getGameManager().smoothlySetState(GameState.RUNNING);
+          // THE USER HAS EXISTED THE BATTLE
 
+          // Return to normal music
           TSGameMusic.BATTLE_MUSIC.stop();
           TSGameMusic.MAIN_GAME_MUSIC.play();
+
+          // It is possible the user entered a battle but is still on a square that opens a scene
+          final boolean playerEnteredScene = checkForSceneTransitions();
+
+          // If the player enter a scene (eg market) directly after a battle, we should not go back to running
+          if (!playerEnteredScene)
+            smoothlySetState(GameState.RUNNING);
+
         }
       }
     }
-    if (this.state == GameState.MARKET) {
+
+    else if (this.state == GameState.MARKET) {
       switch (keyCode) {
         case Input.Keys.SPACE: {
           Accessor.getGameManager().smoothlySetState(GameState.RUNNING);
@@ -539,26 +590,15 @@ public class GameManager {
     this.playingPlayer.setY(newY);
 
     // Check if the players can battle
-    battleCheck();
+    final boolean battleStarted = battleCheck();
+
+    // Only go into the scene if there has not been a battle started
+    if (!battleStarted)
+      checkForSceneTransitions();
 
     // Check if the player has reached the treasure location
     // And reward them if they have
     playingPlayer.tryCollectTreasure();
-
-    // Did they land on a trapped house?
-    if (playerOn(GridObject.TRAPPED_HOUSE)) {
-      smoothlySetState(GameState.TRAPPED);
-
-      TSGameMusic.MAIN_GAME_MUSIC.stop();
-      TSGameMusic.TRAPPED_MUSIC.play();
-    }
-
-    if (playerOn(GridObject.MARKET)) {
-      smoothlySetState(GameState.MARKET);
-
-      TSGameMusic.MAIN_GAME_MUSIC.stop();
-      TSGameMusic.MARKET_MUSIC.play();
-    }
 
     // Update player visibilities
     playingPlayer.updateVisibleArea();
@@ -566,6 +606,31 @@ public class GameManager {
     this.turnsLeft--;
 
     TSGameSound.JUMP.play();
+  }
+
+  // Returns true if they go into a scene
+  private boolean checkForSceneTransitions() {
+    // Did they land on a trapped house?
+    if (playerOn(GridObject.TRAPPED_HOUSE)) {
+      smoothlySetState(GameState.TRAPPED);
+
+      TSGameMusic.MAIN_GAME_MUSIC.stop();
+      TSGameMusic.TRAPPED_MUSIC.play();
+
+      return true;
+    }
+
+    // Check if they landed on a market
+    if (playerOn(GridObject.MARKET)) {
+      smoothlySetState(GameState.MARKET);
+
+      TSGameMusic.MAIN_GAME_MUSIC.stop();
+      TSGameMusic.MARKET_MUSIC.play();
+
+      return true;
+    }
+
+    return false;
   }
 }
 

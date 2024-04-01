@@ -103,7 +103,7 @@ public class GameScene extends Scene {
 
       for (int i = 0; i <= 9; i++) {
         for (int j = 0; j <= 9; j++) {
-          final GridObject object = manager.gridObjects[i][j];
+          final GridObject object = manager.getGridObjectArray()[i][j];
 
           if (!manager.getPlayingPlayer().canPlayerSee(i, j) && object != GridObject.CASTLE && object != GridObject.MARKET) {
             largeGrid.renderCloudsInGrid(i, j);
@@ -137,7 +137,7 @@ public class GameScene extends Scene {
           if (x + i >= 0 && x + i <= 9 && y + j >= 0 && y + j <= 9) {
 
             // Render nearby grid objects
-            final GridObject object = manager.gridObjects[x + i][y + j];
+            final GridObject object = manager.getGridObjectArray()[x + i][y + j];
 
             if (object != null)
               object.render(miniGrid, i + 1, j + 1);
@@ -182,14 +182,14 @@ public class GameScene extends Scene {
 
     } else {
       // There is an object at player 1
-      if (player1.isAtStart() || manager.gridObjects[player1.getX()][player1.getY()] != null) {
+      if (player1.isAtStart() || manager.getGridObjectArray()[player1.getX()][player1.getY()] != null) {
         player1.setSmall(true);
       } else {
         player1.setSmall(false);
       }
 
       // There is an object at player 2
-      if (player2.isAtStart() || manager.gridObjects[player2.getX()][player2.getY()] != null) {
+      if (player2.isAtStart() || manager.getGridObjectArray()[player2.getX()][player2.getY()] != null) {
         player2.setSmall(true);
       } else {
         player2.setSmall(false);
