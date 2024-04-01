@@ -14,49 +14,78 @@ import java.util.Random;
 public class GameManager {
 
   // Initialize Default Players
-  private final Player player1 = new Player(10, 0, Character.GREENIE);
-  private final Player player2 = new Player(10, 0, Character.GRAYIE);
+  private Player player1;
+  private Player player2;
 
   // This grid defines what exists on what grid tiles (null = empty)
-  public GridObject[][] gridObjects = new GridObject[10][10];
+  private GridObject[][] gridObjects;
 
   // How many turns before a house can be looted again
   private final int COUNT_MAX = 20;
 
   // for help menu to know where to return to after they press H
-  boolean fromMenu = false;
-  boolean fromRunning = false;
+  boolean fromMenu;
+  boolean fromRunning;
 
   // IF we are waiting for the user to press R
   // true by default cause first turn is always ready
-  private boolean waitingForRoll = true;
-  private int nextRoll = 0; // Used to determine the roll of the dice
-  private int turnsLeft = 0; // How many more moves the playing player has left
+  private boolean waitingForRoll;
+  private int nextRoll; // Used to determine the roll of the dice
+  private int turnsLeft; // How many more moves the playing player has left
 
   // The player who is currently playing
-  private Player playingPlayer = player1; // Player 1 always starts
+  private Player playingPlayer; // Player 1 always starts
 
   // What phase the game is currently in
-  private GameState state = GameState.MAIN_MENU;
+  private GameState state;
 
   // Keeps track of how long ago a house was looted
-  private final int[][] houseCounter = new int[10][10];
+  private int[][] houseCounter;
 
   // Weather or not the user is trying to view the large map (By holding V)
-  private boolean largeMap = false;
+  private boolean largeMap;
 
   // If the dice is currently spinning to a predetermined roll
-  private boolean diceRolling = false;
+  private boolean diceRolling;
 
   // The last time a user pressed R successfully (in ms)
-  private long lastRollTime = 0;
+  private long lastRollTime;
+
+  // Basic constructor
+  public GameManager() {
+    // Initialize the game manager for the first time
+    resetManager();
+  }
+
+  // Reset the game manager to its default state
+  // Useful for starting a new game
+  // New player instance are created with default data
+  // All variables initialized to default values
+  public void resetManager() {
+    player1 = new Player(10, 0, Character.GREENIE);
+    player2 = new Player(10, 0, Character.GRAYIE);
+    gridObjects = new GridObject[10][10];
+    fromMenu = false;
+    fromRunning = false;
+    waitingForRoll = true;
+    nextRoll = 0;
+    turnsLeft = 0;
+    playingPlayer = player1;
+    houseCounter = new int[10][10];
+    largeMap = false;
+    diceRolling = false;
+    lastRollTime = 0;
+
+    // TODO Maybe this should not be set here?
+    state = GameState.MAIN_MENU;
+  }
 
   public void startGame() {
     // Stop main menu music, and play main game music
     TSGameMusic.MAIN_MENU_MUSIC.stop();
     TSGameMusic.MAIN_GAME_MUSIC.play();
 
-    //generate all landmarks
+    // Generate all landmarks
     Generation.generateLandmarks();
 
     // Update player visibilities
