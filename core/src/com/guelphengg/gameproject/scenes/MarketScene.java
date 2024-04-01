@@ -7,19 +7,13 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.guelphengg.gameproject.Accessor;
 import com.guelphengg.gameproject.GameManager;
 import com.guelphengg.gameproject.GameState;
 import com.guelphengg.gameproject.SceneManager;
 import com.guelphengg.gameproject.griditems.LootItems;
 import com.guelphengg.gameproject.scenes.scenecomponents.GameGrid;
-import com.guelphengg.gameproject.scenes.scenecomponents.InventoryPanel;
 import com.guelphengg.gameproject.scenes.scenecomponents.ScoreboardPanel;
-import com.guelphengg.gameproject.util.AdvancedShapeRenderer;
-
-import java.util.ArrayList;
 
 public class MarketScene extends Scene {
 
