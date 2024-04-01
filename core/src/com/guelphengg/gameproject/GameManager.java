@@ -116,7 +116,7 @@ public class GameManager {
             // Is removed from the inventory
             iterator.remove();
             // And the appropriate values and inventory are adjusted based on the item.
-            playingPlayer.setStrength(0);
+            playingPlayer.setStrength(10);
             playingPlayer.addLoot(lootedItem);
             playingPlayer.addStrength(lootedItem);
           }else{
@@ -152,7 +152,7 @@ public class GameManager {
         // what the object is, and then adds the set value to the player's coins + power
       }
 
-      playingPlayer.setStrength(0); // sets the strength back to the original value
+      playingPlayer.setStrength(10); // sets the strength back to the original value
       playingPlayer.getItems().clear();
     }
     //TODO Give items values and give player gold for trading items
