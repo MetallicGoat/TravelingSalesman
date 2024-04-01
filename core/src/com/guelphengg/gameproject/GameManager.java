@@ -421,42 +421,42 @@ public class GameManager {
         }
         // TODO: These need to be fixed though I don't know how. Still trying to figure out how to properly remove an object from the inventory showing
         case Input.Keys.NUM_1: {
-          //if(marketScene.canBuy(1) == 1) {
+          if(marketScene.canBuy(1) == 1) {
             playingPlayer.addLoot(marketScene.getSellItems(1));
             marketScene.removeItem(1);
             playingPlayer.removeCoins(marketScene.getPrices(1));
-          //}
+          }
           break;
         }
         case Input.Keys.NUM_2: {
           if(marketScene.canBuy(2) == 1) {
             playingPlayer.addLoot(marketScene.getSellItems(2));
-//          marketScene.removeItem(1);
-//          playingPlayer.removeCoins(marketScene.getPrices(1));
+            marketScene.removeItem(1);
+            playingPlayer.removeCoins(marketScene.getPrices(2));
           }
           break;
         }
         case Input.Keys.NUM_3: {
           if(marketScene.canBuy(3) == 1) {
             playingPlayer.addLoot(marketScene.getSellItems(3));
-//          marketScene.removeItem(1);
-//          playingPlayer.removeCoins(marketScene.getPrices(1));
+            marketScene.removeItem(1);
+            playingPlayer.removeCoins(marketScene.getPrices(3));
           }
           break;
         }
         case Input.Keys.NUM_4: {
           if(marketScene.canBuy(4) == 1) {
             playingPlayer.addLoot(marketScene.getSellItems(4));
-//          marketScene.removeItem(1);
-//          playingPlayer.removeCoins(marketScene.getPrices(1));
+            marketScene.removeItem(1);
+            playingPlayer.removeCoins(marketScene.getPrices(4));
           }
           break;
         }
         case Input.Keys.NUM_5: {
           if(marketScene.canBuy(5) == 1) {
             playingPlayer.addLoot(marketScene.getSellItems(5));
-//          marketScene.removeItem(1);
-//          playingPlayer.removeCoins(marketScene.getPrices(1));
+            marketScene.removeItem(1);
+            playingPlayer.removeCoins(marketScene.getPrices(5));
           }
           break;
         }

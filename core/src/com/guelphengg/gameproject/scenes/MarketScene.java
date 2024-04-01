@@ -3,6 +3,7 @@ package com.guelphengg.gameproject.scenes;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -23,7 +24,7 @@ public class MarketScene extends Scene {
     LootItems item_3 = LootItems.CRYSTAL_GOBLET;
     LootItems item_4 = LootItems.PALADIN_SHIELD;
     LootItems treasureMap = LootItems.TREASURE_MAP;
-
+    Texture blank = new Texture("Blank.png");
 
     String[] prices = new String[7];
 
@@ -39,7 +40,7 @@ public class MarketScene extends Scene {
         sellItems[2] = item_2;
         sellItems[3] = item_3;
         sellItems[4] = item_4;
-        sellItems[5] = LootItems.BLANK;
+        sellItems[6] = LootItems.BLANK;
         prices[0] = "$300";
         prices[1] = "$300";
         prices[2] = "$300";
@@ -74,22 +75,22 @@ public class MarketScene extends Scene {
         for (int i = 1; i <= 6; i++) {
             if (i <= 3) {
                 sellItems[i].render(leftMarketGrid, i - 1, 0);
-                leftMarketGrid.renderTextInGrid(i - 1, 0, prices[i], true, -1, 3);
+                leftMarketGrid.renderTextInGrid(i - 1, 0, "$" + sellItems[i].getSellPrice(), true, -1, 3);
             }
             if (i == 4) {
                 sellItems[i].render(rightMarketGrid, 0, 0);
-                rightMarketGrid.renderTextInGrid(0, 0, prices[i], true, -1, 3);
+                rightMarketGrid.renderTextInGrid(0, 0, "$" + sellItems[i].getSellPrice(), true, -1, 3);
             }
             if ((Accessor.getGameManager().getPlayingPlayer().getStrength() >= 20) && i == 5) {
                 sellItems[i].render(rightMarketGrid, 1, 0);
-                rightMarketGrid.renderTextInGrid(1, 0, prices[i], true, -1, 3);
+                rightMarketGrid.renderTextInGrid(1, 0, "$" + sellItems[i].getSellPrice(), true, -1, 3);
             } else if (i == 5) {
                 rightMarketGrid.renderTextInGrid(1, 0, "GET\nMORE\nPOWER", true, 0, 40, 2);
             }
 
             if ((Accessor.getGameManager().getPlayingPlayer().getStrength() >= 30) && i == 6) {
                 sellItems[i].render(rightMarketGrid, 2, 0);
-                rightMarketGrid.renderTextInGrid(2, 0, prices[i], true, -1, 3);
+                rightMarketGrid.renderTextInGrid(2, 0, "$" + sellItems[i].getSellPrice(), true, -1, 3);
             } else if (i == 6) {
                 rightMarketGrid.renderTextInGrid(2, 0, "GET\nMORE\nPOWER", true, 0, 40, 2);
             }
@@ -115,15 +116,15 @@ public class MarketScene extends Scene {
 
     public void removeItem(int index) {
         if(index <= 3){
-            sellItems[5].render(leftMarketGrid,index - 1,0);
+            //leftMarketGrid.renderTextureInGrid(index-1,0, null);
+            sellItems[6].render(leftMarketGrid,index - 1,0);
         }
         if(index == 4){
-            sellItems[5].render(centreMarketGrid,0,0);
+            sellItems[6].render(centreMarketGrid,0,0);
         }
         if(index >= 5){
-            sellItems[5].render(rightMarketGrid, index - 0 ,0);
+            sellItems[6].render(rightMarketGrid, index,0);
         }
-        prices[index] = "Sold Out";
     }
 
     public LootItems getSellItems(int index) {
@@ -131,13 +132,12 @@ public class MarketScene extends Scene {
     }
 
     public int getPrices(int index) {
-        System.out.println(Integer.parseInt(prices[index]));
-        return Integer.parseInt(prices[index]);
+        return sellItems[index].getSellPrice();
     }
 
     public int canBuy(int index) {
         final GameManager manager = Accessor.getGameManager();
-        if (manager.getPlayingPlayer().getCoins() >= getPrices(index)) {
+        if (manager.getPlayingPlayer().getCoins() >= sellItems[index].getSellPrice()) {
             return 1;
         } else {
             return 0;
@@ -145,6 +145,6 @@ public class MarketScene extends Scene {
     }
 
     public void clearSlot(int index){
-        centreMarketGrid.renderTextureInGrid(0,0, "Blank.png");
+        //centreMarketGrid.renderTextureInGrid(0,0, "Blank.png");
     }
 }
