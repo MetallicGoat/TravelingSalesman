@@ -47,7 +47,7 @@ public enum LootItems {
     final List<LootItems> values = new ArrayList<>(List.of(values()));
 
     // Remove all items the player already has (+ treasure maps are not given at treasure houses)
-    values.removeIf(item -> player.getItems().contains(item) || item == TREASURE_MAP);
+    values.removeIf(item -> player.getItems().contains(item) || item == TREASURE_MAP || item == BLANK);
 
     // They have all the items, so just return a random one
     if (values.isEmpty())

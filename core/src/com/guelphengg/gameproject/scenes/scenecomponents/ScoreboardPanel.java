@@ -23,6 +23,7 @@ public class ScoreboardPanel {
 
   private final int x = (int) (SceneManager.getViewWidth() * 0.75);
   private final int y = (int) (SceneManager.getViewHeight() - (SceneManager.getViewHeight() * 0.05) - height);
+  private final int adjFact = 20;
 
   // scoreboard panel width (includes background)
   public int getWidth() {
@@ -75,19 +76,26 @@ public class ScoreboardPanel {
     batch.begin();
 
     font.getData().setScale(2.2F);
-    font.draw(batch, "SCOREBOARD", x + 10, y + height - 20);
+    font.draw(batch, "SCOREBOARD", x + adjFact, y + height - 20);
 
     font.getData().setScale(1.3F);
-    font.draw(batch, "Current Turn: " + manager.getPlayingPlayer().getName(), x + 10, y + height - 60);
+    font.draw(batch, "Current Turn: " + manager.getPlayingPlayer().getName(), x + adjFact, y + height - 60);
+    if(isMarket) {
+      font.draw(batch, "Player: " + manager.getPlayingPlayer().getName(), x + adjFact, y + height - 90);
+      font.draw(batch, "    Power: " + manager.getPlayingPlayer().getStrength(), x + adjFact, y + height - 110);
+      font.draw(batch, "    Points: " + manager.getPlayingPlayer().getPower(), x + adjFact, y + height - 130);
+      font.draw(batch, "    Coins: " + manager.getPlayingPlayer().getCoins(), x + adjFact, y + height - 150);
+      font.draw(batch, "    Houses Looted: " + manager.getPlayingPlayer().getHousesLooted(), x + adjFact, y + height - 170);
+      font.draw(batch, "    Time Played: " + manager.getPlayingPlayer().getPlayTime(), x + adjFact, y + height - 190);
+    }else{
+      font.draw(batch, "Player 1: " + manager.getPlayer1().getName(), x + 10, y + height - 90);
+      font.draw(batch, "    Power: " + manager.getPlayer1().getStrength(), x + 10, y + height - 110);
+      font.draw(batch, "    Points: " + manager.getPlayer1().getPower(), x + 10, y + height - 130);
+      font.draw(batch, "    Coins: " + manager.getPlayer1().getCoins(), x + 10, y + height - 150);
+      font.draw(batch, "    Houses Looted: " + manager.getPlayer1().getHousesLooted(), x + 10, y + height - 170);
+      font.draw(batch, "    Time Played: " + manager.getPlayer1().getPlayTime(), x + 10, y + height - 190);
 
-    font.draw(batch, "Player 1: " + manager.getPlayer1().getName(), x + 10, y + height - 90);
-    font.draw(batch, "    Power: " + manager.getPlayer1().getStrength(), x + 10, y + height - 110);
-    font.draw(batch, "    Points: " + manager.getPlayer1().getPower(), x + 10, y + height - 130);
-    font.draw(batch, "    Coins: " + manager.getPlayer1().getCoins(), x + 10, y + height - 150);
-    font.draw(batch, "    Houses Looted: " + manager.getPlayer1().getHousesLooted(), x + 10, y + height - 170);
-    font.draw(batch, "    Time Played: " + manager.getPlayer1().getPlayTime(), x + 10, y + height - 190);
 
-    if(!isMarket){
       font.draw(batch, "Player 2: " + manager.getPlayer2().getName(), x + 10, y + height - 240);
       font.draw(batch, "    Power: " + manager.getPlayer2().getStrength(), x + 10, y + height - 260);
       font.draw(batch, "    Points: " + manager.getPlayer2().getPower(), x + 10, y + height - 280);
