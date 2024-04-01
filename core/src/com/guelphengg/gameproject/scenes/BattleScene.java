@@ -3,15 +3,11 @@ package com.guelphengg.gameproject.scenes;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.guelphengg.gameproject.Accessor;
-import com.guelphengg.gameproject.GameManager;
-import com.guelphengg.gameproject.GameState;
-import com.guelphengg.gameproject.SceneManager;
-import com.guelphengg.gameproject.griditems.GridObject;
-import com.guelphengg.gameproject.griditems.ItemType;
-import com.guelphengg.gameproject.griditems.LootItems;
+import com.guelphengg.gameproject.*;
+import com.guelphengg.gameproject.griditems.*;
 import com.guelphengg.gameproject.scenes.scenecomponents.AttackAnimation;
 
+import java.util.List;
 import java.util.Timer;
 
 public class BattleScene extends Scene {
@@ -101,9 +97,12 @@ public class BattleScene extends Scene {
   }
 
   public void player1Win() {
-    player2Attack();
-    // SET A WAIT TIME IN BETWEEN ATTACKS
-    player1Attack();
+    if (t > 500 && t<1000) { //i > 439 previously (when they stop moving)
+      player2Attack();
+    }
+    if (t > 1000 && t<1500) {
+      player1Attack();
+    }
 
     final GameManager manager = Accessor.getGameManager();
 
@@ -122,9 +121,12 @@ public class BattleScene extends Scene {
   }
 
   public void player2Win() {
-    player1Attack();
-    //SET A WAIT TIME IN BETWEEN ATTACKS
-    player2Attack();
+     if (t > 500 && t<1000) { //i > 439 previously (when they stop moving)
+        player1Attack();
+      }
+      if (t > 1000 && t<1500) {
+        player2Attack();
+      }
 
     final GameManager manager = Accessor.getGameManager();
 
@@ -143,9 +145,10 @@ public class BattleScene extends Scene {
   }
 
   public void player1WinDraw() {
-    if (i > 439) {
+    if (t > 500 && t<1000) { //i > 439 previously (when they stop moving)
       player2Attack();
-      //SET A WAIT TIME IN BETWEEN ATTACKS
+    }
+    if (t > 1000 && t<1500) {
       player1Attack();
     }
 
@@ -181,23 +184,50 @@ public class BattleScene extends Scene {
     j = -10;
   }
 
+  int s;
   int o=0;
   private void player2Attack() {
-    // play player animation and calculate damage accordingly
-//    if ((GridObject.lootedItem.getItemType() == ItemType.WEAPON)
-//            && (playingPlayer.getItems().contains(LootItems.SWORD) || playingPlayer.getItems().contains(LootItems.BEJEWELED_SWORD) || playingPlayer.getItems().contains(LootItems.BOW))) {
-    o++;
-    o++;
-      animation.draw(620-o, 25, 1.5);
+    final Player player2 = Accessor.getGameManager().getPlayer2();
+    final WeaponType type = player2.weaponCheck();
+    if(type == WeaponType.SWORD){
+      s = LootItems.SWORD.getAnimationSpeed();
+      //TODO Cycle through the different types of Swords/Wands/Bows to see specific weapon
+    }
+    else if (type == WeaponType.BOW){
+      s = LootItems.BOW.getAnimationSpeed();
+    }
+    else if (type == WeaponType.WAND){
+      s = 2; //LootItems.WAND.getAnimationSpeed();
+    }
+    else if (type == null){
+      s = 0;
+    }
+
+    for (int i = 0; i<s; i++)o++;
+    animation.draw(620-o, 25, 1.5); //animation.draw(620-o, 25, 1.5); normal animation begin
 
   }
+ int u;
   int p=0;
   private void player1Attack() {
-    // play player animation and calculate damage accordingly
-    p++;
-    p++;
-      animation.draw(290+p, 25, 1.5);
+    final Player player1 = Accessor.getGameManager().getPlayer2();
+    final WeaponType type = player1.weaponCheck();
+    if(type == WeaponType.SWORD){
+      u = LootItems.SWORD.getAnimationSpeed();
+      //TODO Cycle through the different types of Swords/Wands/Bows to see specific weapon
+    }
+    else if (type == WeaponType.BOW){
+      u = LootItems.BOW.getAnimationSpeed();
+    }
+    else if (type == WeaponType.WAND){
+      u = 2; //LootItems.WAND.getAnimationSpeed();
+    }
+    else if (type == null){
+      u = 0;
+    }
+    for (int i = 0; i<u; i++)p++;
+    animation.draw(290+p, 25, 1.5);
   }
 
-}
 
+}

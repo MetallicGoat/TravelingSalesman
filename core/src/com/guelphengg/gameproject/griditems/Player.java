@@ -324,4 +324,13 @@ public class Player {
     this.solidColour.a = 0.4F;
     return solidColour;
   }
+  public WeaponType weaponCheck() {
+    for (LootItems item : getItems()) {
+      if (item.getItemType() == ItemType.WEAPON) {
+        return item.getWeaponType();
+      }
+    }
+
+    return null;
+  }
 }
