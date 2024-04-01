@@ -7,14 +7,23 @@ import com.guelphengg.gameproject.Accessor;
 import com.guelphengg.gameproject.GameManager;
 import com.guelphengg.gameproject.GameState;
 import com.guelphengg.gameproject.SceneManager;
+import com.guelphengg.gameproject.griditems.GridObject;
+import com.guelphengg.gameproject.griditems.ItemType;
+import com.guelphengg.gameproject.griditems.LootItems;
 import com.guelphengg.gameproject.scenes.scenecomponents.AttackAnimation;
+
+import java.util.Timer;
 
 public class BattleScene extends Scene {
 
   int i;
   int j;
+  int t;
+
   //temporary knowledge for learning how to move sprites
   AttackAnimation animation = new AttackAnimation();
+
+  Timer timer = new Timer();
 
   public BattleScene() {
     super(GameState.BATTLE);
@@ -31,6 +40,8 @@ public class BattleScene extends Scene {
       j++;
       j++;
     }
+    t++;
+    t++;
     final BitmapFont font = SceneManager.getFont();
     final SpriteBatch batch = SceneManager.getSpriteBatch();
     font.getData().setScale(2F);
@@ -148,11 +159,13 @@ public class BattleScene extends Scene {
   }
 
   public void player2WinDraw() {
-    if (i > 439) {
+    if (t > 500 && t<1000) { //i > 439 previously (when they stop moving)
       player1Attack();
-      //SET A WAIT TIME IN BETWEEN ATTACKS
+    }
+    if (t > 1000 && t<1500) {
       player2Attack();
     }
+
 
     final GameManager manager = Accessor.getGameManager();
 
@@ -164,20 +177,26 @@ public class BattleScene extends Scene {
   }
 
   public void resetBattle() {
-
     i = -10;
     j = -10;
-
   }
 
-  private void player1Attack() {
-    // play player animation and calculate damage accordingly
-    animation.draw(620, 25, 1.5);
-  }
-
+  int o=0;
   private void player2Attack() {
     // play player animation and calculate damage accordingly
-    animation.draw(290, 25, 1.5);
+//    if ((GridObject.lootedItem.getItemType() == ItemType.WEAPON)
+//            && (playingPlayer.getItems().contains(LootItems.SWORD) || playingPlayer.getItems().contains(LootItems.BEJEWELED_SWORD) || playingPlayer.getItems().contains(LootItems.BOW))) {
+    o++;
+    o++;
+      animation.draw(620-o, 25, 1.5);
+
+  }
+  int p=0;
+  private void player1Attack() {
+    // play player animation and calculate damage accordingly
+    p++;
+    p++;
+      animation.draw(290+p, 25, 1.5);
   }
 
 }

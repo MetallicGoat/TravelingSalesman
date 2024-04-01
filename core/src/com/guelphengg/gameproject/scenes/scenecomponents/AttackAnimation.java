@@ -23,6 +23,7 @@ public class AttackAnimation {
     final TextureRegion[] textures1d = new TextureRegion[24];
 
     int i = 0;
+
     for (int y = 0; y < 5; y++) {
       for (int x = 0; x < 5; x++) {
         if (i >= 24)
@@ -43,5 +44,7 @@ public class AttackAnimation {
     //batch.begin();
     batch.draw(currFrame, x, y, (float) (currFrame.getRegionWidth() * scale), (float) (currFrame.getRegionHeight() * scale));
     //batch.end();
+
+//
   }
 }
