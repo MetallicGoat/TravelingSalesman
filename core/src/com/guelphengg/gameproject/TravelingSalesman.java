@@ -3,55 +3,47 @@ package com.guelphengg.gameproject;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.guelphengg.gameproject.scenes.scenecomponents.AttackAnimation;
+import com.guelphengg.gameproject.util.Util;
 
 public class TravelingSalesman extends ApplicationAdapter {
-    private static TravelingSalesman instance;
-    private Music Backgr;
+  private static TravelingSalesman instance;
 
+  public static TravelingSalesman getInstance() {
+    return instance;
+  }
 
-    public Music getBackgr(){
-        return Backgr;
-    }
-    @Override
-    public void create() {
-        instance = this;
+  @Override
+  public void create() {
+    instance = this;
 
-        // Start listening for input
-        Gdx.input.setInputProcessor(new InputListener());
+    // Start listening for input
+    Gdx.input.setInputProcessor(new InputListener());
 
-        // Initialize the scene manager
-        SceneManager.init();
+    // Initialize the scene manager
+    SceneManager.init();
 
-        Backgr = Gdx.audio.newMusic(Gdx.files.internal("MainMenuTS.mp3"));
+    // Play background music
+    TSGameMusic.MAIN_MENU_MUSIC.play();
 
-        Backgr.setLooping(true);
-        Backgr.play();
+    Accessor.getGameManager().smoothlySetState(GameState.MAIN_MENU, true, 500);
+  }
 
-        Accessor.getGameManager().smoothlySetState(GameState.MAIN_MENU, true, 500);
-    }
+  @Override
+  public void render() {
+    // Update the player animation frames
+    Util.incrementStateTime();
 
-    @Override
-    public void render() {
+    ScreenUtils.clear(0, 0, 0, 1);
+    SceneManager.getCurrentScene().render();
+  }
 
-        // Update the player animation frames
-        Character.updateStateTime();
-
-        ScreenUtils.clear(0, 0, 0, 1);
-        SceneManager.getCurrentScene().render();
-    }
-
-    @Override
-    public void dispose() {
-        SceneManager.dispose();
-        Textures.dispose();
-    }
-
-    public static TravelingSalesman getInstance() {
-        return instance;
-    }
+  @Override
+  public void dispose() {
+    SceneManager.dispose();
+    Textures.dispose();
+    TSGameMusic.dispose();
+    TSGameSound.dispose();
+  }
 }
