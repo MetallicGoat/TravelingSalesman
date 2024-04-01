@@ -220,7 +220,8 @@ public class GameManager {
     this.state = nextState;
   }
 
-  public void battleCheck() {
+  // Returns true if they go into a battle
+  public boolean battleCheck() {
     if ((player1.getX() == player2.getX() && player1.getY() == player2.getY()) && !player1.isAtStart()) {
 
       // Start Battle music
@@ -232,7 +233,11 @@ public class GameManager {
 
       ((BattleScene) GameState.BATTLE.getScene()).resetBattle();
       smoothlySetState(GameState.BATTLE);
+
+      return true;
     }
+
+    return false;
   }
 
   // Handles all game input for pressing down on a key
@@ -397,17 +402,27 @@ public class GameManager {
       }
     }
 
-    if (this.state == GameState.BATTLE) {
+    else if (this.state == GameState.BATTLE) {
       switch (keyCode) {
         case Input.Keys.SPACE: {
-          Accessor.getGameManager().smoothlySetState(GameState.RUNNING);
+          // THE USER HAS EXISTED THE BATTLE
 
+          // Return to normal music
           TSGameMusic.BATTLE_MUSIC.stop();
           TSGameMusic.MAIN_GAME_MUSIC.play();
+
+          // It is possible the user entered a battle but is still on a square that opens a scene
+          final boolean playerEnteredScene = checkForSceneTransitions();
+
+          // If the player enter a scene (eg market) directly after a battle, we should not go back to running
+          if (!playerEnteredScene)
+            smoothlySetState(GameState.RUNNING);
+
         }
       }
     }
-    if (this.state == GameState.MARKET) {
+
+    else if (this.state == GameState.MARKET) {
       switch (keyCode) {
         case Input.Keys.SPACE: {
           Accessor.getGameManager().smoothlySetState(GameState.RUNNING);
@@ -482,26 +497,15 @@ public class GameManager {
     this.playingPlayer.setY(newY);
 
     // Check if the players can battle
-    battleCheck();
+    final boolean battleStarted = battleCheck();
+
+    // Only go into the scene if there has not been a battle started
+    if (!battleStarted)
+      checkForSceneTransitions();
 
     // Check if the player has reached the treasure location
     // And reward them if they have
     playingPlayer.tryCollectTreasure();
-
-    // Did they land on a trapped house?
-    if (playerOn(GridObject.TRAPPED_HOUSE)) {
-      smoothlySetState(GameState.TRAPPED);
-
-      TSGameMusic.MAIN_GAME_MUSIC.stop();
-      TSGameMusic.TRAPPED_MUSIC.play();
-    }
-
-    if (playerOn(GridObject.MARKET)) {
-      smoothlySetState(GameState.MARKET);
-
-      TSGameMusic.MAIN_GAME_MUSIC.stop();
-      TSGameMusic.MARKET_MUSIC.play();
-    }
 
     // Update player visibilities
     playingPlayer.updateVisibleArea();
@@ -509,6 +513,31 @@ public class GameManager {
     this.turnsLeft--;
 
     TSGameSound.JUMP.play();
+  }
+
+  // Returns true if they go into a scene
+  private boolean checkForSceneTransitions() {
+    // Did they land on a trapped house?
+    if (playerOn(GridObject.TRAPPED_HOUSE)) {
+      smoothlySetState(GameState.TRAPPED);
+
+      TSGameMusic.MAIN_GAME_MUSIC.stop();
+      TSGameMusic.TRAPPED_MUSIC.play();
+
+      return true;
+    }
+
+    // Check if they landed on a market
+    if (playerOn(GridObject.MARKET)) {
+      smoothlySetState(GameState.MARKET);
+
+      TSGameMusic.MAIN_GAME_MUSIC.stop();
+      TSGameMusic.MARKET_MUSIC.play();
+
+      return true;
+    }
+
+    return false;
   }
 }
 
