@@ -21,11 +21,11 @@ public class WinScene extends Scene{
 
         batch.begin();
 
-        if(manager.getPlayer1().getPoints() == 1) {
+        if(manager.getPlayer1().getPoints() >= 10) {
             drawCenteredText(batch, 0, 4, manager.getPlayer1().getCharacter().getName() + " WINS!");
         }
 
-        if(manager.getPlayer2().getPoints() == 1) {
+        if(manager.getPlayer2().getPoints() >= 10) {
             drawCenteredText(batch, 0, 4,  manager.getPlayer2().getCharacter().getName() + " WINS!");
         }
 

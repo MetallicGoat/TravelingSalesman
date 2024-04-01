@@ -317,7 +317,7 @@ public class GameManager {
             tradeItems();
           }
 
-          if (player1.getPoints() >= 1 || player2.getPoints() >= 1){
+          if (player1.getPoints() >= 10 || player2.getPoints() >= 10){
             smoothlySetState(GameState.WINSCREEN);
           }
 
