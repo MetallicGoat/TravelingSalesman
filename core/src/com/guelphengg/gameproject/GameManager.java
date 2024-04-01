@@ -8,7 +8,9 @@ import com.guelphengg.gameproject.griditems.Player;
 import com.guelphengg.gameproject.scenes.BattleScene;
 import com.guelphengg.gameproject.scenes.TransitionScene;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 
 public class GameManager {
@@ -128,25 +130,29 @@ public class GameManager {
       gridObjects[playingPlayer.getX()][playingPlayer.getY()] = GridObject.EMPTY_HOUSE;
 
       // The below if loop checks if there is a weapon in the inventory already.
-      if ((lootedItem.getItemType() == ItemType.WEAPON)
-          && (playingPlayer.getItems().contains(LootItems.SWORD) || playingPlayer.getItems().contains(LootItems.BEJEWELED_SWORD) || playingPlayer.getItems().contains(LootItems.BOW))) {
+      if ((lootedItem.getItemType() == ItemType.WEAPON) &&
+          (playingPlayer.getItems().contains(LootItems.SWORD) ||
+          playingPlayer.getItems().contains(LootItems.BEJEWELED_SWORD) ||
+          playingPlayer.getItems().contains(LootItems.BOW))) {
 
         // If there is a weapon, the below for loop will run and remove all weapons from the inventory
-        Iterator<LootItems> iterator = playingPlayer.getItems().iterator();
-        while (iterator.hasNext()) {
-          final LootItems item = iterator.next();
+        final List<LootItems> currPlayerItems = new ArrayList<>(playingPlayer.getItems());
+
+        for (LootItems item : currPlayerItems) {
           // If the weapon's looted damage is greater than the item in the inventory's, the inventory weapon is converted to coins
-          if ((item.getItemType() == ItemType.WEAPON)&&(lootedItem.getDamage()> item.getDamage())) {
-            playingPlayer.addCoins((int)(item.getSellPrice()*0.8));
-            // Is removed from the inventory
-            iterator.remove();
+          if ((item.getItemType() == ItemType.WEAPON) && (lootedItem.getDamage()> item.getDamage())) {
+
             // And the appropriate values and inventory are adjusted based on the item.
             playingPlayer.setStrength(0);
             playingPlayer.addLoot(lootedItem);
             playingPlayer.addStrength(lootedItem);
-          }else{
+            playingPlayer.addCoins((int)(item.getSellPrice()*0.8));
+
+            // Rem ove the old weapon from the inventory
+            playingPlayer.getItems().remove(item);
+
+          } else { // TODO Check what the point of this is
             playingPlayer.addCoins(item.getSellPrice());
-            System.out.println("Hello");
           }
         }
       }else{
@@ -345,7 +351,7 @@ public class GameManager {
 
           break;
 
-        case Input.Keys.T://Trade Tings for Gold lol
+        case Input.Keys.T: // Trade Tings for Gold lol
           if (playerOn(GridObject.CASTLE)) {
             TSGameSound.SELL.play();
             tradeItems();
@@ -378,13 +384,13 @@ public class GameManager {
           movePlayingPlayer(1, 0);
           break;
 
-        //mapsize toggle
+        // Map size toggle
         case Input.Keys.V:
           // Change the grid view
           largeMap = true;
           break;
 
-        //help menu toggle
+        // Help menu toggle
         case Input.Keys.H:
           fromRunning = true;
           smoothlySetState(GameState.HELP_MENU);
