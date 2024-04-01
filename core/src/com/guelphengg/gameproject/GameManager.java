@@ -27,6 +27,9 @@ public class GameManager {
   boolean fromMenu = false;
   boolean fromRunning = false;
 
+  int p1Points = player1.getPower();
+  int p2Points = player2.getPower();
+
   // IF we are waiting for the user to press R
   // true by default cause first turn is always ready
   private boolean waitingForRoll = true;
@@ -316,6 +319,9 @@ public class GameManager {
             TSGameSound.SELL.play();
             tradeItems();
           }
+          if(p1Points == 1 || p2Points == 1){
+            smoothlySetState(GameState.WINSCREEN);
+          }
 
           //TODO Make it so that the selling sound only plays when the player actually sold something....
           //TODO Give items values and give player gold for trading items
@@ -355,8 +361,11 @@ public class GameManager {
           fromRunning = true;
           smoothlySetState(GameState.HELP_MENU);
           break;
+
       }
+
     }
+
 
     // when in help menu scene, waits for H to be pressed, then returns to scene that they initially came from
     else if (this.state == GameState.HELP_MENU) {
@@ -415,6 +424,14 @@ public class GameManager {
           TSGameMusic.MARKET_MUSIC.stop();
           TSGameMusic.MAIN_GAME_MUSIC.stop();
         }
+      }
+    }
+
+    if(this.state == GameState.WINSCREEN){
+      switch (keyCode){
+        case Input.Keys.SPACE:
+          smoothlySetState(GameState.MAIN_MENU);
+          break;
       }
     }
   }
