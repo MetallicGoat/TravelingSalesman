@@ -10,6 +10,7 @@ public enum LootItems {
   /**
    * This enum represents every collectable item in the game
    */
+  BLANK("Blank.png", 0,0, 0, 0, 0, ItemType.TREASURE, WeaponType.NOT_APPLICABLE),
   SWORD("Sword.png", 2, 10, 0, 10000, 1, ItemType.WEAPON, WeaponType.SWORD),
   BEJEWELED_SWORD("Bejeweled_Sword.png", 10, 30, 0, 10000, 1, ItemType.WEAPON, WeaponType.SWORD),
   BOW("Bow.png", 5, 16, 0, 10000, 1, ItemType.WEAPON, WeaponType.BOW),

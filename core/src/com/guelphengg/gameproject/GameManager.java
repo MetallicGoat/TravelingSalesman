@@ -8,7 +8,7 @@ import com.guelphengg.gameproject.griditems.Player;
 import com.guelphengg.gameproject.scenes.BattleScene;
 import com.guelphengg.gameproject.scenes.MarketScene;
 import com.guelphengg.gameproject.scenes.TransitionScene;
-import jdk.vm.ci.code.site.Mark;
+//import jdk.vm.ci.code.site.Mark;
 
 import java.util.Iterator;
 import java.util.Random;
@@ -421,33 +421,43 @@ public class GameManager {
         }
         // TODO: These need to be fixed though I don't know how. Still trying to figure out how to properly remove an object from the inventory showing
         case Input.Keys.NUM_1: {
-          playingPlayer.addLoot(marketScene.getSellItems(1));
-//          marketScene.removeItem(1);
-//          playingPlayer.removeCoins(marketScene.getPrices(1));
+          //if(marketScene.canBuy(1) == 1) {
+            playingPlayer.addLoot(marketScene.getSellItems(1));
+            marketScene.removeItem(1);
+            playingPlayer.removeCoins(marketScene.getPrices(1));
+          //}
           break;
         }
         case Input.Keys.NUM_2: {
-          playingPlayer.addLoot(marketScene.getSellItems(2));
+          if(marketScene.canBuy(2) == 1) {
+            playingPlayer.addLoot(marketScene.getSellItems(2));
 //          marketScene.removeItem(1);
 //          playingPlayer.removeCoins(marketScene.getPrices(1));
+          }
           break;
         }
         case Input.Keys.NUM_3: {
-          playingPlayer.addLoot(marketScene.getSellItems(3));
+          if(marketScene.canBuy(3) == 1) {
+            playingPlayer.addLoot(marketScene.getSellItems(3));
 //          marketScene.removeItem(1);
 //          playingPlayer.removeCoins(marketScene.getPrices(1));
+          }
           break;
         }
         case Input.Keys.NUM_4: {
-          playingPlayer.addLoot(marketScene.getSellItems(0));
+          if(marketScene.canBuy(4) == 1) {
+            playingPlayer.addLoot(marketScene.getSellItems(4));
 //          marketScene.removeItem(1);
 //          playingPlayer.removeCoins(marketScene.getPrices(1));
+          }
           break;
         }
         case Input.Keys.NUM_5: {
-          playingPlayer.addLoot(marketScene.getSellItems(4));
+          if(marketScene.canBuy(5) == 1) {
+            playingPlayer.addLoot(marketScene.getSellItems(5));
 //          marketScene.removeItem(1);
 //          playingPlayer.removeCoins(marketScene.getPrices(1));
+          }
           break;
         }
 //        case Input.Keys.NUM_6: {
