@@ -6,7 +6,9 @@ import com.guelphengg.gameproject.griditems.GridObject;
 import com.guelphengg.gameproject.griditems.LootItems;
 import com.guelphengg.gameproject.griditems.Player;
 import com.guelphengg.gameproject.scenes.BattleScene;
+import com.guelphengg.gameproject.scenes.MarketScene;
 import com.guelphengg.gameproject.scenes.TransitionScene;
+import jdk.vm.ci.code.site.Mark;
 
 import java.util.Iterator;
 import java.util.Random;
@@ -50,6 +52,8 @@ public class GameManager {
 
   // The last time a user pressed R successfully (in ms)
   private long lastRollTime = 0;
+
+  MarketScene marketScene = new MarketScene();
 
   public void startGame() {
     // Stop main menu music, and play main game music
@@ -117,7 +121,6 @@ public class GameManager {
             playingPlayer.addStrength(lootedItem);
           }else{
             playingPlayer.addCoins(item.getSellPrice());
-            System.out.println("Hello");
           }
         }
       }else{
@@ -413,8 +416,52 @@ public class GameManager {
           Accessor.getGameManager().smoothlySetState(GameState.RUNNING);
 
           TSGameMusic.MARKET_MUSIC.stop();
-          TSGameMusic.MAIN_GAME_MUSIC.stop();
+          TSGameMusic.MAIN_GAME_MUSIC.play();
+          break;
         }
+        // TODO: These need to be fixed though I don't know how. Still trying to figure out how to properly remove an object from the inventory showing
+        case Input.Keys.NUM_1: {
+          playingPlayer.addLoot(marketScene.getSellItems(1));
+//          marketScene.removeItem(1);
+//          playingPlayer.removeCoins(marketScene.getPrices(1));
+          break;
+        }
+        case Input.Keys.NUM_2: {
+          playingPlayer.addLoot(marketScene.getSellItems(2));
+//          marketScene.removeItem(1);
+//          playingPlayer.removeCoins(marketScene.getPrices(1));
+          break;
+        }
+        case Input.Keys.NUM_3: {
+          playingPlayer.addLoot(marketScene.getSellItems(3));
+//          marketScene.removeItem(1);
+//          playingPlayer.removeCoins(marketScene.getPrices(1));
+          break;
+        }
+        case Input.Keys.NUM_4: {
+          playingPlayer.addLoot(marketScene.getSellItems(0));
+//          marketScene.removeItem(1);
+//          playingPlayer.removeCoins(marketScene.getPrices(1));
+          break;
+        }
+        case Input.Keys.NUM_5: {
+          playingPlayer.addLoot(marketScene.getSellItems(4));
+//          marketScene.removeItem(1);
+//          playingPlayer.removeCoins(marketScene.getPrices(1));
+          break;
+        }
+//        case Input.Keys.NUM_6: {
+//          playingPlayer.addLoot(marketScene.getSellItems(6));
+////          marketScene.removeItem(1);
+////          playingPlayer.removeCoins(marketScene.getPrices(1));
+//          break;
+//        }
+//        case Input.Keys.NUM_7: {
+//          playingPlayer.addLoot(marketScene.getSellItems(7));
+////          marketScene.removeItem(1);
+////          playingPlayer.removeCoins(marketScene.getPrices(1));
+//          break;
+//        }
       }
     }
   }
