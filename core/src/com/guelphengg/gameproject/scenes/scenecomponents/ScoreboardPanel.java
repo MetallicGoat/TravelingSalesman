@@ -13,6 +13,11 @@ import com.guelphengg.gameproject.util.AdvancedShapeRenderer;
 
 public class ScoreboardPanel {
 
+  boolean isMarket;
+  public ScoreboardPanel(){}
+  public ScoreboardPanel(boolean isMarket){
+    this.isMarket = isMarket;
+  }
   private final int width = (int) (SceneManager.getViewWidth() * 0.22);
   private final int height = (int) (SceneManager.getViewHeight() * 0.5);
 
@@ -48,10 +53,17 @@ public class ScoreboardPanel {
     Gdx.gl.glEnable(GL20.GL_BLEND);
 
     // Scoreboard background
-    render.begin(ShapeRenderer.ShapeType.Filled);
-    render.setColor(new Color(0, .4F, .8F, 0.6F));
-    render.roundedRect(x, y, width, height, 10);
-    render.end();
+    if (isMarket) {
+      render.begin(ShapeRenderer.ShapeType.Filled);
+      render.setColor(new Color(0, .4F, .8F, 0.6F));
+      render.roundedRect(x, y + 160, width, SceneManager.getViewHeight() * 0.3F, 10);
+      render.end();
+    } else {
+      render.begin(ShapeRenderer.ShapeType.Filled);
+      render.setColor(new Color(0, .4F, .8F, 0.6F));
+      render.roundedRect(x, y, width, height, 10);
+      render.end();
+    }
 
     // Scoreboard Text
     final SpriteBatch batch = SceneManager.getSpriteBatch();
@@ -75,14 +87,14 @@ public class ScoreboardPanel {
     font.draw(batch, "    Houses Looted: " + manager.getPlayer1().getHousesLooted(), x + 10, y + height - 170);
     font.draw(batch, "    Time Played: " + manager.getPlayer1().getPlayTime(), x + 10, y + height - 190);
 
-
-    font.draw(batch, "Player 2: " + manager.getPlayer2().getName(), x + 10, y + height - 240);
-    font.draw(batch, "    Power: " + manager.getPlayer2().getStrength(), x + 10, y + height - 260);
-    font.draw(batch, "    Points: " + manager.getPlayer2().getPower(), x + 10, y + height - 280);
-    font.draw(batch, "    Coins: " + manager.getPlayer2().getCoins(), x + 10, y + height - 300);
-    font.draw(batch, "    Houses Looted: " + manager.getPlayer2().getHousesLooted(), x + 10, y + height - 320);
-    font.draw(batch, "    Time Played: " + manager.getPlayer2().getPlayTime(), x + 10, y + height - 340);
-
+    if(!isMarket){
+      font.draw(batch, "Player 2: " + manager.getPlayer2().getName(), x + 10, y + height - 240);
+      font.draw(batch, "    Power: " + manager.getPlayer2().getStrength(), x + 10, y + height - 260);
+      font.draw(batch, "    Points: " + manager.getPlayer2().getPower(), x + 10, y + height - 280);
+      font.draw(batch, "    Coins: " + manager.getPlayer2().getCoins(), x + 10, y + height - 300);
+      font.draw(batch, "    Houses Looted: " + manager.getPlayer2().getHousesLooted(), x + 10, y + height - 320);
+      font.draw(batch, "    Time Played: " + manager.getPlayer2().getPlayTime(), x + 10, y + height - 340);
+    }
     batch.end();
   }
 }
