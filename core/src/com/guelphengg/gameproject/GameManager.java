@@ -539,10 +539,6 @@ public class GameManager {
     if (!battleStarted)
       checkForSceneTransitions();
 
-    // Check if the player has reached the treasure location
-    // And reward them if they have
-    playingPlayer.tryCollectTreasure();
-
     // Update player visibilities
     playingPlayer.updateVisibleArea();
 
