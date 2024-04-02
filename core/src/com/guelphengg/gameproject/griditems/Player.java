@@ -47,7 +47,7 @@ public class Player {
 
   // Used when a player has found a treasure map
   private boolean treasureLocated = false;
-  private boolean tresaureCollected = false;
+  private boolean treasureCollected = false;
   private int tresaureX = 0;
   private int tresaureY = 0;
 
@@ -162,6 +162,11 @@ public class Player {
         }
       }
     }
+
+    // The player has revealed the location of the treasure map
+    if (visibleArea[tresaureX][tresaureY]) {
+      treasureCollected = true;
+    }
   }
 
   // Check if a player has explored a certain square
@@ -198,6 +203,7 @@ public class Player {
       return;
 
     treasureLocated = true;
+    treasureCollected = true;
     tresaureX = treasureLocation[0];
     tresaureY = treasureLocation[1];
   }
@@ -207,7 +213,7 @@ public class Player {
   }
 
   public boolean isTreasureLocVisible() {
-    return treasureLocated && !tresaureCollected;
+    return treasureLocated && !treasureCollected;
   }
 
   public int getTreasureX() {
@@ -216,14 +222,6 @@ public class Player {
 
   public int getTreasureY() {
     return tresaureY;
-  }
-
-  public void tryCollectTreasure() {
-    if (!tresaureCollected && tresaureX == x && tresaureY == y) {
-      tresaureCollected = true;
-      loot.remove(LootItems.TREASURE_MAP);
-      addCoins(1000);
-    }
   }
 
   private int[] getRandomHiddenTreasure() {
