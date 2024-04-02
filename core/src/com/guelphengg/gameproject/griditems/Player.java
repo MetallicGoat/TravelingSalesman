@@ -187,7 +187,7 @@ public class Player {
   // adds loot to the players inventory
   public void addLoot(LootItems item) {
     if (item.getItemType() == ItemType.WEAPON)
-      loot.removeIf(lootItem -> item.getItemType() == ItemType.WEAPON);
+      loot.removeIf(lootItem -> lootItem.getItemType() == ItemType.WEAPON);
 
     if (item == LootItems.TREASURE_MAP)
       findTreasure();
