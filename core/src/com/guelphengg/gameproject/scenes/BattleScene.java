@@ -182,6 +182,11 @@ public class BattleScene extends Scene {
   public void resetBattle() {
     i = -10;
     j = -10;
+    t = 0;
+    s = 0;
+    o = 0;
+    u = 0;
+    p = 0;
   }
 
   int s;
@@ -210,7 +215,7 @@ public class BattleScene extends Scene {
  int u;
   int p=0;
   private void player1Attack() {
-    final Player player1 = Accessor.getGameManager().getPlayer2();
+    final Player player1 = Accessor.getGameManager().getPlayer1();
     final WeaponType type = player1.weaponCheck();
     if(type == WeaponType.SWORD){
       u = LootItems.SWORD.getAnimationSpeed();
