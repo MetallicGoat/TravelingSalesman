@@ -7,6 +7,7 @@ import com.guelphengg.gameproject.griditems.LootItems;
 import com.guelphengg.gameproject.griditems.Player;
 import com.guelphengg.gameproject.scenes.BattleScene;
 import com.guelphengg.gameproject.scenes.TransitionScene;
+import com.guelphengg.gameproject.scenes.WinScene;
 
 import java.util.Iterator;
 import java.util.Random;
@@ -115,7 +116,8 @@ public class GameManager {
             playingPlayer.setPower(0);
             playingPlayer.addLoot(lootedItem);
             playingPlayer.addPower(lootedItem);
-          }else{
+
+          } else {
             playingPlayer.addCoins(item.getSellPrice());
             System.out.println("Hello");
           }
@@ -250,9 +252,12 @@ public class GameManager {
           fromMenu = true;
           break;
 
+          // TODO THIS IS FOR TESTING PURPOSES ONLY
         case Input.Keys.W:
           for(int i = 0; i < 10; i++){
-          player1.addPoints(LootItems.BEJEWELED_SWORD);}
+            player1.addPoints(LootItems.BEJEWELED_SWORD);
+          }
+          WinScene.reset();
           smoothlySetState(GameState.WINSCREEN);
           break;
       }
@@ -323,7 +328,8 @@ public class GameManager {
             tradeItems();
           }
 
-          if (player1.getPoints() >= 10 || player2.getPoints() >= 10){
+          if (player1.getPoints() >= 10 || player2.getPoints() >= 10) {
+            WinScene.reset();
             smoothlySetState(GameState.WINSCREEN);
           }
 
