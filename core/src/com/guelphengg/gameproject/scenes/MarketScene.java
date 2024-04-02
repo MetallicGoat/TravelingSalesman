@@ -110,7 +110,6 @@ public class MarketScene extends Scene {
             }
 
             if((Accessor.getGameManager().getPlayingPlayer().getStrength()>=20)&&i==5){
-                sellItems[i] = LootItems.getRandomItem();
                 sellItems[i].render(rightMarketGrid, 1, 0);
                 if(sellItems[i].getSellPrice() ==0) {
                     rightMarketGrid.renderTextInGrid(1, 0, "SOLD\nOUT", true, -1, yOffset, 3);
@@ -124,7 +123,6 @@ public class MarketScene extends Scene {
             }
 
             if((Accessor.getGameManager().getPlayingPlayer().getStrength()>=30)&&i==6){
-                sellItems[i] = LootItems.getRandomItem();
                 sellItems[i].render(rightMarketGrid, 2, 0);
                 if(sellItems[i].getSellPrice() ==0) {
                     rightMarketGrid.renderTextInGrid(2, 0, "SOLD\nOUT", true, -1, yOffset, 3);
@@ -176,11 +174,10 @@ public class MarketScene extends Scene {
 
     public static void reset(){
         sellItems[0] = treasureMap;
-        sellItems[1] = LootItems.getRandomItem();
-        sellItems[2] = LootItems.getRandomItem();
-        sellItems[3] = LootItems.getRandomItem();
-        sellItems[4] = LootItems.getRandomItem();
-        sellItems[5] = LootItems.getRandomItem();
-        sellItems[6] = LootItems.getRandomItem();
+//        for(int i = 1; i<=6; i++){
+//            while (!sellItems[i].containsItem(sellItems, sellItems[i])){
+//                sellItems[i] = LootItems.getRandomItem();
+//            }
+//        }
     }
 }

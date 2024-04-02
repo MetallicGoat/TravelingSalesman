@@ -97,4 +97,13 @@ public enum LootItems {
   public WeaponType getWeaponType() {
     return weaponType;
   }
+
+  public boolean containsItem(LootItems[] arr, LootItems item){
+    for(int i = 0; i<arr.length-1; i++){
+      if(arr[i] == item){
+        return true;
+      }
+    }
+    return false;
+  }
 }
