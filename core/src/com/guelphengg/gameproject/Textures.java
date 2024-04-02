@@ -13,7 +13,8 @@ public enum Textures {
   HIDDEN_SQUARE("cloud_cover_2.png"),
   MAP_SCROLL("Main Scroll.png"),
   TREASURE_X("TreasureX.png"),
-  MARKET_BACKGROUND("MarketStall.png");
+  MARKET_BACKGROUND("MarketStall.png"),
+  TRAPPED_BACKGROUND("TrappedHouseBackground.png");
 
   private final Texture texture;
 

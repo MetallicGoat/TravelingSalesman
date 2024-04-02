@@ -17,9 +17,9 @@ public class TrappedScene extends Scene {
     //renderBackground(0.5f);
     final SpriteBatch batch = SceneManager.getSpriteBatch();
     final BitmapFont font = SceneManager.getFont();
+    renderTrappedBackground();
 
     batch.begin();
-
     font.setColor(Color.RED);
     font.getData().setScale(4);
 
