@@ -19,7 +19,6 @@ public class BattleScene extends Scene {
   //temporary knowledge for learning how to move sprites
   AttackAnimation animation = new AttackAnimation();
 
-  Timer timer = new Timer();
 
   public BattleScene() {
     super(GameState.BATTLE);
@@ -92,6 +91,55 @@ public class BattleScene extends Scene {
 
     manager.getPlayer1().getTransColour();
     manager.getPlayer2().getTransColour();
+
+    //Player1/2 Attacking in their respective attack classes. Movement code is inside the isAttacking code.
+    //Need a variable to trigger these inside render
+    if (player1Attacking){ //==true
+      final Player player1 = Accessor.getGameManager().getPlayer1();
+      final WeaponType type = player1.weaponCheck();
+      if (type == WeaponType.SWORD) {
+        if (i < 800) {
+          i += 8;
+        }
+        batch.draw(player1Model, i - 200, 30, player1Model.getRegionWidth() * 3, player1Model.getRegionHeight() * 3);
+      }
+      //this is where any other cases would go if needed
+      player1Attacking = false;
+    }
+    if (player2Attacking) { //==true
+      final Player player2 = Accessor.getGameManager().getPlayer2();
+      final WeaponType type = player2.weaponCheck();
+      if (type == WeaponType.SWORD) {
+        if (j < 800) {
+          j += 8;
+        }
+        batch.draw(player2Model, 1255 - j, 30, player2Model.getRegionWidth() * 3, player2Model.getRegionHeight() * 3);
+      }
+      player2Attacking = false;
+    }
+    if (player1Return) { //==true
+      final Player player1 = Accessor.getGameManager().getPlayer1();
+      final WeaponType type = player1.weaponCheck();
+      if (type == WeaponType.SWORD) {
+        if (i > 439) {
+          i -= 8;
+        }
+        batch.draw(player1Model, i - 200, 30, player1Model.getRegionWidth() * 3, player1Model.getRegionHeight() * 3);
+      }
+      player1Return = false;
+    }
+
+    if (player2Return) { //==true
+      final Player player2 = Accessor.getGameManager().getPlayer2();
+      final WeaponType type = player2.weaponCheck();
+      if (type == WeaponType.SWORD) {
+        if (j > 439) {
+          j -= 8;
+        }
+        batch.draw(player2Model, 1255 - j, 30, player2Model.getRegionWidth() * 3, player2Model.getRegionHeight() * 3);
+      }
+      player2Return = false;
+    }
 
     batch.end();
   }
@@ -192,47 +240,63 @@ public class BattleScene extends Scene {
   int s;
   int o=0;
   private void player2Attack() {
+    player2Attacking=true;
     final Player player2 = Accessor.getGameManager().getPlayer2();
     final WeaponType type = player2.weaponCheck();
-    if(type == WeaponType.SWORD){
+    if (type == WeaponType.SWORD) {
       s = LootItems.SWORD.getAnimationSpeed();
+      for (int i = 0; i < s; i++) o++;
+      animation.draw(330 - o, 25, 1.5);
       //TODO Cycle through the different types of Swords/Wands/Bows to see specific weapon
-    }
-    else if (type == WeaponType.BOW){
+    } else if (type == WeaponType.BOW) {
       s = LootItems.BOW.getAnimationSpeed();
-    }
-    else if (type == WeaponType.WAND){
+      for (int i = 0; i < s; i++) o++;
+      animation.draw(620 - o, 25, 1.5);
+    } else if (type == WeaponType.WAND) {
       s = 2; //LootItems.WAND.getAnimationSpeed();
-    }
-    else if (type == null){
+      for (int i = 0; i < s; i++) o++;
+      animation.draw(620 - o, 25, 1.5);
+    } else if (type == null) {
       s = 0;
+      for (int i = 0; i < s; i++) o++;
+      animation.draw(620 - o, 25, 1.5);
     }
-
-    for (int i = 0; i<s; i++)o++;
-    animation.draw(620-o, 25, 1.5); //animation.draw(620-o, 25, 1.5); normal animation begin
-
+    //TODO check which animation used
+     //animation.draw(620-o, 25, 1.5); normal animation begin
+//    player2Return = true;
   }
  int u;
   int p=0;
   private void player1Attack() {
+    player1Attacking=true;
     final Player player1 = Accessor.getGameManager().getPlayer1();
     final WeaponType type = player1.weaponCheck();
     if(type == WeaponType.SWORD){
       u = LootItems.SWORD.getAnimationSpeed();
+      for (int i = 0; i<u; i++)p++;
+      animation.draw(580+p, 25, 1.5);
       //TODO Cycle through the different types of Swords/Wands/Bows to see specific weapon
     }
     else if (type == WeaponType.BOW){
       u = LootItems.BOW.getAnimationSpeed();
+      for (int i = 0; i<u; i++)p++;
+      animation.draw(290+p, 25, 1.5);
     }
     else if (type == WeaponType.WAND){
       u = 2; //LootItems.WAND.getAnimationSpeed();
+      for (int i = 0; i<u; i++)p++;
+      animation.draw(290+p, 25, 1.5);
     }
     else if (type == null){
       u = 0;
+      for (int i = 0; i<u; i++)p++;
+      animation.draw(290+p, 25, 1.5);
     }
-    for (int i = 0; i<u; i++)p++;
-    animation.draw(290+p, 25, 1.5);
+//    player1Return = true;
   }
 
-
+  public boolean player1Attacking;
+  public boolean player2Attacking;
+  public boolean player1Return;
+  public boolean player2Return;
 }
