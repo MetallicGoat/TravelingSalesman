@@ -249,6 +249,12 @@ public class GameManager {
           smoothlySetState(GameState.HELP_MENU);
           fromMenu = true;
           break;
+
+        case Input.Keys.W:
+          for(int i = 0; i < 10; i++){
+          player1.addPoints(LootItems.BEJEWELED_SWORD);}
+          smoothlySetState(GameState.WINSCREEN);
+          break;
       }
 
     } else if (this.state == GameState.GAME_SETUP) {
