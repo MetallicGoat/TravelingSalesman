@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.guelphengg.gameproject.AnimationTextures;
 import com.guelphengg.gameproject.SceneManager;
 import com.guelphengg.gameproject.Textures;
 import com.guelphengg.gameproject.util.Util;
@@ -11,21 +12,27 @@ import com.guelphengg.gameproject.util.Util;
 public class AttackAnimation {
   // Used to keep track of the current frame of the animation
   final Animation<TextureRegion> animation;
+  AnimationTextures animationTexture;
 
-  public AttackAnimation() {
+
+  public AttackAnimation(AnimationTextures animationTexture) {
     // Build the animation frames
-    final Texture spriteSheet = Textures.SLASH_SHEET.get();
+    this.animationTexture = animationTexture;
+
+    final Texture spriteSheet = animationTexture.getTexture();
 
     final TextureRegion[][] region2d = TextureRegion.split(spriteSheet,
-        spriteSheet.getWidth() / 5,
-        spriteSheet.getHeight() / 5);
+        spriteSheet.getWidth() / animationTexture.getTileWidth(),
+        spriteSheet.getHeight() / animationTexture.getTileHeight());
 
-    final TextureRegion[] textures1d = new TextureRegion[24];
+    int texture1dLength = (animationTexture.getTileWidth() * animationTexture.getTileHeight()) - 1;
+
+    final TextureRegion[] textures1d = new TextureRegion[texture1dLength];
 
     int i = 0;
-    for (int y = 0; y < 5; y++) {
-      for (int x = 0; x < 5; x++) {
-        if (i >= 24)
+    for (int y = 0; y < animationTexture.getTileHeight(); y++) {
+      for (int x = 0; x < animationTexture.getTileWidth(); x++) {
+        if (i >= texture1dLength)
           continue;
 
         textures1d[i] = region2d[y][x];

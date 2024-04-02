@@ -3,10 +3,7 @@ package com.guelphengg.gameproject.scenes;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.guelphengg.gameproject.Accessor;
-import com.guelphengg.gameproject.GameManager;
-import com.guelphengg.gameproject.GameState;
-import com.guelphengg.gameproject.SceneManager;
+import com.guelphengg.gameproject.*;
 import com.guelphengg.gameproject.scenes.scenecomponents.AttackAnimation;
 
 public class BattleScene extends Scene {
@@ -14,7 +11,9 @@ public class BattleScene extends Scene {
   int i;
   int j;
   //temporary knowledge for learning how to move sprites
-  AttackAnimation animation = new AttackAnimation();
+  AttackAnimation basicSwordAnimation = new AttackAnimation(AnimationTextures.BASIC_SLASH_SHEET);
+  AttackAnimation fireSwordAnimation = new AttackAnimation(AnimationTextures.FIRE_SLASH_SHEET);
+  AttackAnimation iceSwordAnimation = new AttackAnimation(AnimationTextures.ICE_SLASH_SHEET);
 
   public BattleScene() {
     super(GameState.BATTLE);
@@ -63,10 +62,13 @@ public class BattleScene extends Scene {
 
     // TODO make reset method so that the players reset to their positions off screen.
 
+    //TODO make victory text for winning player as well as instructing user to press space bar to continue
+//    public void victoryText()
 
     //TODO Finish Attacks
     if (manager.getPlayer1().getStrength() < manager.getPlayer2().getStrength()) {
       player2Win();
+
     }
     if (manager.getPlayer2().getStrength() < manager.getPlayer1().getStrength()) {
       player1Win();
@@ -172,12 +174,12 @@ public class BattleScene extends Scene {
 
   private void player1Attack() {
     // play player animation and calculate damage accordingly
-    animation.draw(620, 25, 1.5);
+    basicSwordAnimation.draw(620, 25, 1.5);
   }
 
   private void player2Attack() {
     // play player animation and calculate damage accordingly
-    animation.draw(290, 25, 1.5);
+    fireSwordAnimation.draw(290, 25, 1.5);
   }
 
 }
