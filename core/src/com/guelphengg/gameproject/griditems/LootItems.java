@@ -14,7 +14,6 @@ public enum LootItems {
   SWORD("Sword.png", 2, 10, 0, 10000, 1, ItemType.WEAPON, WeaponType.SWORD),
   FIRE_SWORD("R.png", 2, 10, 0, 10000, 1, ItemType.WEAPON, WeaponType.SWORD),
   BEJEWELED_SWORD("Bejeweled_Sword.png", 10, 30, 0, 10000, 1, ItemType.WEAPON, WeaponType.SWORD),
-  SEXY_SWORD("Bejeweled_Sword.png", 10, 30, 0, 10000, 1, ItemType.WEAPON, WeaponType.SWORD),
   BOW("Bow.png", 5, 16, 0, 10000, 1, ItemType.WEAPON, WeaponType.BOW),
 
   PALADIN_SHIELD("Paladin_Shield.png", 0, 50, 0.8, 10, 1, ItemType.TREASURE, WeaponType.NOT_APPLICABLE),
@@ -23,8 +22,8 @@ public enum LootItems {
   CRYSTAL_GOBLET("Crystal_Goblet.png", 0, 77, 0, 10000, 1, ItemType.TREASURE, WeaponType.NOT_APPLICABLE),
   DIAMOND_RING("Diamond_Ring.png", 0, 80, 0, 10000, 1, ItemType.TREASURE, WeaponType.NOT_APPLICABLE),
   DRAGON_SCROLL("Dragon_Scroll.png", 0, 100, 0, 10000, 1, ItemType.TREASURE, WeaponType.NOT_APPLICABLE),
-  TREASURE_MAP("TreasureMap.png", 0, 100, 0, 10000, 1, ItemType.TREASURE, WeaponType.NOT_APPLICABLE),
 
+  TREASURE_MAP("TreasureMap.png", 0, 100, 0, 10000, 1, ItemType.OTHER, WeaponType.NOT_APPLICABLE),
   BLANK("Blank.png", 0,0, 0, 0, 0, ItemType.OTHER, WeaponType.NOT_APPLICABLE);
 
   private final Texture texture;

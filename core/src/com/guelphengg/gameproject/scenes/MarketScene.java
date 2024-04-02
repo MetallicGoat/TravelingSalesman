@@ -3,8 +3,6 @@ package com.guelphengg.gameproject.scenes;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.guelphengg.gameproject.Accessor;
 import com.guelphengg.gameproject.GameManager;
@@ -21,15 +19,11 @@ import java.util.List;
 
 public class MarketScene extends Scene {
 
-    private static LootItems[] sellItems = new LootItems[7];
-    private static LootItems treasureMap = LootItems.TREASURE_MAP;
+    private static final LootItems[] sellItems = new LootItems[7];
+    private static final LootItems treasureMap = LootItems.TREASURE_MAP;
 
-    ScoreboardPanel scoreboardPanel = new ScoreboardPanel(true);
-    MarketInventoryPanel inventoryPanel = new MarketInventoryPanel();
-
-
-
-    final SpriteBatch batch = SceneManager.getSpriteBatch();
+    final ScoreboardPanel scoreboardPanel = new ScoreboardPanel(true);
+    final MarketInventoryPanel inventoryPanel = new MarketInventoryPanel();
 
     final GameGrid leftMarketGrid = new GameGrid((int) (SceneManager.getViewWidth() / (3.5 * 3)), (int) (SceneManager.getViewWidth() / 3.5), (int) (SceneManager.getViewWidth() / 20.0), (int) (SceneManager.getViewHeight() / 3.7), 3, 1);
     final GameGrid centreMarketGrid = new GameGrid((int) (SceneManager.getViewWidth() / (3.5 * 3)), (int) (SceneManager.getViewWidth() / (3.5 * 3)), (int) (SceneManager.getViewWidth() / 2.3), (int) (SceneManager.getViewHeight() / 3.7), 1, 1);
@@ -39,17 +33,8 @@ public class MarketScene extends Scene {
     final GameGrid centreMarketGridNum = new GameGrid((int)(SceneManager.getViewWidth()/(3.5*4)), (int)(SceneManager.getViewWidth()/(3.5*3)),(int)(SceneManager.getViewWidth()/2.3), (int)(SceneManager.getViewHeight()/2.3), 1, 1);
     final GameGrid rightMarketGridNum = new GameGrid((int)(SceneManager.getViewWidth()/(3.5*4)), (int)(SceneManager.getViewWidth()/(3.5)),(int)(SceneManager.getViewWidth()/1.6), (int)(SceneManager.getViewHeight()/2.3), 3, 1);
 
-    final GameGrid inventoryGrid = new GameGrid(
-            (int) (SceneManager.getViewWidth() * .3 / 3), // height
-            (int) (SceneManager.getViewWidth() * .3), // width
-            (int) (SceneManager.getViewHeight() * .47), // x
-            (int) (SceneManager.getViewWidth() * .58), // y
-            7, 2 // boxesX, boxesY
-    );
-
     public MarketScene() {
         super(GameState.MARKET);
-
     }
 
     @Override
@@ -70,8 +55,6 @@ public class MarketScene extends Scene {
 
         batch.begin();
 
-        drawCenteredText(batch, 300, 3, "Welcome To The Market");
-
         // rendering grids in the market to store the items
         leftMarketGrid.renderGrid(new Color(0, 0, 0, 0));
         centreMarketGrid.renderGrid(new Color(0, 0, 0, 0));
@@ -83,7 +66,7 @@ public class MarketScene extends Scene {
         batch.end();
         // rendering the items in the grid to appear with text
         sellItems[0].render(centreMarketGrid, 0, 0);
-        if(sellItems[0].getSellPrice() ==0 || Accessor.getGameManager().getPlayingPlayer().getItems().contains(LootItems.TREASURE_MAP)){
+        if(sellItems[0] == LootItems.BLANK || Accessor.getGameManager().getPlayingPlayer().getItems().contains(LootItems.TREASURE_MAP)){
             centreMarketGrid.renderTextInGrid(0, 0, "SOLD\nOUT", true, -1, yOffset, 2);
         }else{
             centreMarketGrid.renderTextInGrid(0, 0, "$"+sellItems[0].getSellPrice(), true, -1, 3);
@@ -99,7 +82,7 @@ public class MarketScene extends Scene {
         for(int i = 1; i<=6; i++){
             if(i<=3) {
                 sellItems[i].render(leftMarketGrid, i-1, 0);
-                if(sellItems[i].getSellPrice() ==0){
+                if(sellItems[i] == LootItems.BLANK){
                     leftMarketGrid.renderTextInGrid(i-1, 0, "SOLD\nOUT", true, -1, yOffset, 2);
                 }else{
                     leftMarketGrid.renderTextInGrid(i-1, 0, "$"+sellItems[i].getSellPrice(), true, -1, 3);
@@ -110,7 +93,7 @@ public class MarketScene extends Scene {
 
             if(i==4) {
                 sellItems[i].render(rightMarketGrid, 0, 0);
-                if(sellItems[i].getSellPrice() ==0) {
+                if(sellItems[i] == LootItems.BLANK) {
                     rightMarketGrid.renderTextInGrid(0, 0, "SOLD\nOUT", true, -1, yOffset, 2);
                 }else {
                     rightMarketGrid.renderTextInGrid(0, 0, "$" + sellItems[i].getSellPrice(), true, -1, 3);
@@ -121,9 +104,9 @@ public class MarketScene extends Scene {
 
             if((Accessor.getGameManager().getPlayingPlayer().getStrength()>=20)&&i==5){
                 sellItems[i].render(rightMarketGrid, 1, 0);
-                if(sellItems[i].getSellPrice() ==0) {
+                if(sellItems[i] == LootItems.BLANK) {
                     rightMarketGrid.renderTextInGrid(1, 0, "SOLD\nOUT", true, -1, yOffset, 2);
-                }else {
+                } else {
                     rightMarketGrid.renderTextInGrid(1, 0, "$" + sellItems[i].getSellPrice(), true, -1, 3);
                     rightMarketGridNum.renderTextInGrid(i-4, 0, " "+i+" ", true, 0, 3);
                 }
@@ -135,9 +118,9 @@ public class MarketScene extends Scene {
 
             if((Accessor.getGameManager().getPlayingPlayer().getStrength()>=30)&&i==6){
                 sellItems[i].render(rightMarketGrid, 2, 0);
-                if(sellItems[i].getSellPrice() ==0) {
+                if(sellItems[i] == LootItems.BLANK) {
                     rightMarketGrid.renderTextInGrid(2, 0, "SOLD\nOUT", true, -1, yOffset, 2);
-                }else {
+                } else {
                     rightMarketGrid.renderTextInGrid(2, 0, "$" + sellItems[i].getSellPrice(), true, -1, 3);
                     rightMarketGridNum.renderTextInGrid(i-4, 0, " "+i+" ", true, 0, 3);
                 }
@@ -148,30 +131,11 @@ public class MarketScene extends Scene {
             }
 
         }
-    }
 
-    @Override
-    public void drawCenteredText(SpriteBatch batch, int yOffset, float scale, String text) {
-        final BitmapFont font = SceneManager.getFont();
-        final GlyphLayout glyphLayout = new GlyphLayout();
-
-        font.getData().setScale(scale);
-        glyphLayout.setText(font, text);
-
-        float w = glyphLayout.width;
-        float h = glyphLayout.height;
-
-        // draw magic (some mathies to find the center) ;)
-        font.draw(batch, glyphLayout, (SceneManager.getViewWidth() - w) / 2, (SceneManager.getViewHeight() + h) / 2 + yOffset);
-    }
-
-
-    public LootItems getSellItems(int index) {
-        return sellItems[index];
-    }
-
-    public int getPrices(int index) {
-        return sellItems[index].getSellPrice();
+        batch.begin();
+        drawCenteredText(batch, 250, 3.3F, "Welcome To The Market");
+        drawCenteredText(batch, -300, 2.5F, "Press [SPACE] to return to the map");
+        batch.end();
     }
 
     public void canBuy(int index) {

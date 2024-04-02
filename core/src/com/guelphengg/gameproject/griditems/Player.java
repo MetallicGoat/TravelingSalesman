@@ -181,10 +181,13 @@ public class Player {
 
   // adds loot to the players inventory
   public void addLoot(LootItems item) {
-    loot.add(item);
+    if (item.getItemType() == ItemType.WEAPON)
+      loot.removeIf(lootItem -> item.getItemType() == ItemType.WEAPON);
 
     if (item == LootItems.TREASURE_MAP)
       findTreasure();
+
+    loot.add(item);
   }
 
   // Generate a random location where the player will find a treasure

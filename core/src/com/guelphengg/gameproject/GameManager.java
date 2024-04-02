@@ -565,8 +565,8 @@ public class GameManager {
 
     // Check if they landed on a market
     if (playerOn(GridObject.MARKET)) {
-      smoothlySetState(GameState.MARKET);
       MarketScene.reset();
+      smoothlySetState(GameState.MARKET);
 
       TSGameMusic.MAIN_GAME_MUSIC.stop();
       TSGameMusic.MARKET_MUSIC.play();
