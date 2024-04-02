@@ -82,9 +82,14 @@ public class MarketScene extends Scene {
 
         batch.end();
         // rendering the items in the grid to appear with text
-        treasureMap.render(centreMarketGrid, 0, 0);
-        centreMarketGrid.renderTextInGrid(0, 0, "$"+sellItems[0].getSellPrice(), true, -1, 3);
-        centreMarketGridNum.renderTextInGrid(0, 0, "0", true, 0, 3);
+        sellItems[0].render(centreMarketGrid, 0, 0);
+        if(sellItems[0].getSellPrice() ==0 || Accessor.getGameManager().getPlayingPlayer().getItems().contains(LootItems.TREASURE_MAP)){
+            centreMarketGrid.renderTextInGrid(0, 0, "SOLD\nOUT", true, -1, yOffset, 2);
+        }else{
+            centreMarketGrid.renderTextInGrid(0, 0, "$"+sellItems[0].getSellPrice(), true, -1, 3);
+            centreMarketGridNum.renderTextInGrid(0, 0, "0", true, 0, 3);
+        }
+
 
         scoreboardPanel.render();
         inventoryPanel.render();
@@ -95,31 +100,34 @@ public class MarketScene extends Scene {
             if(i<=3) {
                 sellItems[i].render(leftMarketGrid, i-1, 0);
                 if(sellItems[i].getSellPrice() ==0){
-                    leftMarketGrid.renderTextInGrid(i-1, 0, "SOLD\nOUT", true, -1, yOffset, 3);
+                    leftMarketGrid.renderTextInGrid(i-1, 0, "SOLD\nOUT", true, -1, yOffset, 2);
                 }else{
                     leftMarketGrid.renderTextInGrid(i-1, 0, "$"+sellItems[i].getSellPrice(), true, -1, 3);
+                    leftMarketGridNum.renderTextInGrid(i-1, 0, " "+i+" ", true, 0, 3);
                 }
-                leftMarketGridNum.renderTextInGrid(i-1, 0, " "+i+" ", true, 0, 3);
+
             }
 
             if(i==4) {
                 sellItems[i].render(rightMarketGrid, 0, 0);
                 if(sellItems[i].getSellPrice() ==0) {
-                    rightMarketGrid.renderTextInGrid(0, 0, "SOLD\nOUT", true, -1, yOffset, 3);
+                    rightMarketGrid.renderTextInGrid(0, 0, "SOLD\nOUT", true, -1, yOffset, 2);
                 }else {
                     rightMarketGrid.renderTextInGrid(0, 0, "$" + sellItems[i].getSellPrice(), true, -1, 3);
+                    rightMarketGridNum.renderTextInGrid(0, 0, " "+i+" ", true, 0, 3);
                 }
-                rightMarketGridNum.renderTextInGrid(0, 0, " "+i+" ", true, 0, 3);
+
             }
 
             if((Accessor.getGameManager().getPlayingPlayer().getStrength()>=20)&&i==5){
                 sellItems[i].render(rightMarketGrid, 1, 0);
                 if(sellItems[i].getSellPrice() ==0) {
-                    rightMarketGrid.renderTextInGrid(1, 0, "SOLD\nOUT", true, -1, yOffset, 3);
+                    rightMarketGrid.renderTextInGrid(1, 0, "SOLD\nOUT", true, -1, yOffset, 2);
                 }else {
                     rightMarketGrid.renderTextInGrid(1, 0, "$" + sellItems[i].getSellPrice(), true, -1, 3);
+                    rightMarketGridNum.renderTextInGrid(i-4, 0, " "+i+" ", true, 0, 3);
                 }
-                rightMarketGridNum.renderTextInGrid(i-4, 0, " "+i+" ", true, 0, 3);
+
             } else if (i==5) {
 
                 rightMarketGrid.renderTextInGrid(1, 0, "GET\nMORE\nPOWER", true, 0,40, 2);
@@ -128,11 +136,12 @@ public class MarketScene extends Scene {
             if((Accessor.getGameManager().getPlayingPlayer().getStrength()>=30)&&i==6){
                 sellItems[i].render(rightMarketGrid, 2, 0);
                 if(sellItems[i].getSellPrice() ==0) {
-                    rightMarketGrid.renderTextInGrid(2, 0, "SOLD\nOUT", true, -1, yOffset, 3);
+                    rightMarketGrid.renderTextInGrid(2, 0, "SOLD\nOUT", true, -1, yOffset, 2);
                 }else {
                     rightMarketGrid.renderTextInGrid(2, 0, "$" + sellItems[i].getSellPrice(), true, -1, 3);
+                    rightMarketGridNum.renderTextInGrid(i-4, 0, " "+i+" ", true, 0, 3);
                 }
-                rightMarketGridNum.renderTextInGrid(i-4, 0, " "+i+" ", true, 0, 3);
+
 
             } else if(i==6){
                 rightMarketGrid.renderTextInGrid(2, 0, "GET\nMORE\nPOWER", true, 0, 40,2);
@@ -167,7 +176,7 @@ public class MarketScene extends Scene {
 
     public void canBuy(int index) {
         final GameManager manager = Accessor.getGameManager();
-        if ((manager.getPlayingPlayer().getCoins() >= sellItems[index].getSellPrice())&&(!sellItems[index].equals(LootItems.BLANK))) {
+        if ((manager.getPlayingPlayer().getCoins() >= sellItems[index].getSellPrice())&&(!sellItems[index].equals(LootItems.BLANK))&&(!manager.getPlayingPlayer().getItems().contains(sellItems[index]))) {
             manager.getPlayingPlayer().addStrength(sellItems[index]);
             manager.getPlayingPlayer().addLoot(sellItems[index]);
             manager.getPlayingPlayer().removeCoins(sellItems[index].getSellPrice());
