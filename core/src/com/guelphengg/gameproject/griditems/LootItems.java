@@ -4,16 +4,17 @@ import com.badlogic.gdx.graphics.Texture;
 import com.guelphengg.gameproject.scenes.scenecomponents.GameGrid;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public enum LootItems {
   /**
    * This enum represents every collectable item in the game
    */
-  BLANK("Blank.png", 0,0, 0, 0, 0, ItemType.TREASURE, WeaponType.NOT_APPLICABLE),
   SWORD("Sword.png", 2, 10, 0, 10000, 1, ItemType.WEAPON, WeaponType.SWORD),
   FIRE_SWORD("R.png", 2, 10, 0, 10000, 1, ItemType.WEAPON, WeaponType.SWORD),
   BEJEWELED_SWORD("Bejeweled_Sword.png", 10, 30, 0, 10000, 1, ItemType.WEAPON, WeaponType.SWORD),
+  SEXY_SWORD("Bejeweled_Sword.png", 10, 30, 0, 10000, 1, ItemType.WEAPON, WeaponType.SWORD),
   BOW("Bow.png", 5, 16, 0, 10000, 1, ItemType.WEAPON, WeaponType.BOW),
 
   PALADIN_SHIELD("Paladin_Shield.png", 0, 50, 0.8, 10, 1, ItemType.TREASURE, WeaponType.NOT_APPLICABLE),
@@ -22,7 +23,9 @@ public enum LootItems {
   CRYSTAL_GOBLET("Crystal_Goblet.png", 0, 77, 0, 10000, 1, ItemType.TREASURE, WeaponType.NOT_APPLICABLE),
   DIAMOND_RING("Diamond_Ring.png", 0, 80, 0, 10000, 1, ItemType.TREASURE, WeaponType.NOT_APPLICABLE),
   DRAGON_SCROLL("Dragon_Scroll.png", 0, 100, 0, 10000, 1, ItemType.TREASURE, WeaponType.NOT_APPLICABLE),
-  TREASURE_MAP("TreasureMap.png", 0, 100, 0, 10000, 1, ItemType.TREASURE, WeaponType.NOT_APPLICABLE);
+  TREASURE_MAP("TreasureMap.png", 0, 100, 0, 10000, 1, ItemType.TREASURE, WeaponType.NOT_APPLICABLE),
+
+  BLANK("Blank.png", 0,0, 0, 0, 0, ItemType.OTHER, WeaponType.NOT_APPLICABLE);
 
   private final Texture texture;
   private final int damage;
@@ -44,29 +47,31 @@ public enum LootItems {
   }
 
   // Tries to generate a random LootItem that the player does not already have
-  public static LootItems getRandomItem(Player player) {
-    final List<LootItems> values = new ArrayList<>(List.of(values()));
+  public static LootItems getRandomTreasureItem(Player player) {
+    final List<LootItems> treasures = new ArrayList<>();
 
-    // Remove all items the player already has (+ treasure maps are not given at treasure houses)
-    values.removeIf(item -> player.getItems().contains(item) || item == TREASURE_MAP || item == BLANK);
+    for (LootItems item : values()) {
+      if (item.getItemType() == ItemType.TREASURE) {
+        treasures.add(item);
+      }
+    }
 
-    // They have all the items, so just return a random one
-    if (values.isEmpty())
-      return values()[(int) (Math.random() * values().length)];
-    else // Return one of the remaining
-      return values.get((int) (Math.random() * values.size()));
+    Collections.shuffle(treasures);
+
+    return treasures.get(0);
+
   }
-  public static LootItems getRandomItem() {
-    final List<LootItems> values = new ArrayList<>(List.of(values()));
 
-    // Remove all items the player already has (+ treasure maps are not given at treasure houses)
-    values.removeIf(item -> item == TREASURE_MAP || item == BLANK || item.getItemType() == ItemType.TREASURE);
+  public static List<LootItems> getWeapons(Player player) {
+    final List<LootItems> weapons = new ArrayList<>();
 
-    // They have all the items, so just return a random one
-    if (values.isEmpty())
-      return values()[(int) (Math.random() * values().length)];
-    else // Return one of the remaining
-      return values.get((int) (Math.random() * values.size()));
+    for (LootItems item : values()) {
+      if (item.getItemType() == ItemType.WEAPON && !player.getItems().contains(item)) {
+        weapons.add(item);
+      }
+    }
+
+    return weapons;
   }
 
   // Method to draw the LootItem in certain square on whatever grid u want

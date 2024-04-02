@@ -16,10 +16,13 @@ import com.guelphengg.gameproject.scenes.scenecomponents.GameGrid;
 import com.guelphengg.gameproject.scenes.scenecomponents.MarketInventoryPanel;
 import com.guelphengg.gameproject.scenes.scenecomponents.ScoreboardPanel;
 
+import java.util.Collections;
+import java.util.List;
+
 public class MarketScene extends Scene {
 
-    static LootItems[] sellItems = new LootItems[7];
-    static LootItems treasureMap = LootItems.TREASURE_MAP;
+    private static LootItems[] sellItems = new LootItems[7];
+    private static LootItems treasureMap = LootItems.TREASURE_MAP;
 
     ScoreboardPanel scoreboardPanel = new ScoreboardPanel(true);
     MarketInventoryPanel inventoryPanel = new MarketInventoryPanel();
@@ -172,12 +175,19 @@ public class MarketScene extends Scene {
         }
     }
 
-    public static void reset(){
+    public static void reset() {
         sellItems[0] = treasureMap;
-//        for(int i = 1; i<=6; i++){
-//            while (!sellItems[i].containsItem(sellItems, sellItems[i])){
-//                sellItems[i] = LootItems.getRandomItem();
-//            }
-//        }
+
+        final List<LootItems> items = LootItems.getWeapons(Accessor.getGameManager().getPlayingPlayer());
+
+        // Randomize the items
+        Collections.shuffle(items);
+
+        for (int i = 1; i<=6; i++) {
+            if (items.size() < i) // Blank if we run out of items
+                sellItems[i] = LootItems.BLANK;
+            else
+                sellItems[i] = items.get(i - 1);
+        }
     }
 }

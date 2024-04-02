@@ -120,62 +120,30 @@ public class GameManager {
 
   // Make the playing player loot the current house
   public void lootHouse() {
-    LootItems lootedItem; // I made this a variable, so I could use it to change strength
     if (canPlayerLoot() == 0)
       return;
 
     final GridObject object = gridObjects[playingPlayer.getX()][playingPlayer.getY()];
 
     if (object == GridObject.TREASURE_HOUSE) {
-      // Play Loot Sound
-      TSGameSound.LOOT.play();
 
-      lootedItem = LootItems.getRandomItem(playingPlayer);
-      gridObjects[playingPlayer.getX()][playingPlayer.getY()] = GridObject.EMPTY_HOUSE;
+      final LootItems lootedItem = LootItems.getRandomTreasureItem(playingPlayer);
+      // Add the item and their power
+      playingPlayer.addLoot(lootedItem);
+      playingPlayer.addStrength(lootedItem);
 
-      // The below if loop checks if there is a weapon in the inventory already.
-      if ((lootedItem.getItemType() == ItemType.WEAPON) &&
-          (playingPlayer.getItems().contains(LootItems.SWORD) ||
-          playingPlayer.getItems().contains(LootItems.BEJEWELED_SWORD) ||
-          playingPlayer.getItems().contains(LootItems.BOW))) {
-
-        // If there is a weapon, the below for loop will run and remove all weapons from the inventory
-        final List<LootItems> currPlayerItems = new ArrayList<>(playingPlayer.getItems());
-
-        for (LootItems item : currPlayerItems) {
-          // If the weapon's looted damage is greater than the item in the inventory's, the inventory weapon is converted to coins
-          if ((item.getItemType() == ItemType.WEAPON) && (lootedItem.getDamage()> item.getDamage())) {
-
-            // And the appropriate values and inventory are adjusted based on the item.
-            playingPlayer.setStrength(10);
-            playingPlayer.addLoot(lootedItem);
-            playingPlayer.addStrength(lootedItem);
-            playingPlayer.addCoins((int)(item.getSellPrice()*0.8));
-
-            // Rem ove the old weapon from the inventory
-            playingPlayer.getItems().remove(item);
-
-          } else { // TODO Check what the point of this is
-            playingPlayer.addCoins(item.getSellPrice());
-          }
-        }
-      }else{
-        playingPlayer.addLoot(lootedItem);
-        playingPlayer.addStrength(lootedItem);
-      }
-
-      houseCounter[playingPlayer.getX()][playingPlayer.getY()]++;
-      // and the loot is added and the strength is adjusted
-    }
-    //logic for looting for lost items aka coins
-    Random r = new Random();
-    if (object == GridObject.LOST_ITEM_HOUSE) {
-      // Play Loot sound
-      TSGameSound.LOOT.play();
-
+    } else if (object == GridObject.LOST_ITEM_HOUSE) {
+      // logic for looting for lost items aka coins
+      Random r = new Random();
       playingPlayer.addCoins(r.nextInt(15, 45));
-      gridObjects[playingPlayer.getX()][playingPlayer.getY()] = GridObject.EMPTY_HOUSE;
     }
+
+    // Play loot sound
+    TSGameSound.LOOT.play();
+
+    // Set the house to empty
+    gridObjects[playingPlayer.getX()][playingPlayer.getY()] = GridObject.EMPTY_HOUSE;
+
     houseCounter[playingPlayer.getX()][playingPlayer.getY()]++;
   }
 
