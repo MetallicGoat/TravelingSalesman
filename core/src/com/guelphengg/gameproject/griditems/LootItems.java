@@ -12,6 +12,7 @@ public enum LootItems {
    */
   BLANK("Blank.png", 0,0, 0, 0, 0, ItemType.TREASURE, WeaponType.NOT_APPLICABLE),
   SWORD("Sword.png", 2, 10, 0, 10000, 1, ItemType.WEAPON, WeaponType.SWORD),
+  FIRE_SWORD("R.png", 2, 10, 0, 10000, 1, ItemType.WEAPON, WeaponType.SWORD),
   BEJEWELED_SWORD("Bejeweled_Sword.png", 10, 30, 0, 10000, 1, ItemType.WEAPON, WeaponType.SWORD),
   BOW("Bow.png", 5, 16, 0, 10000, 1, ItemType.WEAPON, WeaponType.BOW),
 
@@ -48,6 +49,18 @@ public enum LootItems {
 
     // Remove all items the player already has (+ treasure maps are not given at treasure houses)
     values.removeIf(item -> player.getItems().contains(item) || item == TREASURE_MAP || item == BLANK);
+
+    // They have all the items, so just return a random one
+    if (values.isEmpty())
+      return values()[(int) (Math.random() * values().length)];
+    else // Return one of the remaining
+      return values.get((int) (Math.random() * values.size()));
+  }
+  public static LootItems getRandomItem() {
+    final List<LootItems> values = new ArrayList<>(List.of(values()));
+
+    // Remove all items the player already has (+ treasure maps are not given at treasure houses)
+    values.removeIf(item -> item == TREASURE_MAP || item == BLANK || item.getItemType() == ItemType.TREASURE);
 
     // They have all the items, so just return a random one
     if (values.isEmpty())

@@ -3,7 +3,6 @@ package com.guelphengg.gameproject.scenes;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -19,15 +18,12 @@ import com.guelphengg.gameproject.scenes.scenecomponents.ScoreboardPanel;
 
 public class MarketScene extends Scene {
 
-    LootItems[] sellItems = new LootItems[7];
-    LootItems item_1 = LootItems.BEJEWELED_SWORD;
-    LootItems item_2 = LootItems.GOLDEN_GOBLET;
-    LootItems item_3 = LootItems.CRYSTAL_GOBLET;
-    LootItems item_4 = LootItems.PALADIN_SHIELD;
-    LootItems treasureMap = LootItems.TREASURE_MAP;
+    static LootItems[] sellItems = new LootItems[7];
+    static LootItems treasureMap = LootItems.TREASURE_MAP;
 
     ScoreboardPanel scoreboardPanel = new ScoreboardPanel(true);
     MarketInventoryPanel inventoryPanel = new MarketInventoryPanel();
+
 
 
     final SpriteBatch batch = SceneManager.getSpriteBatch();
@@ -50,17 +46,19 @@ public class MarketScene extends Scene {
 
     public MarketScene() {
         super(GameState.MARKET);
-        sellItems[0] = treasureMap;
-        sellItems[1] = item_1;
-        sellItems[2] = item_2;
-        sellItems[3] = item_3;
-        sellItems[4] = item_4;
-        sellItems[5] = LootItems.BLANK;
-        sellItems[6] = LootItems.BLANK;
+
     }
 
     @Override
     public void render() {
+        int yOffset = 25;
+        Player playingPlayer = Accessor.getGameManager().getPlayingPlayer();
+
+        for(int i = 1; i<=6; i++) {
+            if (playingPlayer.getItems().contains(sellItems[i])) {
+                sellItems[i] = LootItems.BLANK;
+            }
+        }
 
         renderMarketBackground();
 
@@ -88,31 +86,37 @@ public class MarketScene extends Scene {
         scoreboardPanel.render();
         inventoryPanel.render();
 
-        final Player playingPlayer = Accessor.getGameManager().getPlayingPlayer();
+
 
         for(int i = 1; i<=6; i++){
             if(i<=3) {
-
-                if (playingPlayer.getItems().contains(sellItems[i])){
-                    LootItems.BLANK.render(leftMarketGrid, i-1, 0);
-                } else {
-                    sellItems[i].render(leftMarketGrid, i - 1, 0);
+                sellItems[i].render(leftMarketGrid, i-1, 0);
+                if(sellItems[i].getSellPrice() ==0){
+                    leftMarketGrid.renderTextInGrid(i-1, 0, "SOLD\nOUT", true, -1, yOffset, 3);
+                }else{
+                    leftMarketGrid.renderTextInGrid(i-1, 0, "$"+sellItems[i].getSellPrice(), true, -1, 3);
                 }
-
-                leftMarketGrid.renderTextInGrid(i-1, 0, "$"+sellItems[i].getSellPrice(), true, -1, 3);
                 leftMarketGridNum.renderTextInGrid(i-1, 0, " "+i+" ", true, 0, 3);
             }
 
             if(i==4) {
                 sellItems[i].render(rightMarketGrid, 0, 0);
-                rightMarketGrid.renderTextInGrid(0, 0, "$"+sellItems[i].getSellPrice(), true, -1, 3);
+                if(sellItems[i].getSellPrice() ==0) {
+                    rightMarketGrid.renderTextInGrid(0, 0, "SOLD\nOUT", true, -1, yOffset, 3);
+                }else {
+                    rightMarketGrid.renderTextInGrid(0, 0, "$" + sellItems[i].getSellPrice(), true, -1, 3);
+                }
                 rightMarketGridNum.renderTextInGrid(0, 0, " "+i+" ", true, 0, 3);
             }
 
             if((Accessor.getGameManager().getPlayingPlayer().getStrength()>=20)&&i==5){
-                sellItems[i] = LootItems.DIAMOND_RING;
+                sellItems[i] = LootItems.getRandomItem();
                 sellItems[i].render(rightMarketGrid, 1, 0);
-                rightMarketGrid.renderTextInGrid(1, 0, "$"+sellItems[i].getSellPrice(), true, -1, 3);
+                if(sellItems[i].getSellPrice() ==0) {
+                    rightMarketGrid.renderTextInGrid(1, 0, "SOLD\nOUT", true, -1, yOffset, 3);
+                }else {
+                    rightMarketGrid.renderTextInGrid(1, 0, "$" + sellItems[i].getSellPrice(), true, -1, 3);
+                }
                 rightMarketGridNum.renderTextInGrid(i-4, 0, " "+i+" ", true, 0, 3);
             } else if (i==5) {
 
@@ -120,9 +124,13 @@ public class MarketScene extends Scene {
             }
 
             if((Accessor.getGameManager().getPlayingPlayer().getStrength()>=30)&&i==6){
-                sellItems[i] = LootItems.GOLDEN_KEY;
+                sellItems[i] = LootItems.getRandomItem();
                 sellItems[i].render(rightMarketGrid, 2, 0);
-                rightMarketGrid.renderTextInGrid(2, 0, "$"+sellItems[i].getSellPrice(), true, -1, 3);
+                if(sellItems[i].getSellPrice() ==0) {
+                    rightMarketGrid.renderTextInGrid(2, 0, "SOLD\nOUT", true, -1, yOffset, 3);
+                }else {
+                    rightMarketGrid.renderTextInGrid(2, 0, "$" + sellItems[i].getSellPrice(), true, -1, 3);
+                }
                 rightMarketGridNum.renderTextInGrid(i-4, 0, " "+i+" ", true, 0, 3);
 
             } else if(i==6){
@@ -148,19 +156,6 @@ public class MarketScene extends Scene {
     }
 
 
-    public void removeItem(int index) {
-        if(index <= 3){
-            //leftMarketGrid.renderTextureInGrid(index-1,0, null);
-            sellItems[6].render(leftMarketGrid,index - 1,0);
-        }
-        if(index == 4){
-            sellItems[6].render(centreMarketGrid,0,0);
-        }
-        if(index >= 5){
-            sellItems[6].render(rightMarketGrid, index,0);
-        }
-    }
-
     public LootItems getSellItems(int index) {
         return sellItems[index];
     }
@@ -169,17 +164,23 @@ public class MarketScene extends Scene {
         return sellItems[index].getSellPrice();
     }
 
-    public boolean canBuy(int index) {
+    public void canBuy(int index) {
         final GameManager manager = Accessor.getGameManager();
         if ((manager.getPlayingPlayer().getCoins() >= sellItems[index].getSellPrice())&&(!sellItems[index].equals(LootItems.BLANK))) {
             manager.getPlayingPlayer().addStrength(sellItems[index]);
-            return true;
-        } else {
-            return false;
+            manager.getPlayingPlayer().addLoot(sellItems[index]);
+            manager.getPlayingPlayer().removeCoins(sellItems[index].getSellPrice());
+            sellItems[index] = LootItems.BLANK;
         }
     }
 
-    public void clearSlot(int index){
-        //centreMarketGrid.renderTextureInGrid(0,0, "Blank.png");
+    public static void reset(){
+        sellItems[0] = treasureMap;
+        sellItems[1] = LootItems.getRandomItem();
+        sellItems[2] = LootItems.getRandomItem();
+        sellItems[3] = LootItems.getRandomItem();
+        sellItems[4] = LootItems.getRandomItem();
+        sellItems[5] = LootItems.getRandomItem();
+        sellItems[6] = LootItems.getRandomItem();
     }
 }

@@ -25,7 +25,7 @@ public class GameManager {
   private GridObject[][] gridObjects;
 
   // How many turns before a house can be looted again
-  private final int COUNT_MAX = 20;
+  private final int COUNT_MAX = 9;
 
   // for help menu to know where to return to after they press H
   boolean fromMenu;
@@ -470,53 +470,32 @@ public class GameManager {
           TSGameMusic.MAIN_GAME_MUSIC.play();
           break;
         }
-        // TODO: These need to be fixed though I don't know how. Still trying to figure out how to properly remove an object from the inventory showing
+        case Input.Keys.NUM_0: {
+          marketScene.canBuy(0);
+          break;
+        }
         case Input.Keys.NUM_1: {
-          if(marketScene.canBuy(1)) {
-            playingPlayer.addLoot(marketScene.getSellItems(1));
-            marketScene.removeItem(1);
-            playingPlayer.removeCoins(marketScene.getPrices(1));
-          }
+          marketScene.canBuy(1);
           break;
         }
         case Input.Keys.NUM_2: {
-          if(marketScene.canBuy(2)) {
-            playingPlayer.addLoot(marketScene.getSellItems(2));
-            marketScene.removeItem(1);
-            playingPlayer.removeCoins(marketScene.getPrices(2));
-          }
+          marketScene.canBuy(2);
           break;
         }
         case Input.Keys.NUM_3: {
-          if(marketScene.canBuy(3)) {
-            playingPlayer.addLoot(marketScene.getSellItems(3));
-            marketScene.removeItem(1);
-            playingPlayer.removeCoins(marketScene.getPrices(3));
-          }
+          marketScene.canBuy(3);
           break;
         }
         case Input.Keys.NUM_4: {
-          if(marketScene.canBuy(4)) {
-            playingPlayer.addLoot(marketScene.getSellItems(4));
-            marketScene.removeItem(1);
-            playingPlayer.removeCoins(marketScene.getPrices(4));
-          }
+          marketScene.canBuy(4);
           break;
         }
         case Input.Keys.NUM_5: {
-          if(marketScene.canBuy(5)) {
-            playingPlayer.addLoot(marketScene.getSellItems(5));
-            marketScene.removeItem(1);
-            playingPlayer.removeCoins(marketScene.getPrices(5));
-          }
+          marketScene.canBuy(5);
           break;
         }
         case Input.Keys.NUM_6: {
-          if(marketScene.canBuy(6)) {
-            playingPlayer.addLoot(marketScene.getSellItems(5));
-            marketScene.removeItem(1);
-            playingPlayer.removeCoins(marketScene.getPrices(5));
-          }
+          marketScene.canBuy(6);
           break;
         }
       }
@@ -619,6 +598,7 @@ public class GameManager {
     // Check if they landed on a market
     if (playerOn(GridObject.MARKET)) {
       smoothlySetState(GameState.MARKET);
+      MarketScene.reset();
 
       TSGameMusic.MAIN_GAME_MUSIC.stop();
       TSGameMusic.MARKET_MUSIC.play();

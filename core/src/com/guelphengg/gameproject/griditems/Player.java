@@ -297,7 +297,7 @@ public class Player {
 //        this.getItems().removeIf(item -> item == LootItems.SWORD || item == LootItems.BOW || item == LootItems.BEJEWELED_SWORD);
 
     // The strength is then reset back to the base number
-    this.setStrength(0);
+    this.setStrength(10);
   }
 
   // removes the strength from a player
