@@ -387,6 +387,8 @@ public class GameManager {
 
     // logic for trapped houses and the inputs while in that scene
     else if (this.state == GameState.TRAPPED) {
+      gridObjects[playingPlayer.getX()][playingPlayer.getY()] = GridObject.WALL_BURNED_HOUSE;
+
       switch (keyCode) {
         case Input.Keys.NUM_1:
           //lose power
@@ -528,6 +530,10 @@ public class GameManager {
     // Check if the player is trying to leave the grid
     if (newX > 9 || newX < 0 || newY > 9 || newY < 0)
       return; // The player cannot move there
+
+    // Players cannot walk through walls
+    if (gridObjects[newX][newY] == GridObject.WALL_BURNED_HOUSE)
+      return;
 
     this.playingPlayer.setX(newX);
     this.playingPlayer.setY(newY);

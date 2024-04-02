@@ -12,6 +12,7 @@ public enum GridObject {
   EMPTY_HOUSE("empty_house.png"),
   TRAPPED_HOUSE("trapped_house.png"),
   TREASURE_HOUSE("treasure_house.png"),
+  WALL_BURNED_HOUSE("wall_burned_house.png"),
   LOST_ITEM_HOUSE("treasure_house.png"),
   MARKET("Market.png");
 
