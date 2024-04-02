@@ -65,19 +65,16 @@ public class MarketScene extends Scene {
 
         batch.end();
         // rendering the items in the grid to appear with text
-        sellItems[0].render(centreMarketGrid, 0, 0);
         if(sellItems[0] == LootItems.BLANK || Accessor.getGameManager().getPlayingPlayer().getItems().contains(LootItems.TREASURE_MAP)){
             centreMarketGrid.renderTextInGrid(0, 0, "SOLD\nOUT", true, -1, yOffset, 2);
-        }else{
+        } else {
+            sellItems[0].render(centreMarketGrid, 0, 0);
             centreMarketGrid.renderTextInGrid(0, 0, "$"+sellItems[0].getSellPrice(), true, -1, 3);
             centreMarketGridNum.renderTextInGrid(0, 0, "0", true, 0, 3);
         }
 
-
         scoreboardPanel.render();
         inventoryPanel.render();
-
-
 
         for(int i = 1; i<=6; i++){
             if(i<=3) {

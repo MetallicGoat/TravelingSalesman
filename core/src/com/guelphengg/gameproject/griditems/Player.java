@@ -166,6 +166,7 @@ public class Player {
     // The player has revealed the location of the treasure map
     if (visibleArea[tresaureX][tresaureY]) {
       treasureCollected = true;
+      loot.remove(LootItems.TREASURE_MAP);
     }
   }
 
@@ -206,7 +207,7 @@ public class Player {
       return;
 
     treasureLocated = true;
-    treasureCollected = true;
+    treasureCollected = false;
     tresaureX = treasureLocation[0];
     tresaureY = treasureLocation[1];
   }
