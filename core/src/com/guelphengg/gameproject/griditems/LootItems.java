@@ -12,7 +12,7 @@ public enum LootItems {
    */
   SWORD("Sword.png", 2, 10, 0, 10000, 1, ItemType.WEAPON, WeaponType.SWORD, 0),
   BEJEWELED_SWORD("Bejeweled_Sword.png", 10, 30, 0, 10000, 1, ItemType.WEAPON, WeaponType.SWORD, 0),
-  BOW("Bow.png", 5, 16, 0, 10000, 1, ItemType.WEAPON, WeaponType.BOW, 3),
+  BOW("Bow.png", 5, 16, 0, 10000, 1, ItemType.WEAPON, WeaponType.BOW, 9),
   PALADIN_SHIELD("Paladin_Shield.png", 0, 50, 0.8, 10, 1, ItemType.TREASURE, WeaponType.NOT_APPLICABLE, 0),
   GOLDEN_KEY("Golden_Key.png", 0, 30, 0, 10000, 1, ItemType.TREASURE, WeaponType.NOT_APPLICABLE, 0),
   GOLDEN_GOBLET("Golden_Goblet.png", 0, 45, 0, 10000, 1, ItemType.TREASURE, WeaponType.NOT_APPLICABLE, 0),
@@ -44,16 +44,17 @@ public enum LootItems {
 
   // Tries to generate a random LootItem that the player does not already have
   public static LootItems getRandomItem(Player player) {
-    final List<LootItems> values = new ArrayList<>(List.of(values()));
-
-    // Remove all items the player already has (+ treasure maps are not given at treasure houses)
-    values.removeIf(item -> player.getItems().contains(item) || item == TREASURE_MAP);
-
-    // They have all the items, so just return a random one
-    if (values.isEmpty())
-      return values()[(int) (Math.random() * values().length)];
-    else // Return one of the remaining
-      return values.get((int) (Math.random() * values.size()));
+//    final List<LootItems> values = new ArrayList<>(List.of(values()));
+//
+//    // Remove all items the player already has (+ treasure maps are not given at treasure houses)
+//    values.removeIf(item -> player.getItems().contains(item) || item == TREASURE_MAP);
+//
+//    // They have all the items, so just return a random one
+//    if (values.isEmpty())
+//      return values()[(int) (Math.random() * values().length)];
+//    else // Return one of the remaining
+//      return values.get((int) (Math.random() * values.size()));
+    return LootItems.BEJEWELED_SWORD;
   }
 
   // Method to draw the LootItem in certian square on whatever grid u want

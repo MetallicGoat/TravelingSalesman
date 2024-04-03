@@ -7,14 +7,12 @@ import com.guelphengg.gameproject.*;
 import com.guelphengg.gameproject.griditems.*;
 import com.guelphengg.gameproject.scenes.scenecomponents.AttackAnimation;
 
-import java.util.List;
-import java.util.Timer;
-
 public class BattleScene extends Scene {
 
   int i;
   int j;
   int t;
+  int swordAttackWait;
 
   //temporary knowledge for learning how to move sprites
   AttackAnimation animation = new AttackAnimation();
@@ -98,51 +96,52 @@ public class BattleScene extends Scene {
       final Player player1 = Accessor.getGameManager().getPlayer1();
       final WeaponType type = player1.weaponCheck();
       if (type == WeaponType.SWORD) {
-        if (i < 800) {
+//        if (i < 800) {
+//          i += 8;
+//        }
+//        batch.draw(player1Model, i - 200, 30, player1Model.getRegionWidth() * 3, player1Model.getRegionHeight() * 3);
+        // Move forward
+        if (swordAttackWait == 0 && i < 800) {
           i += 8;
+        } else {
+          swordAttackWait++; // Increment time
         }
-        batch.draw(player1Model, i - 200, 30, player1Model.getRegionWidth() * 3, player1Model.getRegionHeight() * 3);
+        // once b is 50 move backwards
+        if (swordAttackWait > 150)
+          i = Math.max(i - 8, 439);
       }
+      if (swordAttackWait > 200)
+        swordAttackWait = 0;
       //this is where any other cases would go if needed
       player1Attacking = false;
     }
+
     if (player2Attacking) { //==true
       final Player player2 = Accessor.getGameManager().getPlayer2();
       final WeaponType type = player2.weaponCheck();
-      if (type == WeaponType.SWORD) {
-        if (j < 800) {
-          j += 8;
-        }
-        batch.draw(player2Model, 1255 - j, 30, player2Model.getRegionWidth() * 3, player2Model.getRegionHeight() * 3);
-      }
-      player2Attacking = false;
-    }
-    if (player1Return) { //==true
-      final Player player1 = Accessor.getGameManager().getPlayer1();
-      final WeaponType type = player1.weaponCheck();
-      if (type == WeaponType.SWORD) {
-        if (i > 439) {
-          i -= 8;
-        }
-        batch.draw(player1Model, i - 200, 30, player1Model.getRegionWidth() * 3, player1Model.getRegionHeight() * 3);
-      }
-      player1Return = false;
-    }
+      if (type == WeaponType.SWORD) {//something about how to time the j's. j will still be < 800 after it comes back from attacking and it will wanna attack again
 
-    if (player2Return) { //==true
-      final Player player2 = Accessor.getGameManager().getPlayer2();
-      final WeaponType type = player2.weaponCheck();
-      if (type == WeaponType.SWORD) {
-        if (j > 439) {
-          j -= 8;
+        // Move forward
+        if (swordAttackWait == 0 && j < 800) {
+          j += 8;
+        } else {
+          swordAttackWait++; // Increment time
         }
-        batch.draw(player2Model, 1255 - j, 30, player2Model.getRegionWidth() * 3, player2Model.getRegionHeight() * 3);
+
+        // once b is 50 move backwards
+        if (swordAttackWait > 150)
+          j = Math.max(j - 8, 439);
       }
-      player2Return = false;
+      if (swordAttackWait > 200)
+        swordAttackWait = 0;
+
+
+      player2Attacking = false;
     }
 
     batch.end();
   }
+
 
   public void player1Win() {
     if (t > 500 && t<1000) { //i > 439 previously (when they stop moving)
@@ -164,8 +163,6 @@ public class BattleScene extends Scene {
 
     manager.getPlayer2().setX(10);
     manager.getPlayer2().setY(0);
-
-    System.out.println(money);
   }
 
   public void player2Win() {
@@ -188,8 +185,6 @@ public class BattleScene extends Scene {
 
     manager.getPlayer1().setX(10);
     manager.getPlayer1().setY(0);
-
-    System.out.println(money);
   }
 
   public void player1WinDraw() {
@@ -228,6 +223,8 @@ public class BattleScene extends Scene {
   }
 
   public void resetBattle() {
+    swordAttackWait = 0;
+
     i = -10;
     j = -10;
     t = 0;
@@ -240,13 +237,14 @@ public class BattleScene extends Scene {
   int s;
   int o=0;
   private void player2Attack() {
+//    swordAttackWait = 0;
     player2Attacking=true;
     final Player player2 = Accessor.getGameManager().getPlayer2();
     final WeaponType type = player2.weaponCheck();
     if (type == WeaponType.SWORD) {
       s = LootItems.SWORD.getAnimationSpeed();
       for (int i = 0; i < s; i++) o++;
-      animation.draw(330 - o, 25, 1.5);
+      if (t>600) animation.draw(300, 25, 1.5);
       //TODO Cycle through the different types of Swords/Wands/Bows to see specific weapon
     } else if (type == WeaponType.BOW) {
       s = LootItems.BOW.getAnimationSpeed();
@@ -263,18 +261,19 @@ public class BattleScene extends Scene {
     }
     //TODO check which animation used
      //animation.draw(620-o, 25, 1.5); normal animation begin
-//    player2Return = true;
+//    player2Return = true; //its being run 60x a second doofus. If this is called in render it'll immediatly draw
   }
  int u;
   int p=0;
   private void player1Attack() {
+//    swordAttackWait = 0;
     player1Attacking=true;
     final Player player1 = Accessor.getGameManager().getPlayer1();
     final WeaponType type = player1.weaponCheck();
     if(type == WeaponType.SWORD){
       u = LootItems.SWORD.getAnimationSpeed();
       for (int i = 0; i<u; i++)p++;
-      animation.draw(580+p, 25, 1.5);
+      if (t>600) animation.draw(580, 25, 1.5);
       //TODO Cycle through the different types of Swords/Wands/Bows to see specific weapon
     }
     else if (type == WeaponType.BOW){
@@ -297,6 +296,4 @@ public class BattleScene extends Scene {
 
   public boolean player1Attacking;
   public boolean player2Attacking;
-  public boolean player1Return;
-  public boolean player2Return;
 }
