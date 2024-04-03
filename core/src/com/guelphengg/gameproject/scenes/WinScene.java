@@ -82,6 +82,11 @@ public class WinScene extends Scene{
         drawCenteredText(batch, -200, 4, "Press [Space] to return to main menu");
 
         batch.end();
+
+        // Allows it so that Elmo loops across the screen when it leaves frame view
+        if(x == -currentFrame.getRegionWidth()){
+            reset();
+        }
     }
 
     public static void reset() {

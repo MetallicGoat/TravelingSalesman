@@ -66,11 +66,16 @@ public class MarketScene extends Scene {
         batch.end();
         // rendering the items in the grid to appear with text
         if(sellItems[0] == LootItems.BLANK || Accessor.getGameManager().getPlayingPlayer().getItems().contains(LootItems.TREASURE_MAP)){
-            centreMarketGrid.renderTextInGrid(0, 0, "SOLD\nOUT", true, -1, yOffset, 2);
+            centreMarketGrid.renderTextInGrid(0, 0, "SOLD\nOUT", true, -1, yOffset, 2, false);
         } else {
             sellItems[0].render(centreMarketGrid, 0, 0);
-            centreMarketGrid.renderTextInGrid(0, 0, "$"+sellItems[0].getSellPrice(), true, -1, 3);
-            centreMarketGridNum.renderTextInGrid(0, 0, "0", true, 0, 3);
+            if(sellItems[0].getSellPrice()>Accessor.getGameManager().getPlayingPlayer().getCoins()){
+                centreMarketGrid.renderTextInGrid(0, 0, "$" + sellItems[0].getSellPrice(), true, -1, 3, true);
+
+            }else {
+                centreMarketGrid.renderTextInGrid(0, 0, "$" + sellItems[0].getSellPrice(), true, -1, 3, false);
+            }
+            centreMarketGridNum.renderTextInGrid(0, 0, "0", true, 0, 3, false);
         }
 
         scoreboardPanel.render();
@@ -80,10 +85,15 @@ public class MarketScene extends Scene {
             if(i<=3) {
                 sellItems[i].render(leftMarketGrid, i-1, 0);
                 if(sellItems[i] == LootItems.BLANK){
-                    leftMarketGrid.renderTextInGrid(i-1, 0, "SOLD\nOUT", true, -1, yOffset, 2);
+                    leftMarketGrid.renderTextInGrid(i-1, 0, "SOLD\nOUT", true, -1, yOffset, 2, false);
                 }else{
-                    leftMarketGrid.renderTextInGrid(i-1, 0, "$"+sellItems[i].getSellPrice(), true, -1, 3);
-                    leftMarketGridNum.renderTextInGrid(i-1, 0, " "+i+" ", true, 0, 3);
+                    if(sellItems[i].getSellPrice()>Accessor.getGameManager().getPlayingPlayer().getCoins()){
+                        leftMarketGrid.renderTextInGrid(i-1, 0, "$" + sellItems[i].getSellPrice(), true, -1, 3, true);
+
+                    }else {
+                        leftMarketGrid.renderTextInGrid(i-1, 0, "$" + sellItems[i].getSellPrice(), true, -1, 3, false);
+                    }
+                    leftMarketGridNum.renderTextInGrid(i-1, 0, " "+i+" ", true, 0, 3, false);
                 }
 
             }
@@ -91,10 +101,15 @@ public class MarketScene extends Scene {
             if(i==4) {
                 sellItems[i].render(rightMarketGrid, 0, 0);
                 if(sellItems[i] == LootItems.BLANK) {
-                    rightMarketGrid.renderTextInGrid(0, 0, "SOLD\nOUT", true, -1, yOffset, 2);
+                    rightMarketGrid.renderTextInGrid(0, 0, "SOLD\nOUT", true, -1, yOffset, 2, false);
                 }else {
-                    rightMarketGrid.renderTextInGrid(0, 0, "$" + sellItems[i].getSellPrice(), true, -1, 3);
-                    rightMarketGridNum.renderTextInGrid(0, 0, " "+i+" ", true, 0, 3);
+                    if(sellItems[i].getSellPrice()>Accessor.getGameManager().getPlayingPlayer().getCoins()){
+                        rightMarketGrid.renderTextInGrid(0, 0, "$" + sellItems[i].getSellPrice(), true, -1, 3, true);
+
+                    }else {
+                        rightMarketGrid.renderTextInGrid(0, 0, "$" + sellItems[i].getSellPrice(), true, -1, 3, false);
+                    }
+                    rightMarketGridNum.renderTextInGrid(0, 0, " "+i+" ", true, 0, 3, false);
                 }
 
             }
@@ -102,29 +117,39 @@ public class MarketScene extends Scene {
             if((Accessor.getGameManager().getPlayingPlayer().getPower()>=20)&&i==5){
                 sellItems[i].render(rightMarketGrid, 1, 0);
                 if(sellItems[i] == LootItems.BLANK) {
-                    rightMarketGrid.renderTextInGrid(1, 0, "SOLD\nOUT", true, -1, yOffset, 2);
+                    rightMarketGrid.renderTextInGrid(1, 0, "SOLD\nOUT", true, -1, yOffset, 2, false);
                 } else {
-                    rightMarketGrid.renderTextInGrid(1, 0, "$" + sellItems[i].getSellPrice(), true, -1, 3);
-                    rightMarketGridNum.renderTextInGrid(i-4, 0, " "+i+" ", true, 0, 3);
+                    if(sellItems[i].getSellPrice()>Accessor.getGameManager().getPlayingPlayer().getCoins()){
+                        rightMarketGrid.renderTextInGrid(1, 0, "$" + sellItems[i].getSellPrice(), true, -1, 3, true);
+
+                    }else {
+                        rightMarketGrid.renderTextInGrid(1, 0, "$" + sellItems[i].getSellPrice(), true, -1, 3, false);
+                    }
+                    rightMarketGridNum.renderTextInGrid(i-4, 0, " "+i+" ", true, 0, 3, false);
                 }
 
             } else if (i==5) {
 
-                rightMarketGrid.renderTextInGrid(1, 0, "GET\nMORE\nPOWER", true, 0,40, 2);
+                rightMarketGrid.renderTextInGrid(1, 0, "GET\nMORE\nPOWER", true, 0,40, 2, false);
             }
 
             if((Accessor.getGameManager().getPlayingPlayer().getPower()>=30)&&i==6){
                 sellItems[i].render(rightMarketGrid, 2, 0);
                 if(sellItems[i] == LootItems.BLANK) {
-                    rightMarketGrid.renderTextInGrid(2, 0, "SOLD\nOUT", true, -1, yOffset, 2);
+                    rightMarketGrid.renderTextInGrid(2, 0, "SOLD\nOUT", true, -1, yOffset, 2, false);
                 } else {
-                    rightMarketGrid.renderTextInGrid(2, 0, "$" + sellItems[i].getSellPrice(), true, -1, 3);
-                    rightMarketGridNum.renderTextInGrid(i-4, 0, " "+i+" ", true, 0, 3);
+                    if(sellItems[i].getSellPrice()>Accessor.getGameManager().getPlayingPlayer().getCoins()){
+                        rightMarketGrid.renderTextInGrid(2, 0, "$" + sellItems[i].getSellPrice(), true, -1, 3, true);
+
+                    }else {
+                        rightMarketGrid.renderTextInGrid(2, 0, "$" + sellItems[i].getSellPrice(), true, -1, 3, false);
+                    }
+                    rightMarketGridNum.renderTextInGrid(i-4, 0, " "+i+" ", true, 0, 3, false);
                 }
 
 
             } else if(i==6){
-                rightMarketGrid.renderTextInGrid(2, 0, "GET\nMORE\nPOWER", true, 0, 40,2);
+                rightMarketGrid.renderTextInGrid(2, 0, "GET\nMORE\nPOWER", true, 0, 40,2, false);
             }
 
         }
