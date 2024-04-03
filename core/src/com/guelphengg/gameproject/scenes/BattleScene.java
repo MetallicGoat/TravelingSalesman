@@ -232,7 +232,6 @@ public class BattleScene extends Scene {
 
   public void resetBattle() {
     swordAttackWait = 0;
-
     i = -10;
     j = -10;
     t = 0;
@@ -257,15 +256,15 @@ public class BattleScene extends Scene {
     } else if (type == WeaponType.BOW) {
       s = LootItems.BOW.getAnimationSpeed();
       for (int i = 0; i < s; i++) o++;
-        earthWandAnimation.draw(620 - o, 25, 1.5);
+      earthWandAnimation.draw(620 - o, 25, 1.5);
     } else if (type == WeaponType.WAND) {
       s = 2; //LootItems.WAND.getAnimationSpeed();
       for (int i = 0; i < s; i++) o++;
-        earthWandAnimation.draw(620 - o, 25, 1.5);
+      earthWandAnimation.draw(620 - o, 25, 1.5);
     } else if (type == null) {
       s = 0;
       for (int i = 0; i < s; i++) o++;
-        earthWandAnimation.draw(620 - o, 25, 1.5);
+      earthWandAnimation.draw(620 - o, 25, 1.5);
     }
     //TODO check which animation used
      //animation.draw(620-o, 25, 1.5); normal animation begin

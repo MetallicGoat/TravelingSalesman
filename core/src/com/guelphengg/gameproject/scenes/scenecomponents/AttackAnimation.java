@@ -50,4 +50,13 @@ public class AttackAnimation {
     batch.draw(currFrame, x, y, (float) (currFrame.getRegionWidth() * scale), (float) (currFrame.getRegionHeight() * scale));
     //batch.end();
   }
+
+  AttackAnimation basicSwordAnimation = new AttackAnimation(AnimationTextures.BASIC_SLASH_SHEET);
+  AttackAnimation fireSwordAnimation = new AttackAnimation(AnimationTextures.FIRE_SLASH_SHEET);
+  AttackAnimation iceSwordAnimation = new AttackAnimation(AnimationTextures.ICE_SLASH_SHEET);
+  AttackAnimation basicWandAnimation = new AttackAnimation(AnimationTextures.BASIC_SPELL_SHEET);
+  AttackAnimation electricWandAnimation = new AttackAnimation(AnimationTextures.ELECTRIC_SPELL_SHEET);
+  AttackAnimation earthWandAnimation = new AttackAnimation(AnimationTextures.EARTH_SPELL_SHEET);
+
+
 }
