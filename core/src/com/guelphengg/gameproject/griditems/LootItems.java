@@ -11,41 +11,33 @@ public enum LootItems {
   /**
    * This enum represents every collectable item in the game
    */
-  BEJEWELED_SWORD("Bejeweled_Sword.png", 0, 30, 0, 10000, 1, ItemType.TREASURE, WeaponType.NOT_APPLICABLE),
-  PALADIN_SHIELD("Paladin_Shield.png", 0, 50, 0.8, 10, 1, ItemType.TREASURE, WeaponType.NOT_APPLICABLE),
-  GOLDEN_KEY("Golden_Key.png", 0, 30, 0, 10000, 1, ItemType.TREASURE, WeaponType.NOT_APPLICABLE),
-  GOLDEN_GOBLET("Golden_Goblet.png", 0, 45, 0, 10000, 1, ItemType.TREASURE, WeaponType.NOT_APPLICABLE),
-  CRYSTAL_GOBLET("Crystal_Goblet.png", 0, 77, 0, 10000, 1, ItemType.TREASURE, WeaponType.NOT_APPLICABLE),
-  DIAMOND_RING("Diamond_Ring.png", 0, 80, 0, 10000, 1, ItemType.TREASURE, WeaponType.NOT_APPLICABLE),
-  DRAGON_SCROLL("Dragon_Scroll.png", 0, 100, 0, 10000, 1, ItemType.TREASURE, WeaponType.NOT_APPLICABLE),
-
-  SWORD("Sword.png", 0, 10, 0, 10000, 1, ItemType.WEAPON, WeaponType.SWORD),
-  ICE_SWORD("Ice Sword.png", 10, 100, 0, 10000, 0, ItemType.WEAPON, WeaponType.SWORD),
-  FIRE_SWORD("Fire Sword.png", 15, 150, 0, 10000, 0, ItemType.WEAPON, WeaponType.SWORD),
-  EARTH_SWORD("Earth Sword.png", 5, 50, 0, 10000, 0, ItemType.WEAPON, WeaponType.SWORD),
-
-  BOW("Bow.png", 0, 16, 0, 10000, 1, ItemType.WEAPON, WeaponType.BOW),
-  ICE_BOW("Ice_Bow_Pull_2.png", 10, 100, 0, 10000, 0, ItemType.WEAPON, WeaponType.BOW),
-  FIRE_BOW("Final_Fire_Demon_Bow_Pull_0.png", 15, 150, 0, 10000, 0, ItemType.WEAPON, WeaponType.BOW),
-  EARTH_BOW("Earth_Bow.png", 5, 50, 0, 10000, 0, ItemType.WEAPON, WeaponType.BOW),
-
-  ICE_WAND("Ice Wand.png", 10, 100, 0, 10000, 0, ItemType.WEAPON, WeaponType.WAND),
-  GOLDEN_WAND("Golden Wand.png", 15, 150, 0, 10000, 0, ItemType.WEAPON, WeaponType.WAND),
-  EARTH_WAND("Earth Wand.png", 5, 50, 0, 10000, 0, ItemType.WEAPON, WeaponType.WAND),
-
-  TREASURE_MAP("TreasureMap.png", 0, 100, 0, 10000, 1, ItemType.OTHER, WeaponType.NOT_APPLICABLE),
-  BLANK("Blank.png", 0,0, 0, 0, 0, ItemType.OTHER, WeaponType.NOT_APPLICABLE);
-
-  SWORD("Sword.png", 2, 10, 0, 10000, 1, ItemType.WEAPON, WeaponType.SWORD, 0),
   BEJEWELED_SWORD("Bejeweled_Sword.png", 10, 30, 0, 10000, 1, ItemType.WEAPON, WeaponType.SWORD, 0),
-  BOW("Bow.png", 5, 16, 0, 10000, 1, ItemType.WEAPON, WeaponType.BOW, 9),
   PALADIN_SHIELD("Paladin_Shield.png", 0, 50, 0.8, 10, 1, ItemType.TREASURE, WeaponType.NOT_APPLICABLE, 0),
   GOLDEN_KEY("Golden_Key.png", 0, 30, 0, 10000, 1, ItemType.TREASURE, WeaponType.NOT_APPLICABLE, 0),
   GOLDEN_GOBLET("Golden_Goblet.png", 0, 45, 0, 10000, 1, ItemType.TREASURE, WeaponType.NOT_APPLICABLE, 0),
   CRYSTAL_GOBLET("Crystal_Goblet.png", 0, 77, 0, 10000, 1, ItemType.TREASURE, WeaponType.NOT_APPLICABLE, 0),
   DIAMOND_RING("Diamond_Ring.png", 0, 80, 0, 10000, 1, ItemType.TREASURE, WeaponType.NOT_APPLICABLE, 0),
   DRAGON_SCROLL("Dragon_Scroll.png", 0, 100, 0, 10000, 1, ItemType.TREASURE, WeaponType.NOT_APPLICABLE, 0),
-  TREASURE_MAP("TreasureMap.png", 0, 100, 0, 10000, 1, ItemType.TREASURE, WeaponType.NOT_APPLICABLE, 0);
+
+  SWORD("Sword.png", 2, 10, 0, 10000, 1, ItemType.WEAPON, WeaponType.SWORD, 0),
+  ICE_SWORD("Ice Sword.png", 10, 100, 0, 10000, 0, ItemType.WEAPON, WeaponType.SWORD, 0),
+  FIRE_SWORD("Fire Sword.png", 15, 150, 0, 10000, 0, ItemType.WEAPON, WeaponType.SWORD, 0),
+  EARTH_SWORD("Earth Sword.png", 5, 50, 0, 10000, 0, ItemType.WEAPON, WeaponType.SWORD, 0),
+
+  BOW("Bow.png", 5, 16, 0, 10000, 1, ItemType.WEAPON, WeaponType.BOW, 9),
+  ICE_BOW("Ice_Bow_Pull_2.png", 10, 100, 0, 10000, 0, ItemType.WEAPON, WeaponType.BOW, 9),
+  FIRE_BOW("Final_Fire_Demon_Bow_Pull_0.png", 15, 150, 0, 10000, 0, ItemType.WEAPON, WeaponType.BOW, 9),
+  EARTH_BOW("Earth_Bow.png", 5, 50, 0, 10000, 0, ItemType.WEAPON, WeaponType.BOW, 9),
+
+  ICE_WAND("Ice Wand.png", 10, 100, 0, 10000, 0, ItemType.WEAPON, WeaponType.WAND, 6),
+  GOLDEN_WAND("Golden Wand.png", 15, 150, 0, 10000, 0, ItemType.WEAPON, WeaponType.WAND, 6),
+  EARTH_WAND("Earth Wand.png", 5, 50, 0, 10000, 0, ItemType.WEAPON, WeaponType.WAND, 6),
+
+  TREASURE_MAP("TreasureMap.png", 0, 100, 0, 10000, 1, ItemType.OTHER, WeaponType.NOT_APPLICABLE, 0),
+  BLANK("Blank.png", 0,0, 0, 0, 0, ItemType.OTHER, WeaponType.NOT_APPLICABLE, 0);
+
+
+
 
   private final Texture texture;
   private final int damage;
