@@ -25,14 +25,13 @@ public class AttackAnimation {
         spriteSheet.getWidth() / animationTexture.getTileWidth(),
         spriteSheet.getHeight() / animationTexture.getTileHeight());
 
-    int texture1dLength = (animationTexture.getTileWidth() * animationTexture.getTileHeight()) - 1;
 
-    final TextureRegion[] textures1d = new TextureRegion[texture1dLength];
+    final TextureRegion[] textures1d = new TextureRegion[animationTexture.getDuration()];
 
     int i = 0;
     for (int y = 0; y < animationTexture.getTileHeight(); y++) {
       for (int x = 0; x < animationTexture.getTileWidth(); x++) {
-        if (i >= texture1dLength)
+        if (i >= animationTexture.getDuration())
           continue;
 
         textures1d[i] = region2d[y][x];

@@ -14,6 +14,10 @@ public class BattleScene extends Scene {
   AttackAnimation basicSwordAnimation = new AttackAnimation(AnimationTextures.BASIC_SLASH_SHEET);
   AttackAnimation fireSwordAnimation = new AttackAnimation(AnimationTextures.FIRE_SLASH_SHEET);
   AttackAnimation iceSwordAnimation = new AttackAnimation(AnimationTextures.ICE_SLASH_SHEET);
+  AttackAnimation basicWandAnimation = new AttackAnimation(AnimationTextures.BASIC_SPELL_SHEET);
+  AttackAnimation electricWandAnimation = new AttackAnimation(AnimationTextures.ELECTRIC_SPELL_SHEET);
+  AttackAnimation earthWandAnimation = new AttackAnimation(AnimationTextures.EARTH_SPELL_SHEET);
+
 
   public BattleScene() {
     super(GameState.BATTLE);
@@ -174,12 +178,12 @@ public class BattleScene extends Scene {
 
   private void player1Attack() {
     // play player animation and calculate damage accordingly
-    basicSwordAnimation.draw(620, 25, 1.5);
+    earthWandAnimation.draw(620, 25, 1.5);
   }
 
   private void player2Attack() {
     // play player animation and calculate damage accordingly
-    fireSwordAnimation.draw(290, 25, 1.5);
+    electricWandAnimation.draw(290, 25, 1.5);
   }
 
 }
