@@ -62,31 +62,32 @@ public class AttackAnimation {
   AttackAnimation electricWandAnimation = new AttackAnimation(AnimationTextures.ELECTRIC_SPELL_SHEET);
   AttackAnimation earthWandAnimation = new AttackAnimation(AnimationTextures.EARTH_SPELL_SHEET);
 
-  public AttackAnimation attackP1Animation(){
+  public AnimationTextures attackP1Animation(){
 
     final Player player1 = Accessor.getGameManager().getPlayer1();
     final WeaponType type = player1.weaponCheck();
     if (type == WeaponType.SWORD) {
       if (Accessor.getGameManager().getPlayer1().getWeaponDamage() == 2){
-        return basicSwordAnimation;
+        return AnimationTextures.BASIC_SLASH_SHEET;
       }
       else if (Accessor.getGameManager().getPlayer1().getWeaponDamage() == 5){
-        return basicSwordAnimation;
+        return AnimationTextures.BASIC_SLASH_SHEET;
       }
       else if (Accessor.getGameManager().getPlayer1().getWeaponDamage() == 10){
-        return iceSwordAnimation;
+        return AnimationTextures.ICE_SLASH_SHEET;
       }
       else if (Accessor.getGameManager().getPlayer1().getWeaponDamage() == 10){
-        return fireSwordAnimation;
+        return AnimationTextures.FIRE_SLASH_SHEET;
       }
     } else if (type == WeaponType.BOW) {
+
 
     } else if (type == WeaponType.WAND) {
 
     } else if (type == null) {
 
     }
-    return basicSwordAnimation;
+    return AnimationTextures.BASIC_SLASH_SHEET;
   }
 
   public void attackP2Animation(){

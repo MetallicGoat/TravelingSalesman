@@ -15,13 +15,9 @@ public class BattleScene extends Scene {
   int t;
   int swordAttackWait;
   //temporary knowledge for learning how to move sprites
-  AttackAnimation basicSwordAnimation = new AttackAnimation(AnimationTextures.BASIC_SLASH_SHEET);
-  AttackAnimation fireSwordAnimation = new AttackAnimation(AnimationTextures.FIRE_SLASH_SHEET);
-  AttackAnimation iceSwordAnimation = new AttackAnimation(AnimationTextures.ICE_SLASH_SHEET);
-  AttackAnimation basicWandAnimation = new AttackAnimation(AnimationTextures.BASIC_SPELL_SHEET);
-  AttackAnimation electricWandAnimation = new AttackAnimation(AnimationTextures.ELECTRIC_SPELL_SHEET);
-  AttackAnimation earthWandAnimation = new AttackAnimation(AnimationTextures.EARTH_SPELL_SHEET);
 
+  AttackAnimation attackP2Animation = new AttackAnimation(AnimationTextures.ELECTRIC_SPELL_SHEET);
+  AttackAnimation attackP1Animation = new AttackAnimation(AnimationTextures.ELECTRIC_SPELL_SHEET);
 
   public BattleScene() {
     super(GameState.BATTLE);
@@ -244,6 +240,9 @@ public class BattleScene extends Scene {
   int s;
   int o=0;
   private void player2Attack() {
+
+
+
 //    swordAttackWait = 0;
     player2Attacking=true;
     final Player player2 = Accessor.getGameManager().getPlayer2();
@@ -251,20 +250,20 @@ public class BattleScene extends Scene {
     if (type == WeaponType.SWORD) {
       s = LootItems.SWORD.getAnimationSpeed();
       for (int i = 0; i < s; i++) o++;
-      if (t>600) earthWandAnimation.draw(300, 25, 1.5);
+      if (t>600) attackP2Animation.draw(300, 25, 1.5);
       //TODO Cycle through the different types of Swords/Wands/Bows to see specific weapon
     } else if (type == WeaponType.BOW) {
       s = LootItems.BOW.getAnimationSpeed();
       for (int i = 0; i < s; i++) o++;
-      earthWandAnimation.draw(620 - o, 25, 1.5);
+      attackP2Animation.draw(620 - o, 25, 1.5);
     } else if (type == WeaponType.WAND) {
       s = 2; //LootItems.WAND.getAnimationSpeed();
       for (int i = 0; i < s; i++) o++;
-      earthWandAnimation.draw(620 - o, 25, 1.5);
+      attackP2Animation.draw(620 - o, 25, 1.5);
     } else if (type == null) {
       s = 0;
       for (int i = 0; i < s; i++) o++;
-      earthWandAnimation.draw(620 - o, 25, 1.5);
+      attackP2Animation.draw(620 - o, 25, 1.5);
     }
     //TODO check which animation used
      //animation.draw(620-o, 25, 1.5); normal animation begin
@@ -273,30 +272,34 @@ public class BattleScene extends Scene {
  int u;
   int p=0;
   private void player1Attack() {
+//    AttackAnimation basicSwordAnimation = new AttackAnimation(AnimationTextures.BASIC_SLASH_SHEET);
+
 //    swordAttackWait = 0;
     player1Attacking=true;
     final Player player1 = Accessor.getGameManager().getPlayer1();
     final WeaponType type = player1.weaponCheck();
+
+
     if(type == WeaponType.SWORD){
       u = LootItems.SWORD.getAnimationSpeed();
       for (int i = 0; i<u; i++)p++;
-      if (t>600) electricWandAnimation.draw(580, 25, 1.5);
+      if (t>600) attackP1Animation.draw(580, 25, 1.5);
       //TODO Cycle through the different types of Swords/Wands/Bows to see specific weapon
     }
     else if (type == WeaponType.BOW){
       u = LootItems.BOW.getAnimationSpeed();
       for (int i = 0; i<u; i++)p++;
-        electricWandAnimation.draw(290+p, 25, 1.5);
+      attackP1Animation.draw(290+p, 25, 1.5);
     }
     else if (type == WeaponType.WAND){
       u = 2; //LootItems.WAND.getAnimationSpeed();
       for (int i = 0; i<u; i++)p++;
-        electricWandAnimation.draw(290+p, 25, 1.5);
+      attackP1Animation.draw(290+p, 25, 1.5);
     }
     else if (type == null){
       u = 0;
       for (int i = 0; i<u; i++)p++;
-        electricWandAnimation.draw(290+p, 25, 1.5);
+      attackP1Animation.draw(290+p, 25, 1.5);
     }
 //    player1Return = true;
   }
