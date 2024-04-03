@@ -37,7 +37,7 @@ public class HelpMenuScene extends Scene {
     drawCenteredText(batch, -190, 2, "Battles are decided by who has the highest strength");
     drawCenteredText(batch, -230, 2, "Strength is determined by what weapons you have");
     drawCenteredText(batch, -270, 2, "Winning the battle gives you part of your opponents coins");
-    drawCenteredText(batch, -310, 2, "Win the game by having the most coins at the end");
+    drawCenteredText(batch, -310, 2, "Win the game by being the first to get 10 points");
 
     drawCenteredText(batch, -360, 3, "[H] to Return");
 

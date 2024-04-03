@@ -1,16 +1,14 @@
 package com.guelphengg.gameproject;
 
 import com.badlogic.gdx.Input;
-import com.guelphengg.gameproject.griditems.*;
 import com.guelphengg.gameproject.griditems.GridObject;
 import com.guelphengg.gameproject.griditems.LootItems;
 import com.guelphengg.gameproject.griditems.Player;
 import com.guelphengg.gameproject.scenes.BattleScene;
+import com.guelphengg.gameproject.scenes.MarketScene;
 import com.guelphengg.gameproject.scenes.TransitionScene;
+import com.guelphengg.gameproject.scenes.WinScene;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Random;
 
 public class GameManager {
@@ -23,7 +21,7 @@ public class GameManager {
   private GridObject[][] gridObjects;
 
   // How many turns before a house can be looted again
-  private final int COUNT_MAX = 20;
+  private final int COUNT_MAX = 9;
 
   // for help menu to know where to return to after they press H
   boolean fromMenu;
@@ -82,6 +80,8 @@ public class GameManager {
     state = GameState.MAIN_MENU;
   }
 
+  MarketScene marketScene = new MarketScene();
+
   public void startGame() {
     // Stop main menu music, and play main game music
     TSGameMusic.MAIN_MENU_MUSIC.stop();
@@ -116,78 +116,53 @@ public class GameManager {
 
   // Make the playing player loot the current house
   public void lootHouse() {
-    LootItems lootedItem; // I made this a variable so I could use it to change strength
     if (canPlayerLoot() == 0)
       return;
 
     final GridObject object = gridObjects[playingPlayer.getX()][playingPlayer.getY()];
 
     if (object == GridObject.TREASURE_HOUSE) {
-      // Play Loot Sound
-      TSGameSound.LOOT.play();
 
-      lootedItem = LootItems.getRandomItem(playingPlayer);
-      gridObjects[playingPlayer.getX()][playingPlayer.getY()] = GridObject.EMPTY_HOUSE;
+      final LootItems lootedItem = LootItems.getRandomTreasureItem(playingPlayer);
+      // Add the item and their power
+      playingPlayer.addLoot(lootedItem);
+      playingPlayer.addPower(lootedItem);
 
-      // The below if loop checks if there is a weapon in the inventory already.
-      if ((lootedItem.getItemType() == ItemType.WEAPON) &&
-          (playingPlayer.getItems().contains(LootItems.SWORD) ||
-          playingPlayer.getItems().contains(LootItems.BEJEWELED_SWORD) ||
-          playingPlayer.getItems().contains(LootItems.BOW))) {
-
-        // If there is a weapon, the below for loop will run and remove all weapons from the inventory
-        final List<LootItems> currPlayerItems = new ArrayList<>(playingPlayer.getItems());
-
-        for (LootItems item : currPlayerItems) {
-          // If the weapon's looted damage is greater than the item in the inventory's, the inventory weapon is converted to coins
-          if ((item.getItemType() == ItemType.WEAPON) && (lootedItem.getDamage()> item.getDamage())) {
-
-            // And the appropriate values and inventory are adjusted based on the item.
-            playingPlayer.setStrength(0);
-            playingPlayer.addLoot(lootedItem);
-            playingPlayer.addStrength(lootedItem);
-            playingPlayer.addCoins((int)(item.getSellPrice()*0.8));
-
-            // Rem ove the old weapon from the inventory
-            playingPlayer.getItems().remove(item);
-
-          } else { // TODO Check what the point of this is
-            playingPlayer.addCoins(item.getSellPrice());
-          }
-        }
-      }else{
-        playingPlayer.addLoot(lootedItem);
-        playingPlayer.addStrength(lootedItem);
-      }
-
-      houseCounter[playingPlayer.getX()][playingPlayer.getY()]++;
-      // and the loot is added and the strength is adjusted
-    }
-    //logic for looting for lost items aka coins
-    Random r = new Random();
-    if (object == GridObject.LOST_ITEM_HOUSE) {
-      // Play Loot sound
-      TSGameSound.LOOT.play();
-
+    } else if (object == GridObject.LOST_ITEM_HOUSE) {
+      // logic for looting for lost items aka coins
+      Random r = new Random();
       playingPlayer.addCoins(r.nextInt(15, 45));
-      gridObjects[playingPlayer.getX()][playingPlayer.getY()] = GridObject.EMPTY_HOUSE;
     }
+
+    // Play loot sound
+    TSGameSound.LOOT.play();
+
+    // Set the house to empty
+    gridObjects[playingPlayer.getX()][playingPlayer.getY()] = GridObject.EMPTY_HOUSE;
+
     houseCounter[playingPlayer.getX()][playingPlayer.getY()]++;
   }
 
   public void tradeItems() {
     if (playerOn(GridObject.CASTLE)) {
-      for (int i = 0; i < playingPlayer.getItems().size(); i++) {
-        playingPlayer.addCoins(playingPlayer.getItems().get(i).getSellPrice());
-        playingPlayer.addPower(playingPlayer.getItems().get(i));
-        // This iterates through the player's inventory, checks
-        // what the object is, and then adds the set value to the player's coins + power
+      boolean itemsSold = false;
+
+      // This iterates through the player's inventory, checks
+      // what the object is, and then adds the set value to the player's coins + power
+      for (LootItems item : playingPlayer.getItems()) {
+        playingPlayer.addCoins(item.getSellPrice());
+        playingPlayer.addPoints(item);
+        itemsSold = true;
       }
 
-      playingPlayer.setStrength(0); // sets the strength back to the original value
-      playingPlayer.getItems().clear();
+      if (itemsSold) {
+        // Play sell sound
+        TSGameSound.SELL.play();
+
+        playingPlayer.setPower(0); // sets the strength back to the original value
+        playingPlayer.getItems().clear();
+      }
     }
-    //TODO Give items values and give player gold for trading items
   }
 
   public boolean playerOn(GridObject obj) {
@@ -289,13 +264,22 @@ public class GameManager {
           smoothlySetState(GameState.HELP_MENU);
           fromMenu = true;
           break;
+
+          // TODO THIS IS FOR TESTING PURPOSES ONLY
+        case Input.Keys.W:
+          for(int i = 0; i < 10; i++){
+            player1.addPoints(LootItems.BEJEWELED_SWORD);
+          }
+          WinScene.reset();
+          smoothlySetState(GameState.WINSCREEN);
+          break;
       }
 
     } else if (this.state == GameState.GAME_SETUP) {
       switch (keyCode) {
         case Input.Keys.SPACE:
           TSGameSound.BEGIN.play();
-          startGame(); // TODO this could not be called every time they press space
+          startGame();
           break;
 
         case Input.Keys.A:
@@ -351,16 +335,18 @@ public class GameManager {
 
           break;
 
-        case Input.Keys.T: // Trade Tings for Gold lol
+        case Input.Keys.T:
           if (playerOn(GridObject.CASTLE)) {
-            TSGameSound.SELL.play();
-            tradeItems();
+            tradeItems(); // Trade Tings for Gold lol
           }
 
-          //TODO Make it so that the selling sound only plays when the player actually sold something....
-          //TODO Give items values and give player gold for trading items
-          //since the middle will ALWAYS be the castle, if player is at the point on the grid where the castle exists,
-          //pressing 's' will clear the inventory and give player the gold that is equal to the sum of the players inv.
+          if (player1.getPoints() >= 10 || player2.getPoints() >= 10) {
+            WinScene.reset();
+            smoothlySetState(GameState.WINSCREEN);
+          }
+
+          // since the middle will ALWAYS be the castle, if player is at the point on the grid where the castle exists,
+          // pressing 's' will clear the inventory and give player the gold that is equal to the sum of the players inv.
           break;
 
 
@@ -395,8 +381,11 @@ public class GameManager {
           fromRunning = true;
           smoothlySetState(GameState.HELP_MENU);
           break;
+
       }
+
     }
+
 
     // when in help menu scene, waits for H to be pressed, then returns to scene that they initially came from
     else if (this.state == GameState.HELP_MENU) {
@@ -415,6 +404,8 @@ public class GameManager {
 
     // logic for trapped houses and the inputs while in that scene
     else if (this.state == GameState.TRAPPED) {
+      gridObjects[playingPlayer.getX()][playingPlayer.getY()] = GridObject.WALL_BURNED_HOUSE;
+
       switch (keyCode) {
         case Input.Keys.NUM_1:
           //lose power
@@ -453,6 +444,7 @@ public class GameManager {
           if (!playerEnteredScene)
             smoothlySetState(GameState.RUNNING);
 
+          break;
         }
       }
     }
@@ -463,8 +455,49 @@ public class GameManager {
           Accessor.getGameManager().smoothlySetState(GameState.RUNNING);
 
           TSGameMusic.MARKET_MUSIC.stop();
-          TSGameMusic.MAIN_GAME_MUSIC.stop();
+          TSGameMusic.MAIN_GAME_MUSIC.play();
+          break;
         }
+        case Input.Keys.NUM_0: {
+          marketScene.canBuy(0);
+          break;
+        }
+        case Input.Keys.NUM_1: {
+          marketScene.canBuy(1);
+          break;
+        }
+        case Input.Keys.NUM_2: {
+          marketScene.canBuy(2);
+          break;
+        }
+        case Input.Keys.NUM_3: {
+          marketScene.canBuy(3);
+          break;
+        }
+        case Input.Keys.NUM_4: {
+          marketScene.canBuy(4);
+          break;
+        }
+        case Input.Keys.NUM_5: {
+          marketScene.canBuy(5);
+          break;
+        }
+        case Input.Keys.NUM_6: {
+          marketScene.canBuy(6);
+          break;
+        }
+      }
+    }
+
+    if(this.state == GameState.WINSCREEN){
+      switch (keyCode){
+        case Input.Keys.SPACE:
+          // Reset the game manger for new game after a win
+          resetManager();
+
+          // Send em to main menu
+          smoothlySetState(GameState.MAIN_MENU);
+          break;
       }
     }
   }
@@ -528,6 +561,10 @@ public class GameManager {
     if (newX > 9 || newX < 0 || newY > 9 || newY < 0)
       return; // The player cannot move there
 
+    // Players cannot walk through walls
+    if (gridObjects[newX][newY] == GridObject.WALL_BURNED_HOUSE)
+      return;
+
     this.playingPlayer.setX(newX);
     this.playingPlayer.setY(newY);
 
@@ -537,10 +574,6 @@ public class GameManager {
     // Only go into the scene if there has not been a battle started
     if (!battleStarted)
       checkForSceneTransitions();
-
-    // Check if the player has reached the treasure location
-    // And reward them if they have
-    playingPlayer.tryCollectTreasure();
 
     // Update player visibilities
     playingPlayer.updateVisibleArea();
@@ -564,6 +597,7 @@ public class GameManager {
 
     // Check if they landed on a market
     if (playerOn(GridObject.MARKET)) {
+      MarketScene.reset();
       smoothlySetState(GameState.MARKET);
 
       TSGameMusic.MAIN_GAME_MUSIC.stop();

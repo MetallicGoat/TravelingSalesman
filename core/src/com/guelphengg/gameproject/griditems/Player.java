@@ -30,7 +30,7 @@ public class Player {
   private boolean small = true;
 
   // misc player attributes
-  private int strength = 10, coins = 0, power = 0;
+  private int power = 10, coins = 0, points = 0;
 
   // The x and y position of the player on the game grid
   private int x;
@@ -47,7 +47,7 @@ public class Player {
 
   // Used when a player has found a treasure map
   private boolean treasureLocated = false;
-  private boolean tresaureCollected = false;
+  private boolean treasureCollected = false;
   private int tresaureX = 0;
   private int tresaureY = 0;
 
@@ -101,17 +101,17 @@ public class Player {
   }
 
   // get the strength of the player
-  public int getStrength() {
-    return this.strength;
+  public int getPower() {
+    return this.power;
   }
 
   // change the strength of the player
-  public void setStrength(int newStrength) {
-    this.strength = newStrength;
+  public void setPower(int newStrength) {
+    this.power = newStrength;
   }
 
-  public void addStrength(LootItems item) {
-    this.strength += item.getDamage();
+  public void addPower(LootItems item) {
+    this.power += item.getDamage();
   }
 
   // get the amount of coins the player has
@@ -162,6 +162,12 @@ public class Player {
         }
       }
     }
+
+    // The player has revealed the location of the treasure map
+    if (visibleArea[tresaureX][tresaureY]) {
+      treasureCollected = true;
+      loot.remove(LootItems.TREASURE_MAP);
+    }
   }
 
   // Check if a player has explored a certain square
@@ -181,10 +187,13 @@ public class Player {
 
   // adds loot to the players inventory
   public void addLoot(LootItems item) {
-    loot.add(item);
+    if (item.getItemType() == ItemType.WEAPON)
+      loot.removeIf(lootItem -> lootItem.getItemType() == ItemType.WEAPON);
 
     if (item == LootItems.TREASURE_MAP)
       findTreasure();
+
+    loot.add(item);
   }
 
   // Generate a random location where the player will find a treasure
@@ -198,6 +207,7 @@ public class Player {
       return;
 
     treasureLocated = true;
+    treasureCollected = false;
     tresaureX = treasureLocation[0];
     tresaureY = treasureLocation[1];
   }
@@ -207,7 +217,7 @@ public class Player {
   }
 
   public boolean isTreasureLocVisible() {
-    return treasureLocated && !tresaureCollected;
+    return treasureLocated && !treasureCollected;
   }
 
   public int getTreasureX() {
@@ -216,14 +226,6 @@ public class Player {
 
   public int getTreasureY() {
     return tresaureY;
-  }
-
-  public void tryCollectTreasure() {
-    if (!tresaureCollected && tresaureX == x && tresaureY == y) {
-      tresaureCollected = true;
-      loot.remove(LootItems.TREASURE_MAP);
-      addCoins(1000);
-    }
   }
 
   private int[] getRandomHiddenTreasure() {
@@ -297,22 +299,22 @@ public class Player {
 //        this.getItems().removeIf(item -> item == LootItems.SWORD || item == LootItems.BOW || item == LootItems.BEJEWELED_SWORD);
 
     // The strength is then reset back to the base number
-    this.setStrength(0);
+    this.setPower(0);
   }
 
   // removes the strength from a player
   public void removeStrength(int amount) {
-    this.strength = Math.max(this.strength - amount, 0);
+    this.power = Math.max(this.power - amount, 0);
   }
 
   // Get the power player has
-  public int getPower() {
-    return power;
+  public int getPoints() {
+    return points;
   }
 
   // adds to the players power based on the item
-  public void addPower(LootItems item) {
-    this.power += item.getItemPower();
+  public void addPoints(LootItems item) {
+    this.points += item.getItemPower();
   }
 
   public Color getSolidColour() {

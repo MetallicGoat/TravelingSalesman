@@ -69,12 +69,12 @@ public class BattleScene extends Scene {
 
 
     //TODO Finish Attacks
-    if (manager.getPlayer1().getStrength() < manager.getPlayer2().getStrength()) {
+    if (manager.getPlayer1().getPoints() < manager.getPlayer2().getPoints()) {
       player2Win();
     }
-    if (manager.getPlayer2().getStrength() < manager.getPlayer1().getStrength()) {
+    if (manager.getPlayer2().getPoints() < manager.getPlayer1().getPoints()) {
       player1Win();
-    } else if (manager.getPlayer2().getStrength() == manager.getPlayer1().getStrength()) {
+    } else if (manager.getPlayer2().getPoints() == manager.getPlayer1().getPoints()) {
       if (Accessor.getGameManager().getPlayingPlayer() == Accessor.getGameManager().getPlayer1()) {
         player1WinDraw();
       } else {
@@ -153,13 +153,13 @@ public class BattleScene extends Scene {
 
     final GameManager manager = Accessor.getGameManager();
 
-    final int money = (((manager.getPlayer1().getStrength() - manager.getPlayer2().getStrength()) / (manager.getPlayer1().getStrength() + manager.getPlayer2().getStrength())) * manager.getPlayer2().getCoins());
+    final int money = (((manager.getPlayer1().getPoints() - manager.getPlayer2().getPoints()) / (manager.getPlayer1().getPoints() + manager.getPlayer2().getPoints())) * manager.getPlayer2().getCoins());
     manager.getPlayer1().addCoins(money);
     manager.getPlayer2().removeCoins(money);
 
-    final int newStrength = manager.getPlayer1().getStrength() - manager.getPlayer2().getStrength();
-    manager.getPlayer1().setStrength(newStrength);
-    manager.getPlayer2().setStrength(0);
+    final int newStrength = manager.getPlayer1().getPoints() - manager.getPlayer2().getPoints();
+    manager.getPlayer1().setPower(newStrength);
+    manager.getPlayer2().setPower(0);
 
     manager.getPlayer2().setX(10);
     manager.getPlayer2().setY(0);
@@ -175,13 +175,13 @@ public class BattleScene extends Scene {
 
     final GameManager manager = Accessor.getGameManager();
 
-    final int money = (((manager.getPlayer2().getStrength() - manager.getPlayer1().getStrength()) / (manager.getPlayer1().getStrength() + manager.getPlayer2().getStrength())) * manager.getPlayer1().getCoins());
+    final int money = (((manager.getPlayer2().getPoints() - manager.getPlayer1().getPoints()) / (manager.getPlayer1().getPoints() + manager.getPlayer2().getPoints())) * manager.getPlayer1().getCoins());
     manager.getPlayer2().addCoins(money);
     manager.getPlayer1().removeCoins(money);
 
-    final int newStrength = manager.getPlayer2().getStrength() - manager.getPlayer1().getStrength();
-    manager.getPlayer2().setStrength(newStrength);
-    manager.getPlayer1().setStrength(0);
+    final int newStrength = manager.getPlayer2().getPoints() - manager.getPlayer1().getPoints();
+    manager.getPlayer2().setPower(newStrength);
+    manager.getPlayer1().setPower(0);
 
     manager.getPlayer1().setX(10);
     manager.getPlayer1().setY(0);
@@ -197,8 +197,8 @@ public class BattleScene extends Scene {
 
     final GameManager manager = Accessor.getGameManager();
 
-    manager.getPlayer1().setStrength(0);
-    manager.getPlayer2().setStrength(0);
+    manager.getPlayer1().setPower(0);
+    manager.getPlayer2().setPower(0);
 
     manager.getPlayer2().setX(10);
     manager.getPlayer2().setY(0);
@@ -215,8 +215,8 @@ public class BattleScene extends Scene {
 
     final GameManager manager = Accessor.getGameManager();
 
-    manager.getPlayer2().setStrength(0);
-    manager.getPlayer1().setStrength(0);
+    manager.getPlayer2().setPower(0);
+    manager.getPlayer1().setPower(0);
 
     manager.getPlayer1().setX(10);
     manager.getPlayer1().setY(0);
