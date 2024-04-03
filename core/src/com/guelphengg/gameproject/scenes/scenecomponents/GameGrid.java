@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -113,6 +114,57 @@ public class GameGrid {
     batch.draw(texture, posX, posY, scaledWidth, scaledHeight);
     batch.end();
   }
+  public void renderTextInGrid(int x, int y, String string, boolean centerX, int xOffset, int scaled) {
+    final SpriteBatch batch = SceneManager.getSpriteBatch();
+    final BitmapFont font = SceneManager.getFont();
+
+    final int width = string.length();
+    final int height = y/3;
+
+    font.getData().setScale(scaled);
+    // Calculate scaling factors
+    float scaleX = (float) getBoxWidth() / width;
+    float scaleY = (float) getBoxHeight() / height;
+    float scale = Math.min(scaleX, scaleY);
+
+    // Calculate scaled dimensions
+    float scaledWidth = width * scale;
+    float scaledHeight = height * scale;
+
+    // Calculate position for centering
+    float posX = (this.cornerX + (x * getBoxWidth())) + xOffset + (centerX ? (getBoxWidth() - scaledWidth) / 2 : 0);
+    float posY = (this.cornerY + (y * getBoxHeight())) + (getBoxHeight() - scaledHeight) / 2;
+
+    batch.begin();
+    font.draw(batch, string, posX, posY, scaledWidth,1,  false);
+    batch.end();
+  }
+
+  public void renderTextInGrid(int x, int y, String string, boolean centerX, int xOffset, int yOffset, int scaled) {
+    final SpriteBatch batch = SceneManager.getSpriteBatch();
+    final BitmapFont font = SceneManager.getFont();
+
+    final int width = string.length();
+    final int height = y/3;
+
+    font.getData().setScale(scaled);
+    // Calculate scaling factors
+    float scaleX = (float) getBoxWidth() / width;
+    float scaleY = (float) getBoxHeight() / height;
+    float scale = Math.min(scaleX, scaleY);
+
+    // Calculate scaled dimensions
+    float scaledWidth = width * scale;
+    float scaledHeight = height * scale;
+
+    // Calculate position for centering
+    float posX = (this.cornerX + (x * getBoxWidth())) + xOffset + (centerX ? (getBoxWidth() - scaledWidth) / 2 : 0);
+    float posY = (this.cornerY + (y * getBoxHeight())) + yOffset +(getBoxHeight() - scaledHeight) / 2;
+
+    batch.begin();
+    font.draw(batch, string, posX, posY, scaledWidth,1,  false);
+    batch.end();
+  }
 
   // draws a rectangle in a certain square on the grid
   public void renderRectInGrid(int x, int y, Color color) {
@@ -156,20 +208,16 @@ public class GameGrid {
   public void renderGrid(Color color) {
     final ShapeRenderer shapeRenderer = SceneManager.getShapeRenderer();
 
-    shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+    shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
     shapeRenderer.setColor(color);
 
-    Gdx.gl.glLineWidth(3);
-
     // Horizontal Lines
-    for (int i = 0; i <= boxesY; i++) {
-      shapeRenderer.line(this.cornerX, this.cornerY + (getBoxHeight() * i), this.cornerX + this.gridWidth, this.cornerY + (getBoxHeight() * i));
-    }
+    for (int i = 0; i <= boxesY; i++)
+      shapeRenderer.rect(this.cornerX -1, this.cornerY + (getBoxHeight() * i) -1, this.gridWidth, 3);
 
     // Vertical Lines
-    for (int i = 0; i <= boxesX; i++) {
-      shapeRenderer.line(this.cornerX + (getBoxWidth() * i), this.cornerY, this.cornerX + (getBoxWidth() * i), this.cornerY + this.gridHeight);
-    }
+    for (int i = 0; i <= boxesX; i++)
+      shapeRenderer.rect(this.cornerX + (getBoxWidth() * i) -1, this.cornerY -1, 3, this.gridHeight);
 
     shapeRenderer.end();
   }

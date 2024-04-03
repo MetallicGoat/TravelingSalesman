@@ -1,65 +1,37 @@
 package com.guelphengg.gameproject.scenes.scenecomponents;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.guelphengg.gameproject.Accessor;
-import com.guelphengg.gameproject.GameManager;
 import com.guelphengg.gameproject.SceneManager;
 import com.guelphengg.gameproject.griditems.ItemType;
 import com.guelphengg.gameproject.griditems.LootItems;
-import com.guelphengg.gameproject.griditems.Player;
-import com.guelphengg.gameproject.util.AdvancedShapeRenderer;
 
-public class InventoryPanel {
+public class MarketInventoryPanel {
 
   // The grid that the inventory will be rendered on
   // GameGrid is a class that represents a grid that can be drawn on the screen
   // GameGrid is also used for the map
   final GameGrid inventoryGrid = new GameGrid(
-      (int) (SceneManager.getViewWidth() * .25), // height
-      (int) (SceneManager.getViewWidth() * .1), // width
-      (int) (SceneManager.getViewWidth() * .58), // x
-      (int) (SceneManager.getViewHeight() * .53), // y
-      2, 5 // boxesX, boxesY
+      (int) (SceneManager.getViewWidth() * .1), // height
+      (int) (SceneManager.getViewWidth() * .25), // width
+
+      (int) (SceneManager.getViewWidth() * .35), // x
+      (int) (SceneManager.getViewHeight() * .58), // y
+      5, 2 // boxesX, boxesY
   );
 
   final GameGrid weaponGrid = new GameGrid(
       (int) (SceneManager.getViewWidth() * .05), // height
       (int) (SceneManager.getViewWidth() * .05), // width
-      (int) (SceneManager.getViewWidth() * .58), // x
-      (int) (SceneManager.getViewHeight() * .41), // y
+      (int) (SceneManager.getViewWidth() * .65), // x
+      (int) (SceneManager.getViewHeight() * .58), // y
       1, 1 // boxesX, boxesY
   );
 
   // Render a certian players inventory
-  public void render(Player player) {
-
-    // Render the background
-    final AdvancedShapeRenderer shapeRenderer = SceneManager.getShapeRenderer();
-    final GameManager manager = Accessor.getGameManager();
-
-    // This enables transparency
-    Gdx.gl.glEnable(GL20.GL_BLEND);
-
-    shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-
-    // Set the color to the players colour
-    shapeRenderer.setColor(manager.getPlayingPlayer().getCharacter().getColour());
-
-    // Draw the transparent background
-    shapeRenderer.roundedRect(
-        inventoryGrid.getCornerX() - 20,
-        inventoryGrid.getCornerY() - 110,
-        inventoryGrid.getGridWidth() + 40,
-        inventoryGrid.getGridHeight() + 150,
-        10
-    );
-
-    shapeRenderer.end();
+  public void render() {
 
     // Render the grid
     inventoryGrid.renderGrid(Color.WHITE);
@@ -74,15 +46,15 @@ public class InventoryPanel {
     batch.begin();
 
     font.getData().setScale(1.5F);
-    font.draw(batch, "Inventory", inventoryGrid.getCornerX(), inventoryGrid.getCornerY() + 325);
-    font.draw(batch, "Weapon", inventoryGrid.getCornerX(), inventoryGrid.getCornerY() - 12);
+    //font.draw(batch, "Inventory", inventoryGrid.getCornerX(), inventoryGrid.getCornerY() + 325);
+    font.draw(batch, "Weapon", weaponGrid.getCornerX() - 10, inventoryGrid.getCornerY() + 90);
 
     batch.end();
 
     // Draw the lootitems in the inventory
     // draws only the playing players inventory
     int x = 0;
-    int y = 4;
+    int y = 1;
     for (LootItems item : Accessor.getGameManager().getPlayingPlayer().getItems()) {
       if (item.getItemType() == ItemType.WEAPON)
         continue;
@@ -90,7 +62,7 @@ public class InventoryPanel {
       item.render(inventoryGrid, x, y);
       x++;
 
-      if (x > 0 && x % 2 == 0) {
+      if (x > 0 && x % 5 == 0) {
         x = 0;
         y--;
       }

@@ -47,7 +47,7 @@ public class Player {
 
   // Used when a player has found a treasure map
   private boolean treasureLocated = false;
-  private boolean tresaureCollected = false;
+  private boolean treasureCollected = false;
   private int tresaureX = 0;
   private int tresaureY = 0;
 
@@ -162,6 +162,12 @@ public class Player {
         }
       }
     }
+
+    // The player has revealed the location of the treasure map
+    if (visibleArea[tresaureX][tresaureY]) {
+      treasureCollected = true;
+      loot.remove(LootItems.TREASURE_MAP);
+    }
   }
 
   // Check if a player has explored a certain square
@@ -181,10 +187,13 @@ public class Player {
 
   // adds loot to the players inventory
   public void addLoot(LootItems item) {
-    loot.add(item);
+    if (item.getItemType() == ItemType.WEAPON)
+      loot.removeIf(lootItem -> lootItem.getItemType() == ItemType.WEAPON);
 
     if (item == LootItems.TREASURE_MAP)
       findTreasure();
+
+    loot.add(item);
   }
 
   // Generate a random location where the player will find a treasure
@@ -198,6 +207,7 @@ public class Player {
       return;
 
     treasureLocated = true;
+    treasureCollected = false;
     tresaureX = treasureLocation[0];
     tresaureY = treasureLocation[1];
   }
@@ -207,7 +217,7 @@ public class Player {
   }
 
   public boolean isTreasureLocVisible() {
-    return treasureLocated && !tresaureCollected;
+    return treasureLocated && !treasureCollected;
   }
 
   public int getTreasureX() {
@@ -218,20 +228,12 @@ public class Player {
     return tresaureY;
   }
 
-  public void tryCollectTreasure() {
-    if (!tresaureCollected && tresaureX == x && tresaureY == y) {
-      tresaureCollected = true;
-      loot.remove(LootItems.TREASURE_MAP);
-      addCoins(1000);
-    }
-  }
-
   private int[] getRandomHiddenTreasure() {
     final List<int[]> locations = new ArrayList<>();
 
     for (int i = 0; i < 10; i++) {
       for (int j = 0; j < 10; j++) {
-        if (!visibleArea[i][j] && Accessor.getGameManager().gridObjects[i][j] == GridObject.TREASURE_HOUSE) {
+        if (!visibleArea[i][j] && Accessor.getGameManager().getGridObjectArray()[i][j] == GridObject.TREASURE_HOUSE) {
           locations.add(new int[] {i, j});
         }
       }

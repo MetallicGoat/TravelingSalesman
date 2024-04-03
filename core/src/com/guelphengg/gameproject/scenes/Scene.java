@@ -63,6 +63,14 @@ public abstract class Scene {
     batch.end();
 
   }
+  protected void renderTrappedBackground() {
+    final SpriteBatch batch = SceneManager.getSpriteBatch();
+
+    batch.begin();
+    batch.draw(Textures.TRAPPED_BACKGROUND.get(), 0, 0, SceneManager.getViewWidth(), SceneManager.getViewHeight());
+    batch.end();
+
+  }
 
   public GameState getSceneType() {
     return type;
