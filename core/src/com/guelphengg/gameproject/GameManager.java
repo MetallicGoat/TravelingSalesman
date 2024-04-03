@@ -1,7 +1,6 @@
 package com.guelphengg.gameproject;
 
 import com.badlogic.gdx.Input;
-import com.guelphengg.gameproject.griditems.*;
 import com.guelphengg.gameproject.griditems.GridObject;
 import com.guelphengg.gameproject.griditems.LootItems;
 import com.guelphengg.gameproject.griditems.Player;
@@ -10,9 +9,6 @@ import com.guelphengg.gameproject.scenes.MarketScene;
 import com.guelphengg.gameproject.scenes.TransitionScene;
 import com.guelphengg.gameproject.scenes.WinScene;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Random;
 
 public class GameManager {
@@ -149,17 +145,24 @@ public class GameManager {
 
   public void tradeItems() {
     if (playerOn(GridObject.CASTLE)) {
-      for (int i = 0; i < playingPlayer.getItems().size(); i++) {
-        playingPlayer.addCoins(playingPlayer.getItems().get(i).getSellPrice());
-        playingPlayer.addPoints(playingPlayer.getItems().get(i));
-        // This iterates through the player's inventory, checks
-        // what the object is, and then adds the set value to the player's coins + power
+      boolean itemsSold = false;
+
+      // This iterates through the player's inventory, checks
+      // what the object is, and then adds the set value to the player's coins + power
+      for (LootItems item : playingPlayer.getItems()) {
+        playingPlayer.addCoins(item.getSellPrice());
+        playingPlayer.addPoints(item);
+        itemsSold = true;
       }
 
-      playingPlayer.setPower(0); // sets the strength back to the original value
-      playingPlayer.getItems().clear();
+      if (itemsSold) {
+        // Play sell sound
+        TSGameSound.SELL.play();
+
+        playingPlayer.setPower(0); // sets the strength back to the original value
+        playingPlayer.getItems().clear();
+      }
     }
-    //TODO Give items values and give player gold for trading items
   }
 
   public boolean playerOn(GridObject obj) {
@@ -276,7 +279,7 @@ public class GameManager {
       switch (keyCode) {
         case Input.Keys.SPACE:
           TSGameSound.BEGIN.play();
-          startGame(); // TODO this could not be called every time they press space
+          startGame();
           break;
 
         case Input.Keys.A:
@@ -332,10 +335,9 @@ public class GameManager {
 
           break;
 
-        case Input.Keys.T: // Trade Tings for Gold lol
+        case Input.Keys.T:
           if (playerOn(GridObject.CASTLE)) {
-            TSGameSound.SELL.play();
-            tradeItems();
+            tradeItems(); // Trade Tings for Gold lol
           }
 
           if (player1.getPoints() >= 10 || player2.getPoints() >= 10) {
@@ -343,10 +345,8 @@ public class GameManager {
             smoothlySetState(GameState.WINSCREEN);
           }
 
-          //TODO Make it so that the selling sound only plays when the player actually sold something....
-          //TODO Give items values and give player gold for trading items
-          //since the middle will ALWAYS be the castle, if player is at the point on the grid where the castle exists,
-          //pressing 's' will clear the inventory and give player the gold that is equal to the sum of the players inv.
+          // since the middle will ALWAYS be the castle, if player is at the point on the grid where the castle exists,
+          // pressing 's' will clear the inventory and give player the gold that is equal to the sum of the players inv.
           break;
 
 

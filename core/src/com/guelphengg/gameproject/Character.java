@@ -40,6 +40,7 @@ public enum Character {
     animationRight = getAnimation(tmp, textureCol, textureRow + 2);
   }
 
+  // Allows user to scroll through characters without landing on characters the other player has
   public static Character getNextCharacter(Player player) {
     final GameManager manager = Accessor.getGameManager();
     final Player otherPlayer = manager.getPlayer1() == player ? manager.getPlayer2() : manager.getPlayer1();
@@ -63,6 +64,7 @@ public enum Character {
     return next;
   }
 
+  // Allows user to scroll through characters without landing on characters the other player has
   public static Character getPreviousCharacter(Player player) {
     final GameManager manager = Accessor.getGameManager();
     final Player otherPlayer = manager.getPlayer1() == player ? manager.getPlayer2() : manager.getPlayer1();
@@ -99,6 +101,7 @@ public enum Character {
     return new Animation<>(0.15f, walkFrames);
   }
 
+  // Gets name with capitalized first letter (rest lower case)
   public String getName() {
     final String name = this.name();
 
