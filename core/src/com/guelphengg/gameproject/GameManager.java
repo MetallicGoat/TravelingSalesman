@@ -444,6 +444,7 @@ public class GameManager {
           if (!playerEnteredScene)
             smoothlySetState(GameState.RUNNING);
 
+          break;
         }
       }
     }
@@ -491,6 +492,10 @@ public class GameManager {
     if(this.state == GameState.WINSCREEN){
       switch (keyCode){
         case Input.Keys.SPACE:
+          // Reset the game manger for new game after a win
+          resetManager();
+
+          // Send em to main menu
           smoothlySetState(GameState.MAIN_MENU);
           break;
       }
