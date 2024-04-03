@@ -84,7 +84,31 @@ public class AttackAnimation {
     return AnimationTextures.BASIC_SLASH_SHEET;
   }
 
-  public void attackP2Animation(){
+  static public AnimationTextures attackP2Animation(){
+    final Player player2 = Accessor.getGameManager().getPlayer2();
+    final WeaponType type = player2.weaponCheck();
+    if (type == WeaponType.SWORD) {
+      if (Accessor.getGameManager().getPlayer2().getWeaponDamage() == 2){
+        return AnimationTextures.BASIC_SLASH_SHEET;
+      }
+      else if (Accessor.getGameManager().getPlayer2().getWeaponDamage() == 5){
+        return AnimationTextures.BASIC_SLASH_SHEET;
+      }
+      else if (Accessor.getGameManager().getPlayer2().getWeaponDamage() == 10){
+        return AnimationTextures.ICE_SLASH_SHEET;
+      }
+      else if (Accessor.getGameManager().getPlayer2().getWeaponDamage() == 10){
+        return AnimationTextures.FIRE_SLASH_SHEET;
+      }
+    } else if (type == WeaponType.BOW) {
+      return AnimationTextures.ELECTRIC_SPELL_SHEET;
 
+    } else if (type == WeaponType.WAND) {
+      return AnimationTextures.EARTH_SPELL_SHEET;
+
+    } else if (type == null) {
+      return AnimationTextures.FIRE_SLASH_SHEET;
+    }
+    return AnimationTextures.BASIC_SLASH_SHEET;
   }
 }

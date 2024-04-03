@@ -241,7 +241,7 @@ public class BattleScene extends Scene {
   int o=0;
   private void player2Attack() {
 
-    AnimationTextures hey = AttackAnimation.attackP1Animation();
+    AnimationTextures hey = AttackAnimation.attackP2Animation();
     AttackAnimation attackP2Animation = new AttackAnimation(hey);
 
 //    swordAttackWait = 0;
