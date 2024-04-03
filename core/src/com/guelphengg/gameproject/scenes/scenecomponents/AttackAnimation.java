@@ -4,9 +4,13 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.guelphengg.gameproject.Accessor;
 import com.guelphengg.gameproject.AnimationTextures;
 import com.guelphengg.gameproject.SceneManager;
-import com.guelphengg.gameproject.Textures;
+import com.guelphengg.gameproject.griditems.ItemType;
+import com.guelphengg.gameproject.griditems.LootItems;
+import com.guelphengg.gameproject.griditems.Player;
+import com.guelphengg.gameproject.griditems.WeaponType;
 import com.guelphengg.gameproject.util.Util;
 
 public class AttackAnimation {
@@ -58,5 +62,34 @@ public class AttackAnimation {
   AttackAnimation electricWandAnimation = new AttackAnimation(AnimationTextures.ELECTRIC_SPELL_SHEET);
   AttackAnimation earthWandAnimation = new AttackAnimation(AnimationTextures.EARTH_SPELL_SHEET);
 
+  public AttackAnimation attackP1Animation(){
 
+    final Player player1 = Accessor.getGameManager().getPlayer1();
+    final WeaponType type = player1.weaponCheck();
+    if (type == WeaponType.SWORD) {
+      if (Accessor.getGameManager().getPlayer1().getWeaponDamage() == 2){
+        return basicSwordAnimation;
+      }
+      else if (Accessor.getGameManager().getPlayer1().getWeaponDamage() == 5){
+        return basicSwordAnimation;
+      }
+      else if (Accessor.getGameManager().getPlayer1().getWeaponDamage() == 10){
+        return iceSwordAnimation;
+      }
+      else if (Accessor.getGameManager().getPlayer1().getWeaponDamage() == 10){
+        return fireSwordAnimation;
+      }
+    } else if (type == WeaponType.BOW) {
+
+    } else if (type == WeaponType.WAND) {
+
+    } else if (type == null) {
+
+    }
+    return basicSwordAnimation;
+  }
+
+  public void attackP2Animation(){
+
+  }
 }

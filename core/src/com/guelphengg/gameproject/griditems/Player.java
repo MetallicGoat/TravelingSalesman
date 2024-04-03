@@ -335,4 +335,13 @@ public class Player {
 
     return null;
   }
+
+  public int getWeaponDamage() {
+    for (LootItems item : getItems()) {
+      if (item.getItemType() == ItemType.WEAPON) {
+        return item.getDamage();
+      }
+    }
+    return 0;
+  }
 }
