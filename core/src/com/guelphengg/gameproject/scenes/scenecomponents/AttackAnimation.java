@@ -55,14 +55,7 @@ public class AttackAnimation {
     //batch.end();
   }
 
-  AttackAnimation basicSwordAnimation = new AttackAnimation(AnimationTextures.BASIC_SLASH_SHEET);
-  AttackAnimation fireSwordAnimation = new AttackAnimation(AnimationTextures.FIRE_SLASH_SHEET);
-  AttackAnimation iceSwordAnimation = new AttackAnimation(AnimationTextures.ICE_SLASH_SHEET);
-  AttackAnimation basicWandAnimation = new AttackAnimation(AnimationTextures.BASIC_SPELL_SHEET);
-  AttackAnimation electricWandAnimation = new AttackAnimation(AnimationTextures.ELECTRIC_SPELL_SHEET);
-  AttackAnimation earthWandAnimation = new AttackAnimation(AnimationTextures.EARTH_SPELL_SHEET);
-
-  public AnimationTextures attackP1Animation(){
+  static public AnimationTextures attackP1Animation(){
 
     final Player player1 = Accessor.getGameManager().getPlayer1();
     final WeaponType type = player1.weaponCheck();
@@ -80,12 +73,13 @@ public class AttackAnimation {
         return AnimationTextures.FIRE_SLASH_SHEET;
       }
     } else if (type == WeaponType.BOW) {
-
+      return AnimationTextures.ELECTRIC_SPELL_SHEET;
 
     } else if (type == WeaponType.WAND) {
+      return AnimationTextures.EARTH_SPELL_SHEET;
 
     } else if (type == null) {
-
+      return AnimationTextures.FIRE_SLASH_SHEET;
     }
     return AnimationTextures.BASIC_SLASH_SHEET;
   }

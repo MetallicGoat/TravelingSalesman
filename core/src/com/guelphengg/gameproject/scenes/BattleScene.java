@@ -241,7 +241,8 @@ public class BattleScene extends Scene {
   int o=0;
   private void player2Attack() {
 
-
+    AnimationTextures hey = AttackAnimation.attackP1Animation();
+    AttackAnimation attackP2Animation = new AttackAnimation(hey);
 
 //    swordAttackWait = 0;
     player2Attacking=true;
@@ -272,7 +273,8 @@ public class BattleScene extends Scene {
  int u;
   int p=0;
   private void player1Attack() {
-//    AttackAnimation basicSwordAnimation = new AttackAnimation(AnimationTextures.BASIC_SLASH_SHEET);
+    AnimationTextures hey = AttackAnimation.attackP1Animation();
+    AttackAnimation attackP1Animation = new AttackAnimation(hey);
 
 //    swordAttackWait = 0;
     player1Attacking=true;
