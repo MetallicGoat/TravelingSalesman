@@ -93,6 +93,7 @@ public enum LootItems {
     grid.renderTextureInGrid(x, y, texture);
   }
 
+
   public int getItemPower() {
     return itemPower;
   }

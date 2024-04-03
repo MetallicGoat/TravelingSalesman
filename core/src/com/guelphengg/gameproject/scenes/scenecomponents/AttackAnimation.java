@@ -69,7 +69,7 @@ public class AttackAnimation {
       else if (Accessor.getGameManager().getPlayer1().getWeaponDamage() == 10){
         return AnimationTextures.ICE_SLASH_SHEET;
       }
-      else if (Accessor.getGameManager().getPlayer1().getWeaponDamage() == 10){
+      else if (Accessor.getGameManager().getPlayer1().getWeaponDamage() == 15){
         return AnimationTextures.FIRE_SLASH_SHEET;
       }
     } else if (type == WeaponType.BOW) {
@@ -97,7 +97,7 @@ public class AttackAnimation {
       else if (Accessor.getGameManager().getPlayer2().getWeaponDamage() == 10){
         return AnimationTextures.ICE_SLASH_SHEET;
       }
-      else if (Accessor.getGameManager().getPlayer2().getWeaponDamage() == 10){
+      else if (Accessor.getGameManager().getPlayer2().getWeaponDamage() == 15){
         return AnimationTextures.FIRE_SLASH_SHEET;
       }
     } else if (type == WeaponType.BOW) {
