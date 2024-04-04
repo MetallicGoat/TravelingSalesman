@@ -140,7 +140,6 @@ public class MarketScene extends Scene {
     public void canBuy(int index) {
         final GameManager manager = Accessor.getGameManager();
         if ((manager.getPlayingPlayer().getCoins() >= sellItems[index].getSellPrice())&&(!sellItems[index].equals(LootItems.BLANK))&&(!manager.getPlayingPlayer().getItems().contains(sellItems[index]))) {
-            manager.getPlayingPlayer().removeWeapon();
             manager.getPlayingPlayer().addPower(sellItems[index]);
             manager.getPlayingPlayer().addLoot(sellItems[index]);
             manager.getPlayingPlayer().removeCoins(sellItems[index].getSellPrice());
