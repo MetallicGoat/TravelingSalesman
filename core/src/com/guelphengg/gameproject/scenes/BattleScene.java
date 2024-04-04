@@ -1,5 +1,6 @@
 package com.guelphengg.gameproject.scenes;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -74,21 +75,67 @@ public class BattleScene extends Scene {
     //TODO Finish Attacks
     if (manager.getPlayer1().getPoints() < manager.getPlayer2().getPoints()) {
       player2Win();
+      if (t>1600){
+
+        font.setColor(Accessor.getGameManager().getPlayer2().getSolidColour());
+        font.getData().setScale(4);
+
+        drawCenteredText(batch, 300, 4, Accessor.getGameManager().getPlayer2().getName() +" WINS");
+
+        font.setColor(Color.BLACK);
+        font.getData().setScale(3);
+        drawCenteredText(batch, 250, 3, "Press Space To Resume Game");
+
+      }
     }
     if (manager.getPlayer2().getPoints() < manager.getPlayer1().getPoints()) {
       player1Win();
+      if (t>1600){
+
+        font.setColor(Accessor.getGameManager().getPlayer1().getSolidColour());
+        font.getData().setScale(4);
+
+        drawCenteredText(batch, 300, 4, Accessor.getGameManager().getPlayer1().getName() +" WINS");
+
+        font.setColor(Color.BLACK);
+        font.getData().setScale(3);
+        drawCenteredText(batch, 250, 3, "Press Space To Resume Game");
+
+      }
     } else if (manager.getPlayer2().getPoints() == manager.getPlayer1().getPoints()) {
       if (Accessor.getGameManager().getPlayingPlayer() == Accessor.getGameManager().getPlayer1()) {
         player1WinDraw();
+        if (t>1600){
+
+          font.setColor(Accessor.getGameManager().getPlayer1().getSolidColour());
+          font.getData().setScale(4);
+
+          drawCenteredText(batch, 300, 4, Accessor.getGameManager().getPlayer1().getName() +" WINS");
+
+          font.setColor(Color.BLACK);
+          font.getData().setScale(3);
+          drawCenteredText(batch, 250, 3, "Press Space To Resume Game");
+
+        }
       } else {
         player2WinDraw();
+        if (t>1600){
+
+          font.setColor(Accessor.getGameManager().getPlayer2().getSolidColour());
+          font.getData().setScale(4);
+
+          drawCenteredText(batch, 300, 4, Accessor.getGameManager().getPlayer2().getName() +" WINS");
+          font.setColor(Color.BLACK);
+          font.getData().setScale(3);
+          drawCenteredText(batch, 250, 3, "Press Space To Resume Game");
+        }
       }
+      font.setColor(Color.WHITE);
     }
 
 
     //TODO make a method for setting things back to how they were before we changed in battle method
     //(eg make colours make to transparent)
-
 
     manager.getPlayer1().getTransColour();
     manager.getPlayer2().getTransColour();
@@ -249,17 +296,21 @@ public class BattleScene extends Scene {
     final WeaponType type = player2.weaponCheck();
     if (type == WeaponType.SWORD) {
       s = LootItems.SWORD.getAnimationSpeed();
+      if (o==0) TSGameSound.SWORD_SOUND.play();
       for (int i = 0; i < s; i++) o++;
+      o++;
       if (t>600) attackP2Animation.draw(250, 25, 1.5);
       //TODO Cycle through the different types of Swords/Wands/Bows to see specific weapon
     } else if (type == WeaponType.BOW) {
       s = LootItems.BOW.getAnimationSpeed();
+      if (o==0) TSGameSound.BOW_SOUND.play();
       for (int i = 0; i < s; i++) o++;
       attackP2Animation.draw(600 - o, 45, 0.2);
     } else if (type == WeaponType.WAND) {
-      s = 2; //LootItems.WAND.getAnimationSpeed();
+      s = LootItems.WAND.getAnimationSpeed();
+      if (o==0) TSGameSound.MAGIC_SOUND.play();
       for (int i = 0; i < s; i++) o++;
-      attackP2Animation.draw(620 - o, 25, 1.5);
+      attackP2Animation.draw(620 - o, 25, 2.5);
     } else if (type == null) {
       s = 0;
       for (int i = 0; i < s; i++) o++;
@@ -280,19 +331,23 @@ public class BattleScene extends Scene {
 
     if(type == WeaponType.SWORD){
       u = LootItems.SWORD.getAnimationSpeed();
+      if (p==0) TSGameSound.SWORD_SOUND.play();
       for (int i = 0; i<u; i++)p++;
+      p++;
       if (t>600) attackP1Animation.draw(730, 25, 1.5);
       //TODO Cycle through the different types of Swords/Wands/Bows to see specific weapon
     }
     else if (type == WeaponType.BOW){
       u = LootItems.BOW.getAnimationSpeed();
+      if (p==0) TSGameSound.BOW_SOUND.play();
       for (int i = 0; i<u; i++)p++;
       attackP1Animation.draw(275+p, 45, 0.2);
     }
     else if (type == WeaponType.WAND){
       u = LootItems.WAND.getAnimationSpeed();
+      if (p==0) TSGameSound.MAGIC_SOUND.play();
       for (int i = 0; i<u; i++)p++;
-      attackP1Animation.draw(290+p, 25, 1.5);
+      attackP1Animation.draw(290+p, 25, 2.5);
     }
     else if (type == null){
       u = 0;
