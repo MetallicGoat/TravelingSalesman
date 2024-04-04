@@ -146,9 +146,10 @@ public class MarketScene extends Scene {
 
     batch.begin();
 
-    // prints helpful information and prompts
-    drawCenteredText(batch, 250, 3.3F, "Welcome To The Market");
-    drawCenteredText(batch, -300, 2.5F, "Press [SPACE] to return to the map");
+        // prints helpful information and prompts
+        drawCenteredText(batch, 250, 3.3F, "Welcome To The Market");
+        drawCenteredText(batch, 30, 2.5F, "Click the Number on Your Keyboard to Buy an Item");
+        drawCenteredText(batch, -300, 2.5F, "Press [SPACE] to return to the map");
 
     batch.end();
   }
