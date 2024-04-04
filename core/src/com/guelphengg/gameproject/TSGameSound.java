@@ -10,7 +10,10 @@ public enum TSGameSound {
   SELL("Sell.wav"),
   BEGIN("Begin.wav"),
   JUMP("JumpTS.wav"),
-  BATTLE_START("LowImpact.mp3");
+  BATTLE_START("LowImpact.mp3"),
+  SWORD_SOUND("SwordAttack.wav"),
+  BOW_SOUND("BowSound.wav"),
+  MAGIC_SOUND("EpicBram.mp3");
 
   final Sound sound;
 

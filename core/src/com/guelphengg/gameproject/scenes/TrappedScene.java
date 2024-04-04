@@ -26,7 +26,7 @@ public class TrappedScene extends Scene {
     drawCenteredText(batch, 300, 4, "YOU HAVE BEEN TRAPPED");
     drawCenteredText(batch, 240, 3, "YOU HAVE TWO CHOICES");
     drawCenteredText(batch, 70, 3, "EITHER");
-    drawCenteredText(batch, 0, 2, "LOSE 1 POWER - PRESS [1]");
+    drawCenteredText(batch, 0, 2, "LOSE 1 POINT - PRESS [1]");
     drawCenteredText(batch, -70, 3, "OR");
     drawCenteredText(batch, -140, 2, "LOSE 30 COINS - PRESS [2]");
     drawCenteredText(batch, -330, 3, "YOUR CHOICE");

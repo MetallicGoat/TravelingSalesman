@@ -152,7 +152,7 @@ public class MarketScene extends Scene {
     public static void reset() {
         sellItems[0] = treasureMap;
 
-        final List<LootItems> items = LootItems.getWeapons(Accessor.getGameManager().getPlayingPlayer());
+        final List<LootItems> items = LootItems.getMarketWeapons(Accessor.getGameManager().getPlayingPlayer());
 
         // Randomize the items
         Collections.shuffle(items);
