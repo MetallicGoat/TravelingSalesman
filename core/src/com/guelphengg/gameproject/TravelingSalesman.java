@@ -6,16 +6,9 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.guelphengg.gameproject.util.Util;
 
 public class TravelingSalesman extends ApplicationAdapter {
-  private static TravelingSalesman instance;
-
-  public static TravelingSalesman getInstance() {
-    return instance;
-  }
 
   @Override
   public void create() {
-    instance = this;
-
     // Start listening for input
     Gdx.input.setInputProcessor(new InputListener());
 
@@ -25,15 +18,19 @@ public class TravelingSalesman extends ApplicationAdapter {
     // Play background music
     TSGameMusic.MAIN_MENU_MUSIC.play();
 
+    // Set the default game state to the main menu
     Accessor.getGameManager().smoothlySetState(GameState.MAIN_MENU, true, 500);
   }
 
   @Override
   public void render() {
-    // Update the player animation frames
+    // Update the curr time (used for player animation frames)
     Util.incrementStateTime();
 
+    // Clear the screen
     ScreenUtils.clear(0, 0, 0, 1);
+
+    // Render the current scene
     SceneManager.getCurrentScene().render();
   }
 

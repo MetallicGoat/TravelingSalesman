@@ -152,10 +152,10 @@ public class GameGrid {
     final BitmapFont font = SceneManager.getFont();
 
     font.setColor(Color.WHITE);
+
     // if they can't afford the item
-    if (red) {
+    if (red)
       font.setColor(Color.RED);
-    }
 
     final int width = string.length();
     final int height = y / 3;

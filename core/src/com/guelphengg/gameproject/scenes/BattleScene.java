@@ -93,6 +93,7 @@ public class BattleScene extends Scene {
 
     if (manager.getPlayer2().getPoints() < manager.getPlayer1().getPoints()) {
       player1Win();
+
       if (t > 1600) {
         font.setColor(Accessor.getGameManager().getPlayer1().getSolidColour());
         font.getData().setScale(4);
@@ -102,7 +103,6 @@ public class BattleScene extends Scene {
         font.setColor(Color.BLACK);
         font.getData().setScale(3);
         drawCenteredText(batch, 250, 3, "Press Space To Resume Game");
-
       }
 
     } else if (manager.getPlayer2().getPoints() == manager.getPlayer1().getPoints()) {

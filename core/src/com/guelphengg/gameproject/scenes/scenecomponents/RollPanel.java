@@ -22,11 +22,14 @@ public class RollPanel {
   private final int width = (int) (SceneManager.getViewWidth() * 0.4);
   private final int height = (int) (SceneManager.getViewWidth() * 0.22);
   private final float secsPerFrame = 0.06F; // The speed of the animation (smaller = faster animation)
+
   // The animation of the dice rolling
   // private final Animation<TextureRegion> animation;
   private final TextureRegion[][] region2d;
+
   // IF the dice is currently changing frames
   boolean rollComplete = false;
+
   // Used to keep track of the current frame of the animation
   private float stateTime = 0F;
   private int frameX = 0;
