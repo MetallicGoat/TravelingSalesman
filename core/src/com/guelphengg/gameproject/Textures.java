@@ -8,6 +8,7 @@ public enum Textures {
   STARTER_HOUSE("start_house.png"),
   DICE_SHEET("dice.png"),
   SPRITE_SHEET("sprite_sheet.png"),
+  COOKIE_SHEET("Cookie.png"),
   HIDDEN_SQUARE("cloud_cover_2.png"),
   MAP_SCROLL("Main Scroll.png"),
   TREASURE_X("TreasureX.png"),
