@@ -114,12 +114,18 @@ public class GameGrid {
     batch.draw(texture, posX, posY, scaledWidth, scaledHeight);
     batch.end();
   }
-  public void renderTextInGrid(int x, int y, String string, boolean centerX, int xOffset, int scaled) {
+  public void renderTextInGrid(int x, int y, String string, boolean centerX, int xOffset, int scaled, boolean red) {
     final SpriteBatch batch = SceneManager.getSpriteBatch();
     final BitmapFont font = SceneManager.getFont();
 
     final int width = string.length();
     final int height = y/3;
+
+    font.setColor(Color.WHITE);
+    // If they can't afford the item
+    if(red){
+      font.setColor(Color.RED);
+    }
 
     font.getData().setScale(scaled);
     // Calculate scaling factors
@@ -140,9 +146,15 @@ public class GameGrid {
     batch.end();
   }
 
-  public void renderTextInGrid(int x, int y, String string, boolean centerX, int xOffset, int yOffset, int scaled) {
+  public void renderTextInGrid(int x, int y, String string, boolean centerX, int xOffset, int yOffset, int scaled, boolean red) {
     final SpriteBatch batch = SceneManager.getSpriteBatch();
     final BitmapFont font = SceneManager.getFont();
+
+    font.setColor(Color.WHITE);
+    // if they can't afford the item
+    if(red){
+      font.setColor(Color.RED);
+    }
 
     final int width = string.length();
     final int height = y/3;
