@@ -18,6 +18,7 @@ public enum TSGameMusic {
   }
 
   public void play() {
+    music.setLooping(true);
     music.play();
   }
 

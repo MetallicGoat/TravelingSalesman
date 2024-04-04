@@ -188,7 +188,7 @@ public class GameManager {
     // Play roll sound
     TSGameSound.DICE_ROLL.play();
 
-     this.nextRoll = new Random().nextInt(6) + 1;
+    this.nextRoll = new Random().nextInt(6) + 1;
     this.diceRolling = true;
     this.waitingForRoll = false;
     this.lastRollTime = System.currentTimeMillis();
@@ -304,7 +304,7 @@ public class GameManager {
 
         // Press enter to complete the turn
         case Input.Keys.ENTER:
-          if (!waitingForRoll && turnsLeft == 0)
+          if (!waitingForRoll && turnsLeft == 0 && !diceRolling)
             nextTurn();
 
           break;
