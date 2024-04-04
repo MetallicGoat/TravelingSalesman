@@ -150,7 +150,7 @@ public class BattleScene extends Scene {
     if (t > 500 && t<1000) { //i > 439 previously (when they stop moving)
       player2Attack();
     }
-    if (t > 1000 && t<1500) {
+    if (t > 1050 && t<1550) {
       player1Attack();
     }
 
@@ -173,7 +173,7 @@ public class BattleScene extends Scene {
      if (t > 500 && t<1000) { //i > 439 previously (when they stop moving)
         player1Attack();
       }
-      if (t > 1000 && t<1500) {
+      if (t > 1050 && t<1550) {
         player2Attack();
       }
 
@@ -195,7 +195,7 @@ public class BattleScene extends Scene {
     if (t > 500 && t<1000) { //i > 439 previously (when they stop moving)
       player2Attack();
     }
-    if (t > 1000 && t<1500) {
+    if (t > 1050 && t<1550) {
       player1Attack();
     }
 
@@ -212,7 +212,7 @@ public class BattleScene extends Scene {
     if (t > 500 && t<1000) { //i > 439 previously (when they stop moving)
       player1Attack();
     }
-    if (t > 1000 && t<1500) {
+    if (t > 1050 && t<1550) {
       player2Attack();
     }
 
@@ -244,14 +244,13 @@ public class BattleScene extends Scene {
     AnimationTextures hey = AttackAnimation.attackP2Animation();
     AttackAnimation attackP2Animation = new AttackAnimation(hey);
 
-//    swordAttackWait = 0;
     player2Attacking=true;
     final Player player2 = Accessor.getGameManager().getPlayer2();
     final WeaponType type = player2.weaponCheck();
     if (type == WeaponType.SWORD) {
       s = LootItems.SWORD.getAnimationSpeed();
       for (int i = 0; i < s; i++) o++;
-      if (t>600) attackP2Animation.draw(300, 25, 1.5);
+      if (t>600) attackP2Animation.draw(250, 25, 1.5);
       //TODO Cycle through the different types of Swords/Wands/Bows to see specific weapon
     } else if (type == WeaponType.BOW) {
       s = LootItems.BOW.getAnimationSpeed();
@@ -267,8 +266,6 @@ public class BattleScene extends Scene {
       attackP2Animation.draw(620 - o, 25, 1.5);
     }
     //TODO check which animation used
-     //animation.draw(620-o, 25, 1.5); normal animation begin
-//    player2Return = true; //its being run 60x a second doofus. If this is called in render it'll immediatly draw
   }
  int u;
   int p=0;
@@ -276,7 +273,6 @@ public class BattleScene extends Scene {
     AnimationTextures hey = AttackAnimation.attackP1Animation();
     AttackAnimation attackP1Animation = new AttackAnimation(hey);
 
-//    swordAttackWait = 0;
     player1Attacking=true;
     final Player player1 = Accessor.getGameManager().getPlayer1();
     final WeaponType type = player1.weaponCheck();
@@ -285,7 +281,7 @@ public class BattleScene extends Scene {
     if(type == WeaponType.SWORD){
       u = LootItems.SWORD.getAnimationSpeed();
       for (int i = 0; i<u; i++)p++;
-      if (t>600) attackP1Animation.draw(580, 25, 1.5);
+      if (t>600) attackP1Animation.draw(730, 25, 1.5);
       //TODO Cycle through the different types of Swords/Wands/Bows to see specific weapon
     }
     else if (type == WeaponType.BOW){
@@ -294,7 +290,7 @@ public class BattleScene extends Scene {
       attackP1Animation.draw(275+p, 45, 0.2);
     }
     else if (type == WeaponType.WAND){
-      u = 2; //LootItems.WAND.getAnimationSpeed();
+      u = LootItems.WAND.getAnimationSpeed();
       for (int i = 0; i<u; i++)p++;
       attackP1Animation.draw(290+p, 25, 1.5);
     }
@@ -303,7 +299,6 @@ public class BattleScene extends Scene {
       for (int i = 0; i<u; i++)p++;
       attackP1Animation.draw(290+p, 25, 1.5);
     }
-//    player1Return = true;
   }
 
   public boolean player1Attacking;
