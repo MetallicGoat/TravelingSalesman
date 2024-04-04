@@ -293,20 +293,6 @@ public class Player {
     }
   }
 
-  // removes the weapon from the player's inventory
-  public void removeWeapon() {
-    this.getItems().removeIf(item -> item.getItemType() == ItemType.WEAPON);
-//        this.getItems().removeIf(item -> item == LootItems.SWORD || item == LootItems.BOW || item == LootItems.BEJEWELED_SWORD);
-
-    // The strength is then reset back to the base number
-    this.setPower(0);
-  }
-
-  // removes the strength from a player
-  public void removeStrength(int amount) {
-    this.power = Math.max(this.power - amount, 0);
-  }
-
   // Get the power player has
   public int getPoints() {
     return points;
@@ -315,6 +301,11 @@ public class Player {
   // adds to the players power based on the item
   public void addPoints(LootItems item) {
     this.points += item.getItemPower();
+  }
+
+  // adds to the players power based on the item
+  public void removePoints(int i) {
+    this.points = Math.max(0, this.points - i);
   }
 
   public Color getSolidColour() {
@@ -326,6 +317,7 @@ public class Player {
     this.solidColour.a = 0.4F;
     return solidColour;
   }
+
   public WeaponType weaponCheck() {
     for (LootItems item : getItems()) {
       if (item.getItemType() == ItemType.WEAPON) {

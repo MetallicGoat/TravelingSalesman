@@ -408,8 +408,8 @@ public class GameManager {
 
       switch (keyCode) {
         case Input.Keys.NUM_1:
-          //lose power
-          playingPlayer.removeStrength(1);
+          // lose point
+          playingPlayer.removePoints(1);
           smoothlySetState(GameState.RUNNING);
 
           TSGameMusic.TRAPPED_MUSIC.stop();
