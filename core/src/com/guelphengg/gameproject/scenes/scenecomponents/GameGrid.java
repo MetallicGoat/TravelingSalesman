@@ -81,10 +81,10 @@ public class GameGrid {
     final SpriteBatch batch = SceneManager.getSpriteBatch();
     final Texture cloud = Textures.HIDDEN_SQUARE.get();
 
-    final double scale =  ((double) getBoxWidth() * 0.9)  / (double) cloud.getWidth();
+    final double scale = ((double) getBoxWidth() * 0.9) / (double) cloud.getWidth();
 
     batch.begin();
-    batch.draw(cloud, (this.cornerX + (x * getBoxWidth()) + (int) (getBoxWidth() * 0.05)) , (this.cornerY + (y * getBoxHeight())) + 35, (int) (cloud.getWidth() * scale * .70), (int) (cloud.getHeight() * scale * .70));
+    batch.draw(cloud, (this.cornerX + (x * getBoxWidth()) + (int) (getBoxWidth() * 0.05)), (this.cornerY + (y * getBoxHeight())) + 35, (int) (cloud.getWidth() * scale * .70), (int) (cloud.getHeight() * scale * .70));
     batch.draw(cloud, (this.cornerX + (x * getBoxWidth()) + (int) (getBoxWidth() * 0.05)) + 10, (this.cornerY + (y * getBoxHeight())) + 20, (int) (cloud.getWidth() * scale * .80), (int) (cloud.getHeight() * scale * .80));
     batch.draw(cloud, (this.cornerX + (x * getBoxWidth()) + (int) (getBoxWidth() * 0.05)), (this.cornerY + (y * getBoxHeight())) + 5, (int) (cloud.getWidth() * scale), (int) (cloud.getHeight() * scale));
     batch.end();
@@ -114,16 +114,17 @@ public class GameGrid {
     batch.draw(texture, posX, posY, scaledWidth, scaledHeight);
     batch.end();
   }
+
   public void renderTextInGrid(int x, int y, String string, boolean centerX, int xOffset, int scaled, boolean red) {
     final SpriteBatch batch = SceneManager.getSpriteBatch();
     final BitmapFont font = SceneManager.getFont();
 
     final int width = string.length();
-    final int height = y/3;
+    final int height = y / 3;
 
     font.setColor(Color.WHITE);
     // If they can't afford the item
-    if(red){
+    if (red) {
       font.setColor(Color.RED);
     }
 
@@ -142,7 +143,7 @@ public class GameGrid {
     float posY = (this.cornerY + (y * getBoxHeight())) + (getBoxHeight() - scaledHeight) / 2;
 
     batch.begin();
-    font.draw(batch, string, posX, posY, scaledWidth,1,  false);
+    font.draw(batch, string, posX, posY, scaledWidth, 1, false);
     batch.end();
   }
 
@@ -152,12 +153,12 @@ public class GameGrid {
 
     font.setColor(Color.WHITE);
     // if they can't afford the item
-    if(red){
+    if (red) {
       font.setColor(Color.RED);
     }
 
     final int width = string.length();
-    final int height = y/3;
+    final int height = y / 3;
 
     font.getData().setScale(scaled);
     // Calculate scaling factors
@@ -171,10 +172,10 @@ public class GameGrid {
 
     // Calculate position for centering
     float posX = (this.cornerX + (x * getBoxWidth())) + xOffset + (centerX ? (getBoxWidth() - scaledWidth) / 2 : 0);
-    float posY = (this.cornerY + (y * getBoxHeight())) + yOffset +(getBoxHeight() - scaledHeight) / 2;
+    float posY = (this.cornerY + (y * getBoxHeight())) + yOffset + (getBoxHeight() - scaledHeight) / 2;
 
     batch.begin();
-    font.draw(batch, string, posX, posY, scaledWidth,1,  false);
+    font.draw(batch, string, posX, posY, scaledWidth, 1, false);
     batch.end();
   }
 
@@ -225,11 +226,11 @@ public class GameGrid {
 
     // Horizontal Lines
     for (int i = 0; i <= boxesY; i++)
-      shapeRenderer.rect(this.cornerX -1, this.cornerY + (getBoxHeight() * i) -1, this.gridWidth, 3);
+      shapeRenderer.rect(this.cornerX - 1, this.cornerY + (getBoxHeight() * i) - 1, this.gridWidth, 3);
 
     // Vertical Lines
     for (int i = 0; i <= boxesX; i++)
-      shapeRenderer.rect(this.cornerX + (getBoxWidth() * i) -1, this.cornerY -1, 3, this.gridHeight);
+      shapeRenderer.rect(this.cornerX + (getBoxWidth() * i) - 1, this.cornerY - 1, 3, this.gridHeight);
 
     shapeRenderer.end();
   }

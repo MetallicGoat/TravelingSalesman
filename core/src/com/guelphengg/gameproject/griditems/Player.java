@@ -17,28 +17,21 @@ public class Player {
 
   // The area the player is currently able to see
   private final boolean[][] visibleArea = new boolean[10][10];
-
+  // The colour of the player
+  private final Color solidColour;
   // Offset used for offseting the players position when drawing it on the game grid
   // For when one is small and to thr right
   public int yOffset = 0;
   public int xOffset = 0;
-
   // The character of the player
   private Character character;
-
   // If the player is currently small
   private boolean small = true;
-
   // misc player attributes
   private int power = 10, coins = 0, points = 0;
-
   // The x and y position of the player on the game grid
   private int x;
   private int y;
-
-  // The colour of the player
-  private final Color solidColour;
-
   // Stat: amount of houses a player has looted
   private int housesLooted = 0;
 
@@ -234,7 +227,7 @@ public class Player {
     for (int i = 0; i < 10; i++) {
       for (int j = 0; j < 10; j++) {
         if (!visibleArea[i][j] && Accessor.getGameManager().getGridObjectArray()[i][j] == GridObject.TREASURE_HOUSE) {
-          locations.add(new int[] {i, j});
+          locations.add(new int[]{i, j});
         }
       }
     }

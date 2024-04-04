@@ -2,9 +2,7 @@ package com.guelphengg.gameproject;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.guelphengg.gameproject.scenes.scenecomponents.AttackAnimation;
 import com.guelphengg.gameproject.util.Util;
 
 public class TravelingSalesman extends ApplicationAdapter {

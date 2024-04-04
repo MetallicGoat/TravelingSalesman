@@ -17,6 +17,12 @@ public enum TSGameMusic {
     this.music.setLooping(true);
   }
 
+  public static void dispose() {
+    for (TSGameMusic music : TSGameMusic.values()) {
+      music.music.dispose();
+    }
+  }
+
   public void play() {
     music.setLooping(true);
     music.play();
@@ -24,11 +30,5 @@ public enum TSGameMusic {
 
   public void stop() {
     music.stop();
-  }
-
-  public static void dispose() {
-    for (TSGameMusic music : TSGameMusic.values()) {
-      music.music.dispose();
-    }
   }
 }

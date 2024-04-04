@@ -5,20 +5,23 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.guelphengg.gameproject.*;
-import com.guelphengg.gameproject.*;
-import com.guelphengg.gameproject.griditems.*;
+import com.guelphengg.gameproject.griditems.LootItems;
+import com.guelphengg.gameproject.griditems.Player;
+import com.guelphengg.gameproject.griditems.WeaponType;
 import com.guelphengg.gameproject.scenes.scenecomponents.AttackAnimation;
 
 public class BattleScene extends Scene {
 
-  int i;
-  int j;
+  public boolean player1Attacking;
+  public boolean player2Attacking;
+  int player1Pos;
+  int player2Pos;
   int t;
   int swordAttackWait;
-  //temporary knowledge for learning how to move sprites
-
-  AttackAnimation attackP2Animation = new AttackAnimation(AnimationTextures.ELECTRIC_SPELL_SHEET);
-  AttackAnimation attackP1Animation = new AttackAnimation(AnimationTextures.ELECTRIC_SPELL_SHEET);
+  int s;
+  int o = 0;
+  int u;
+  int p = 0;
 
   public BattleScene() {
     super(GameState.BATTLE);
@@ -27,16 +30,15 @@ public class BattleScene extends Scene {
   @Override
   public void render() {
     renderBattleBackground();
-    if (i < 440) {
-      i++;
-      i++;
-    }
-    if (j < 440) {
-      j++;
-      j++;
-    }
-    t++;
-    t++;
+
+    if (player1Pos < 440)
+      player1Pos += 2;
+
+    if (player2Pos < 440)
+      player2Pos += 2;
+
+    t += 2;
+
     final BitmapFont font = SceneManager.getFont();
     final SpriteBatch batch = SceneManager.getSpriteBatch();
     font.getData().setScale(2F);
@@ -51,8 +53,8 @@ public class BattleScene extends Scene {
 
     //player#getCurrFrame() gets the current model that was chosen by player
 
-    batch.draw(player1Model, i - 200, 30, player1Model.getRegionWidth() * 3, player1Model.getRegionHeight() * 3);
-    batch.draw(player2Model, 1255 - j, 30, player2Model.getRegionWidth() * 3, player2Model.getRegionHeight() * 3);
+    batch.draw(player1Model, player1Pos - 200, 30, player1Model.getRegionWidth() * 3, player1Model.getRegionHeight() * 3);
+    batch.draw(player2Model, 1255 - player2Pos, 30, player2Model.getRegionWidth() * 3, player2Model.getRegionHeight() * 3);
     //Player one will stop at x:240, Player two will stop at x:815
     //player1 moving 250 since i start at -10
 
@@ -75,12 +77,12 @@ public class BattleScene extends Scene {
     //TODO Finish Attacks
     if (manager.getPlayer1().getPoints() < manager.getPlayer2().getPoints()) {
       player2Win();
-      if (t>1600){
+      if (t > 1600) {
 
         font.setColor(Accessor.getGameManager().getPlayer2().getSolidColour());
         font.getData().setScale(4);
 
-        drawCenteredText(batch, 300, 4, Accessor.getGameManager().getPlayer2().getName() +" WINS");
+        drawCenteredText(batch, 300, 4, Accessor.getGameManager().getPlayer2().getName() + " WINS");
 
         font.setColor(Color.BLACK);
         font.getData().setScale(3);
@@ -88,48 +90,50 @@ public class BattleScene extends Scene {
 
       }
     }
+
     if (manager.getPlayer2().getPoints() < manager.getPlayer1().getPoints()) {
       player1Win();
-      if (t>1600){
-
+      if (t > 1600) {
         font.setColor(Accessor.getGameManager().getPlayer1().getSolidColour());
         font.getData().setScale(4);
 
-        drawCenteredText(batch, 300, 4, Accessor.getGameManager().getPlayer1().getName() +" WINS");
+        drawCenteredText(batch, 300, 4, Accessor.getGameManager().getPlayer1().getName() + " WINS");
 
         font.setColor(Color.BLACK);
         font.getData().setScale(3);
         drawCenteredText(batch, 250, 3, "Press Space To Resume Game");
 
       }
+
     } else if (manager.getPlayer2().getPoints() == manager.getPlayer1().getPoints()) {
       if (Accessor.getGameManager().getPlayingPlayer() == Accessor.getGameManager().getPlayer1()) {
         player1WinDraw();
-        if (t>1600){
 
+        if (t > 1600) {
           font.setColor(Accessor.getGameManager().getPlayer1().getSolidColour());
           font.getData().setScale(4);
 
-          drawCenteredText(batch, 300, 4, Accessor.getGameManager().getPlayer1().getName() +" WINS");
+          drawCenteredText(batch, 300, 4, Accessor.getGameManager().getPlayer1().getName() + " WINS");
 
           font.setColor(Color.BLACK);
           font.getData().setScale(3);
           drawCenteredText(batch, 250, 3, "Press Space To Resume Game");
 
         }
+
       } else {
         player2WinDraw();
-        if (t>1600){
-
+        if (t > 1600) {
           font.setColor(Accessor.getGameManager().getPlayer2().getSolidColour());
           font.getData().setScale(4);
 
-          drawCenteredText(batch, 300, 4, Accessor.getGameManager().getPlayer2().getName() +" WINS");
+          drawCenteredText(batch, 300, 4, Accessor.getGameManager().getPlayer2().getName() + " WINS");
           font.setColor(Color.BLACK);
           font.getData().setScale(3);
           drawCenteredText(batch, 250, 3, "Press Space To Resume Game");
         }
       }
+
       font.setColor(Color.WHITE);
     }
 
@@ -142,7 +146,7 @@ public class BattleScene extends Scene {
 
     //Player1/2 Attacking in their respective attack classes. Movement code is inside the isAttacking code.
     //Need a variable to trigger these inside render
-    if (player1Attacking){ //==true
+    if (player1Attacking) { //==true
       final Player player1 = Accessor.getGameManager().getPlayer1();
       final WeaponType type = player1.weaponCheck();
       if (type == WeaponType.SWORD) {
@@ -151,14 +155,14 @@ public class BattleScene extends Scene {
 //        }
 //        batch.draw(player1Model, i - 200, 30, player1Model.getRegionWidth() * 3, player1Model.getRegionHeight() * 3);
         // Move forward
-        if (swordAttackWait == 0 && i < 800) {
-          i += 8;
+        if (swordAttackWait == 0 && player1Pos < 800) {
+          player1Pos += 8;
         } else {
           swordAttackWait++; // Increment time
         }
         // once b is 50 move backwards
         if (swordAttackWait > 150)
-          i = Math.max(i - 8, 439);
+          player1Pos = Math.max(player1Pos - 8, 439);
       }
       if (swordAttackWait > 200)
         swordAttackWait = 0;
@@ -172,15 +176,15 @@ public class BattleScene extends Scene {
       if (type == WeaponType.SWORD) {//something about how to time the j's. j will still be < 800 after it comes back from attacking and it will wanna attack again
 
         // Move forward
-        if (swordAttackWait == 0 && j < 800) {
-          j += 8;
+        if (swordAttackWait == 0 && player2Pos < 800) {
+          player2Pos += 8;
         } else {
           swordAttackWait++; // Increment time
         }
 
         // once b is 50 move backwards
         if (swordAttackWait > 150)
-          j = Math.max(j - 8, 439);
+          player2Pos = Math.max(player2Pos - 8, 439);
       }
       if (swordAttackWait > 200)
         swordAttackWait = 0;
@@ -192,12 +196,11 @@ public class BattleScene extends Scene {
     batch.end();
   }
 
-
   public void player1Win() {
-    if (t > 500 && t<1000) { //i > 439 previously (when they stop moving)
+    if (t > 500 && t < 1000) { //i > 439 previously (when they stop moving)
       player2Attack();
     }
-    if (t > 1050 && t<1550) {
+    if (t > 1050 && t < 1550) {
       player1Attack();
     }
 
@@ -217,12 +220,12 @@ public class BattleScene extends Scene {
   }
 
   public void player2Win() {
-     if (t > 500 && t<1000) { //i > 439 previously (when they stop moving)
-        player1Attack();
-      }
-      if (t > 1050 && t<1550) {
-        player2Attack();
-      }
+    if (t > 500 && t < 1000) { //i > 439 previously (when they stop moving)
+      player1Attack();
+    }
+    if (t > 1050 && t < 1550) {
+      player2Attack();
+    }
 
     final GameManager manager = Accessor.getGameManager();
 
@@ -239,10 +242,10 @@ public class BattleScene extends Scene {
   }
 
   public void player1WinDraw() {
-    if (t > 500 && t<1000) { //i > 439 previously (when they stop moving)
+    if (t > 500 && t < 1000) { //i > 439 previously (when they stop moving)
       player2Attack();
     }
-    if (t > 1050 && t<1550) {
+    if (t > 1050 && t < 1550) {
       player1Attack();
     }
 
@@ -256,10 +259,10 @@ public class BattleScene extends Scene {
   }
 
   public void player2WinDraw() {
-    if (t > 500 && t<1000) { //i > 439 previously (when they stop moving)
+    if (t > 500 && t < 1000) { //i > 439 previously (when they stop moving)
       player1Attack();
     }
-    if (t > 1050 && t<1550) {
+    if (t > 1050 && t < 1550) {
       player2Attack();
     }
 
@@ -275,8 +278,8 @@ public class BattleScene extends Scene {
 
   public void resetBattle() {
     swordAttackWait = 0;
-    i = -10;
-    j = -10;
+    player1Pos = -10;
+    player2Pos = -10;
     t = 0;
     s = 0;
     o = 0;
@@ -284,31 +287,29 @@ public class BattleScene extends Scene {
     p = 0;
   }
 
-  int s;
-  int o=0;
   private void player2Attack() {
 
     AnimationTextures hey = AttackAnimation.attackP2Animation();
     AttackAnimation attackP2Animation = new AttackAnimation(hey);
 
-    player2Attacking=true;
+    player2Attacking = true;
     final Player player2 = Accessor.getGameManager().getPlayer2();
     final WeaponType type = player2.weaponCheck();
     if (type == WeaponType.SWORD) {
       s = LootItems.SWORD.getAnimationSpeed();
-      if (o==0) TSGameSound.SWORD_SOUND.play();
+      if (o == 0) TSGameSound.SWORD_SOUND.play();
       for (int i = 0; i < s; i++) o++;
       o++;
-      if (t>600) attackP2Animation.draw(250, 25, 1.5);
+      if (t > 600) attackP2Animation.draw(250, 25, 1.5);
       //TODO Cycle through the different types of Swords/Wands/Bows to see specific weapon
     } else if (type == WeaponType.BOW) {
       s = LootItems.BOW.getAnimationSpeed();
-      if (o==0) TSGameSound.BOW_SOUND.play();
+      if (o == 0) TSGameSound.BOW_SOUND.play();
       for (int i = 0; i < s; i++) o++;
       attackP2Animation.draw(600 - o, 45, 0.2);
     } else if (type == WeaponType.WAND) {
       s = LootItems.ICE_WAND.getAnimationSpeed();
-      if (o==0) TSGameSound.MAGIC_SOUND.play();
+      if (o == 0) TSGameSound.MAGIC_SOUND.play();
       for (int i = 0; i < s; i++) o++;
       attackP2Animation.draw(620 - o, 25, 2.5);
     } else if (type == null) {
@@ -318,44 +319,40 @@ public class BattleScene extends Scene {
     }
     //TODO check which animation used
   }
- int u;
-  int p=0;
+
   private void player1Attack() {
     AnimationTextures hey = AttackAnimation.attackP1Animation();
     AttackAnimation attackP1Animation = new AttackAnimation(hey);
 
-    player1Attacking=true;
+    player1Attacking = true;
+
     final Player player1 = Accessor.getGameManager().getPlayer1();
     final WeaponType type = player1.weaponCheck();
 
-
-    if(type == WeaponType.SWORD){
+    if (type == WeaponType.SWORD) {
       u = LootItems.SWORD.getAnimationSpeed();
-      if (p==0) TSGameSound.SWORD_SOUND.play();
-      for (int i = 0; i<u; i++)p++;
+      if (p == 0) TSGameSound.SWORD_SOUND.play();
+      for (int i = 0; i < u; i++) p++;
       p++;
-      if (t>600) attackP1Animation.draw(730, 25, 1.5);
+      if (t > 600) attackP1Animation.draw(730, 25, 1.5);
       //TODO Cycle through the different types of Swords/Wands/Bows to see specific weapon
-    }
-    else if (type == WeaponType.BOW){
+
+    } else if (type == WeaponType.BOW) {
       u = LootItems.BOW.getAnimationSpeed();
-      if (p==0) TSGameSound.BOW_SOUND.play();
-      for (int i = 0; i<u; i++)p++;
-      attackP1Animation.draw(275+p, 45, 0.2);
-    }
-    else if (type == WeaponType.WAND){
+      if (p == 0) TSGameSound.BOW_SOUND.play();
+      for (int i = 0; i < u; i++) p++;
+      attackP1Animation.draw(275 + p, 45, 0.2);
+
+    } else if (type == WeaponType.WAND) {
       u = LootItems.ICE_WAND.getAnimationSpeed();
-      if (p==0) TSGameSound.MAGIC_SOUND.play();
-      for (int i = 0; i<u; i++)p++;
-      attackP1Animation.draw(290+p, 25, 2.5);
-    }
-    else if (type == null){
+      if (p == 0) TSGameSound.MAGIC_SOUND.play();
+      for (int i = 0; i < u; i++) p++;
+      attackP1Animation.draw(290 + p, 25, 2.5);
+
+    } else if (type == null) {
       u = 0;
-      for (int i = 0; i<u; i++)p++;
-      attackP1Animation.draw(290+p, 25, 1.5);
+      for (int i = 0; i < u; i++) p++;
+      attackP1Animation.draw(290 + p, 25, 1.5);
     }
   }
-
-  public boolean player1Attacking;
-  public boolean player2Attacking;
 }

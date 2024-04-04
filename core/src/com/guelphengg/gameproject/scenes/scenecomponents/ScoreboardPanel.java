@@ -13,18 +13,17 @@ import com.guelphengg.gameproject.util.AdvancedShapeRenderer;
 
 public class ScoreboardPanel {
 
-  boolean isMarket;
-  public ScoreboardPanel(){}
-
-  public ScoreboardPanel(boolean isMarket){
-    this.isMarket = isMarket;
-  }
   private final int width = (int) (SceneManager.getViewWidth() * 0.22);
   private final int height = (int) (SceneManager.getViewHeight() * 0.5);
-
   private final int x = (int) (SceneManager.getViewWidth() * 0.75);
   private final int y = (int) (SceneManager.getViewHeight() - (SceneManager.getViewHeight() * 0.05) - height);
   private final int adjFact = 20;
+  boolean isMarket;
+  public ScoreboardPanel() {
+  }
+  public ScoreboardPanel(boolean isMarket) {
+    this.isMarket = isMarket;
+  }
 
   // scoreboard panel width (includes background)
   public int getWidth() {
@@ -81,15 +80,15 @@ public class ScoreboardPanel {
 
     font.getData().setScale(1.3F);
     font.draw(batch, "Current Turn: " + manager.getPlayingPlayer().getName(), x + adjFact, y + height - 60);
-    if(isMarket) {
+    if (isMarket) {
       font.draw(batch, "Player: " + manager.getPlayingPlayer().getName(), x + adjFact, y + height - 90);
       font.draw(batch, "    Power: " + manager.getPlayingPlayer().getPower(), x + adjFact, y + height - 110);
       font.draw(batch, "    Points: " + manager.getPlayingPlayer().getPoints(), x + adjFact, y + height - 130);
       font.draw(batch, "    Coins: " + manager.getPlayingPlayer().getCoins(), x + adjFact, y + height - 150);
       font.draw(batch, "    Houses Looted: " + manager.getPlayingPlayer().getHousesLooted(), x + adjFact, y + height - 170);
       font.draw(batch, "    Time Played: " + manager.getPlayingPlayer().getPlayTime(), x + adjFact, y + height - 190);
-    }else{
-      if(manager.getPlayingPlayer() == manager.getPlayer1()){
+    } else {
+      if (manager.getPlayingPlayer() == manager.getPlayer1()) {
         Color colorP1 = manager.getPlayingPlayer().getCharacter().getColour();
         font.setColor(Color.GOLD);
       }
@@ -101,7 +100,7 @@ public class ScoreboardPanel {
       font.draw(batch, "    Houses Looted: " + manager.getPlayer1().getHousesLooted(), x + 10, y + height - 170);
       font.draw(batch, "    Time Played: " + manager.getPlayer1().getPlayTime(), x + 10, y + height - 190);
 
-      if(manager.getPlayingPlayer() == manager.getPlayer2()){
+      if (manager.getPlayingPlayer() == manager.getPlayer2()) {
         Color colorP2 = manager.getPlayingPlayer().getCharacter().getColour();
         font.setColor(Color.GOLD);
       }

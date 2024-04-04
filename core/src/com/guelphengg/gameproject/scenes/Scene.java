@@ -63,6 +63,7 @@ public abstract class Scene {
     batch.end();
 
   }
+
   protected void renderTrappedBackground() {
     final SpriteBatch batch = SceneManager.getSpriteBatch();
 
