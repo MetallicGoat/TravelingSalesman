@@ -13,41 +13,32 @@ import java.util.Random;
 
 public class GameManager {
 
-  // Initialize Default Players
-  private Player player1;
-  private Player player2;
-
-  // This grid defines what exists on what grid tiles (null = empty)
-  private GridObject[][] gridObjects;
-
   // How many turns before a house can be looted again
   private final int COUNT_MAX = 9;
-
   // for help menu to know where to return to after they press H
   boolean fromMenu;
   boolean fromRunning;
-
+  MarketScene marketScene = new MarketScene();
+  // Initialize Default Players
+  private Player player1;
+  private Player player2;
+  // This grid defines what exists on what grid tiles (null = empty)
+  private GridObject[][] gridObjects;
   // IF we are waiting for the user to press R
   // true by default cause first turn is always ready
   private boolean waitingForRoll;
   private int nextRoll; // Used to determine the roll of the dice
   private int turnsLeft; // How many more moves the playing player has left
-
   // The player who is currently playing
   private Player playingPlayer; // Player 1 always starts
-
   // What phase the game is currently in
   private GameState state;
-
   // Keeps track of how long ago a house was looted
   private int[][] houseCounter;
-
   // Weather or not the user is trying to view the large map (By holding V)
   private boolean largeMap;
-
   // If the dice is currently spinning to a predetermined roll
   private boolean diceRolling;
-
   // The last time a user pressed R successfully (in ms)
   private long lastRollTime;
 
@@ -79,8 +70,6 @@ public class GameManager {
     // TODO Maybe this should not be set here?
     state = GameState.MAIN_MENU;
   }
-
-  MarketScene marketScene = new MarketScene();
 
   public void startGame() {
     // Stop main menu music, and play main game music
@@ -265,9 +254,9 @@ public class GameManager {
           fromMenu = true;
           break;
 
-          // TODO THIS IS FOR TESTING PURPOSES ONLY
+        // TODO THIS IS FOR TESTING PURPOSES ONLY
         case Input.Keys.W:
-          for(int i = 0; i < 10; i++){
+          for (int i = 0; i < 10; i++) {
             player1.addPoints(LootItems.BEJEWELED_SWORD);
           }
           WinScene.reset();
@@ -426,9 +415,7 @@ public class GameManager {
 
           break;
       }
-    }
-
-    else if (this.state == GameState.BATTLE) {
+    } else if (this.state == GameState.BATTLE) {
       switch (keyCode) {
         case Input.Keys.SPACE: {
           // THE USER HAS EXISTED THE BATTLE
@@ -447,9 +434,7 @@ public class GameManager {
           break;
         }
       }
-    }
-
-    else if (this.state == GameState.MARKET) {
+    } else if (this.state == GameState.MARKET) {
       switch (keyCode) {
         case Input.Keys.SPACE: {
           Accessor.getGameManager().smoothlySetState(GameState.RUNNING);
@@ -489,8 +474,8 @@ public class GameManager {
       }
     }
 
-    if(this.state == GameState.WINSCREEN){
-      switch (keyCode){
+    if (this.state == GameState.WINSCREEN) {
+      switch (keyCode) {
         case Input.Keys.SPACE:
           // Reset the game manger for new game after a win
           resetManager();

@@ -21,13 +21,13 @@ public enum TSGameSound {
     this.sound = Gdx.audio.newSound(Gdx.files.internal(soundName));
   }
 
-  public void play() {
-    sound.play();
-  }
-
   public static void dispose() {
     for (TSGameSound sound : TSGameSound.values()) {
       sound.sound.dispose();
     }
+  }
+
+  public void play() {
+    sound.play();
   }
 }

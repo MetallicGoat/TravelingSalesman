@@ -36,9 +36,7 @@ public enum LootItems {
   EARTH_WAND("Earth Wand.png", 5, 50, 0, 10000, 0, ItemType.WEAPON, WeaponType.WAND, 6),
 
   TREASURE_MAP("TreasureMap.png", 0, 100, 0, 10000, 1, ItemType.OTHER, WeaponType.NOT_APPLICABLE, 0),
-  BLANK("Blank.png", 0,0, 0, 0, 0, ItemType.OTHER, WeaponType.NOT_APPLICABLE, 0);
-
-
+  BLANK("Blank.png", 0, 0, 0, 0, 0, ItemType.OTHER, WeaponType.NOT_APPLICABLE, 0);
 
 
   private final Texture texture;
@@ -129,14 +127,16 @@ public enum LootItems {
     return weaponType;
   }
 
-  public boolean containsItem(LootItems[] arr, LootItems item){
-    for(int i = 0; i<arr.length-1; i++){
-      if(arr[i] == item){
+  public boolean containsItem(LootItems[] arr, LootItems item) {
+    for (int i = 0; i < arr.length - 1; i++) {
+      if (arr[i] == item) {
         return true;
       }
     }
     return false;
   }
 
-  public int getAnimationSpeed() { return animationSpeed; }
+  public int getAnimationSpeed() {
+    return animationSpeed;
+  }
 }
