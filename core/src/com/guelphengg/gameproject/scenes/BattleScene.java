@@ -255,7 +255,7 @@ public class BattleScene extends Scene {
     } else if (type == WeaponType.BOW) {
       s = LootItems.BOW.getAnimationSpeed();
       for (int i = 0; i < s; i++) o++;
-      attackP2Animation.draw(620 - o, 25, 1.5);
+      attackP2Animation.draw(600 - o, 45, 0.2);
     } else if (type == WeaponType.WAND) {
       s = 2; //LootItems.WAND.getAnimationSpeed();
       for (int i = 0; i < s; i++) o++;
@@ -287,7 +287,7 @@ public class BattleScene extends Scene {
     else if (type == WeaponType.BOW){
       u = LootItems.BOW.getAnimationSpeed();
       for (int i = 0; i<u; i++)p++;
-      attackP1Animation.draw(290+p, 25, 1.5);
+      attackP1Animation.draw(275+p, 45, 0.2);
     }
     else if (type == WeaponType.WAND){
       u = LootItems.WAND.getAnimationSpeed();
