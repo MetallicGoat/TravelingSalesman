@@ -84,7 +84,7 @@ public class InventoryPanel {
     int x = 0;
     int y = 4;
     for (LootItems item : Accessor.getGameManager().getPlayingPlayer().getItems()) {
-      if (item.getItemType() == ItemType.WEAPON)
+      if ((item.getItemType() == ItemType.WEAPON) || y<0)
         continue;
 
       item.render(inventoryGrid, x, y);
