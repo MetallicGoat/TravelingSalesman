@@ -75,8 +75,6 @@ public class GameManager {
     largeMap = false;
     diceRolling = false;
     lastRollTime = 0;
-
-    // TODO Maybe this should not be set here?
     state = GameState.MAIN_MENU;
   }
 

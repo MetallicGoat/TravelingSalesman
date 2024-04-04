@@ -5,10 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.guelphengg.gameproject.Accessor;
-import com.guelphengg.gameproject.GameManager;
-import com.guelphengg.gameproject.GameState;
-import com.guelphengg.gameproject.SceneManager;
+import com.guelphengg.gameproject.*;
 import com.guelphengg.gameproject.util.Util;
 
 import java.util.Random;
@@ -21,19 +18,21 @@ public class WinScene extends Scene {
   private static int y = 0;
 
   private Animation<TextureRegion> elmoAnimation; // Must declare frame type (TextureRegion)
+  private Animation<TextureRegion> cookieAnimation; // Must declare frame type (TextureRegion)
 
   public WinScene() {
     super(GameState.WINSCREEN);
 
     // Setup the animation on class creation
-    create();
+    createElmo();
+    createCookie();
   }
 
   public static void reset() {
     x = (int) SceneManager.getViewWidth();
   }
 
-  public void create() {
+  public void createElmo() {
     final Texture elmoSheet = new Texture(Gdx.files.internal("elmoDanceSpriteSheet.png"));
 
     // Use the split utility method to create a 2D array of TextureRegions. This is
@@ -57,6 +56,30 @@ public class WinScene extends Scene {
     // Initialize the Animation with the frame interval and array of frames
     elmoAnimation = new Animation<>(0.05f, elmoFrames);
   }
+  public void createCookie() {
+    final Texture elmoSheet = Textures.COOKIE_SHEET.get();
+
+    // Use the split utility method to create a 2D array of TextureRegions. This is
+    // possible because this sprite sheet contains frames of equal size and they are
+    // all aligned.
+    final TextureRegion[][] tmp = TextureRegion.split(elmoSheet,
+            elmoSheet.getWidth() / 5,
+            elmoSheet.getHeight() / 3);
+
+    // Place the regions into a 1D array in the correct order, starting from the top
+    // left, going across first. The Animation constructor requires a 1D array.
+    final TextureRegion[] cookieFrames = new TextureRegion[15];
+
+    int index = 0;
+    for (int i = 0; i < 3; i++) {
+      for (int j = 0; j < 5; j++) {
+        cookieFrames[index++] = tmp[i][j];
+      }
+    }
+
+    // Initialize the Animation with the frame interval and array of frames
+    cookieAnimation = new Animation<>(0.10f, cookieFrames);
+  }
 
   @Override
   public void render() {
@@ -69,6 +92,7 @@ public class WinScene extends Scene {
 
     // Get current frame of animation for the current stateTime
     final TextureRegion currentFrame = elmoAnimation.getKeyFrame(Util.stateTime, true);
+    final TextureRegion currentFrame1 = cookieAnimation.getKeyFrame(Util.stateTime, true);
 
     batch.begin();
 
