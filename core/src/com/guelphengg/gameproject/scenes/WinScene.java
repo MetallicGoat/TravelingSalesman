@@ -99,7 +99,8 @@ public class WinScene extends Scene {
     // Move elmo a little
     x -= 10;
 
-    batch.draw(currentFrame, x, y); // Draw current frame at (50, 50)
+    batch.draw(currentFrame, x, y);
+    batch.draw(currentFrame1, 50, 50); // Draw current frame at (50, 50)
 
     if (manager.getPlayer1().getPoints() >= 10) {
       drawCenteredText(batch, 0, 4, manager.getPlayer1().getCharacter().getName() + " WINS!");
