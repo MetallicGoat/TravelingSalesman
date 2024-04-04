@@ -11,48 +11,45 @@ public enum LootItems {
   /**
    * This enum represents every collectable item in the game
    */
-  BEJEWELED_SWORD("Bejeweled_Sword.png", 10, 30, 0, 10000, 1, ItemType.WEAPON, WeaponType.SWORD, 0),
-  PALADIN_SHIELD("Paladin_Shield.png", 0, 50, 0.8, 10, 1, ItemType.TREASURE, WeaponType.NOT_APPLICABLE, 0),
-  GOLDEN_KEY("Golden_Key.png", 0, 30, 0, 10000, 1, ItemType.TREASURE, WeaponType.NOT_APPLICABLE, 0),
-  GOLDEN_GOBLET("Golden_Goblet.png", 0, 45, 0, 10000, 1, ItemType.TREASURE, WeaponType.NOT_APPLICABLE, 0),
-  CRYSTAL_GOBLET("Crystal_Goblet.png", 0, 77, 0, 10000, 1, ItemType.TREASURE, WeaponType.NOT_APPLICABLE, 0),
-  DIAMOND_RING("Diamond_Ring.png", 0, 80, 0, 10000, 1, ItemType.TREASURE, WeaponType.NOT_APPLICABLE, 0),
-  DRAGON_SCROLL("Dragon_Scroll.png", 0, 100, 0, 10000, 1, ItemType.TREASURE, WeaponType.NOT_APPLICABLE, 0),
+  BEJEWELED_SWORD("Bejeweled_Sword.png", 10, 30, 0,  ItemType.TREASURE, WeaponType.NOT_APPLICABLE, 0),
+  PALADIN_SHIELD("Paladin_Shield.png", 0, 50, 1, ItemType.TREASURE, WeaponType.NOT_APPLICABLE, 0),
+  GOLDEN_KEY("Golden_Key.png", 0, 30, 0,  ItemType.TREASURE, WeaponType.NOT_APPLICABLE, 0),
+  GOLDEN_GOBLET("Golden_Goblet.png", 0, 45, 0,  ItemType.TREASURE, WeaponType.NOT_APPLICABLE, 0),
+  CRYSTAL_GOBLET("Crystal_Goblet.png", 0, 77, 0,  ItemType.TREASURE, WeaponType.NOT_APPLICABLE, 0),
+  DIAMOND_RING("Diamond_Ring.png", 0, 80, 0,  ItemType.TREASURE, WeaponType.NOT_APPLICABLE, 0),
+  DRAGON_SCROLL("Dragon_Scroll.png", 0, 100, 0,  ItemType.TREASURE, WeaponType.NOT_APPLICABLE, 0),
 
-  SWORD("Sword.png", 2, 10, 0, 10000, 1, ItemType.WEAPON, WeaponType.SWORD, 0),
-  ICE_SWORD("Ice Sword.png", 10, 100, 0, 10000, 0, ItemType.WEAPON, WeaponType.SWORD, 0),
-  FIRE_SWORD("Fire Sword.png", 15, 150, 0, 10000, 0, ItemType.WEAPON, WeaponType.SWORD, 0),
-  EARTH_SWORD("Earth Sword.png", 5, 50, 0, 10000, 0, ItemType.WEAPON, WeaponType.SWORD, 0),
+  SWORD("Sword.png", 2, 10, 0,  ItemType.WEAPON, WeaponType.SWORD, 0),
+  ICE_SWORD("Ice Sword.png", 10, 100, 0, ItemType.WEAPON, WeaponType.SWORD, 0),
+  FIRE_SWORD("Fire Sword.png", 15, 150, 0, ItemType.WEAPON, WeaponType.SWORD, 0),
+  EARTH_SWORD("Earth Sword.png", 5, 50, 0, ItemType.WEAPON, WeaponType.SWORD, 0),
 
-  BOW("Bow.png", 2, 16, 0, 10000, 1, ItemType.WEAPON, WeaponType.BOW, 9),
-  ICE_BOW("Ice_Bow_Pull_2.png", 10, 100, 0, 10000, 0, ItemType.WEAPON, WeaponType.BOW, 9),
-  FIRE_BOW("Final_Fire_Demon_Bow_Pull_0.png", 15, 150, 0, 10000, 0, ItemType.WEAPON, WeaponType.BOW, 9),
-  EARTH_BOW("Earth_Bow.png", 5, 50, 0, 10000, 0, ItemType.WEAPON, WeaponType.BOW, 9),
+  BOW("Bow.png", 2, 16, 0,  ItemType.WEAPON, WeaponType.BOW, 9),
+  ICE_BOW("Ice_Bow_Pull_2.png", 10, 100, 0, ItemType.WEAPON, WeaponType.BOW, 9),
+  FIRE_BOW("Final_Fire_Demon_Bow_Pull_0.png", 15, 150, 0, ItemType.WEAPON, WeaponType.BOW, 9),
+  EARTH_BOW("Earth_Bow.png", 5, 50, 0, ItemType.WEAPON, WeaponType.BOW, 9),
 
   // WAND("TreasureX.png", 2, 100, 0, 10000, 0, ItemType.WEAPON, WeaponType.WAND, 6),
 
-  ICE_WAND("Ice Wand.png", 10, 100, 0, 10000, 0, ItemType.WEAPON, WeaponType.WAND, 6),
-  GOLDEN_WAND("Golden Wand.png", 15, 150, 0, 10000, 0, ItemType.WEAPON, WeaponType.WAND, 6),
-  EARTH_WAND("Earth Wand.png", 5, 50, 0, 10000, 0, ItemType.WEAPON, WeaponType.WAND, 6),
+  ICE_WAND("Ice Wand.png", 10, 100, 0, ItemType.WEAPON, WeaponType.WAND, 6),
+  GOLDEN_WAND("Golden Wand.png", 15, 150, 0, ItemType.WEAPON, WeaponType.WAND, 6),
+  EARTH_WAND("Earth Wand.png", 5, 50, 0, ItemType.WEAPON, WeaponType.WAND, 6),
 
-  TREASURE_MAP("TreasureMap.png", 0, 100, 0, 10000, 1, ItemType.OTHER, WeaponType.NOT_APPLICABLE, 0),
-  BLANK("Blank.png", 0, 0, 0, 0, 0, ItemType.OTHER, WeaponType.NOT_APPLICABLE, 0);
-
+  TREASURE_MAP("TreasureMap.png", 0, 100, 0,  ItemType.OTHER, WeaponType.NOT_APPLICABLE, 0),
+  BLANK("Blank.png", 0, 0, 0, ItemType.OTHER, WeaponType.NOT_APPLICABLE, 0);
 
   private final Texture texture;
   private final int damage;
   private final int sellPrice;
-  private final int durability;
   private final int itemPower;
   private final ItemType itemType;
   private final WeaponType weaponType;
   private final int animationSpeed;
 
   // id represents the file name of the texture
-  LootItems(String id, int damage, int sellPrice, double protection, int durability, int power, ItemType type, WeaponType weaponType, int speed) {
+  LootItems(String id, int damage, int sellPrice, int power, ItemType type, WeaponType weaponType, int speed) {
     this.texture = new Texture(id);
     this.damage = damage;
-    this.durability = durability;
     this.sellPrice = sellPrice;
     this.itemPower = power;
     this.itemType = type;
@@ -102,17 +99,12 @@ public enum LootItems {
     grid.renderTextureInGrid(x, y, texture);
   }
 
-
   public int getItemPower() {
     return itemPower;
   }
 
   public int getDamage() {
     return damage;
-  }
-
-  public int getDurability() {
-    return durability;
   }
 
   public int getSellPrice() {
@@ -125,15 +117,6 @@ public enum LootItems {
 
   public WeaponType getWeaponType() {
     return weaponType;
-  }
-
-  public boolean containsItem(LootItems[] arr, LootItems item) {
-    for (int i = 0; i < arr.length - 1; i++) {
-      if (arr[i] == item) {
-        return true;
-      }
-    }
-    return false;
   }
 
   public int getAnimationSpeed() {

@@ -11,11 +11,14 @@ import com.guelphengg.gameproject.GameState;
 import com.guelphengg.gameproject.SceneManager;
 import com.guelphengg.gameproject.util.Util;
 
+import java.util.Random;
+
 public class WinScene extends Scene {
 
   private static final int FRAME_COLS = 10, FRAME_ROWS = 5;
 
   private static int x = 0;
+  private static int y = 0;
 
   private Animation<TextureRegion> elmoAnimation; // Must declare frame type (TextureRegion)
 
@@ -70,9 +73,9 @@ public class WinScene extends Scene {
     batch.begin();
 
     // Move elmo a little
-    x -= 2;
+    x -= 10;
 
-    batch.draw(currentFrame, x, 400); // Draw current frame at (50, 50)
+    batch.draw(currentFrame, x, y); // Draw current frame at (50, 50)
 
     if (manager.getPlayer1().getPoints() >= 10) {
       drawCenteredText(batch, 0, 4, manager.getPlayer1().getCharacter().getName() + " WINS!");
@@ -89,8 +92,9 @@ public class WinScene extends Scene {
     batch.end();
 
     // Allows it so that Elmo loops across the screen when it leaves frame view
-    if (x == -currentFrame.getRegionWidth()) {
+    if (x <= -currentFrame.getRegionWidth()) {
       reset();
+      y = new Random().nextInt(500);
     }
   }
 }

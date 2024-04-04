@@ -266,7 +266,9 @@ public class GameManager {
           for (int i = 0; i < 10; i++) {
             player1.addPoints(LootItems.BEJEWELED_SWORD);
           }
+
           WinScene.reset();
+          TSGameMusic.WINNING_MUSIC.play();
           smoothlySetState(GameState.WINSCREEN);
           break;
       }
@@ -338,6 +340,7 @@ public class GameManager {
 
           if (player1.getPoints() >= 10 || player2.getPoints() >= 10) {
             WinScene.reset();
+            TSGameMusic.WINNING_MUSIC.play();
             smoothlySetState(GameState.WINSCREEN);
           }
 
@@ -478,14 +481,10 @@ public class GameManager {
     }
 
     if (this.state == GameState.WINSCREEN) {
-      TSGameMusic.MAIN_GAME_MUSIC.stop();
-      TSGameMusic.MAIN_MENU_MUSIC.stop();
-      TSGameMusic.WINNING_MUSIC.play();
       switch (keyCode) {
         case Input.Keys.SPACE: {
           // Reset the game manger for new game after a win
           resetManager();
-          TSGameMusic.WINNING_MUSIC.stop();
 
           // Send em to main menu
           smoothlySetState(GameState.MAIN_MENU);
