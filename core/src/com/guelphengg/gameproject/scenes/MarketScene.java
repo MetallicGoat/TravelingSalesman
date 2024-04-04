@@ -130,6 +130,7 @@ public class MarketScene extends Scene {
 
         // prints helpful information and prompts
         drawCenteredText(batch, 250, 3.3F, "Welcome To The Market");
+        drawCenteredText(batch, 30, 2.5F, "Click the Number on Your Keyboard to Buy an Item");
         drawCenteredText(batch, -300, 2.5F, "Press [SPACE] to return to the map");
 
         batch.end();
@@ -139,6 +140,7 @@ public class MarketScene extends Scene {
     public void canBuy(int index) {
         final GameManager manager = Accessor.getGameManager();
         if ((manager.getPlayingPlayer().getCoins() >= sellItems[index].getSellPrice())&&(!sellItems[index].equals(LootItems.BLANK))&&(!manager.getPlayingPlayer().getItems().contains(sellItems[index]))) {
+            manager.getPlayingPlayer().removeWeapon();
             manager.getPlayingPlayer().addPower(sellItems[index]);
             manager.getPlayingPlayer().addLoot(sellItems[index]);
             manager.getPlayingPlayer().removeCoins(sellItems[index].getSellPrice());
