@@ -307,7 +307,7 @@ public class BattleScene extends Scene {
       for (int i = 0; i < s; i++) o++;
       attackP2Animation.draw(600 - o, 45, 0.2);
     } else if (type == WeaponType.WAND) {
-      s = LootItems.WAND.getAnimationSpeed();
+      s = LootItems.ICE_WAND.getAnimationSpeed();
       if (o==0) TSGameSound.MAGIC_SOUND.play();
       for (int i = 0; i < s; i++) o++;
       attackP2Animation.draw(620 - o, 25, 2.5);
@@ -344,7 +344,7 @@ public class BattleScene extends Scene {
       attackP1Animation.draw(275+p, 45, 0.2);
     }
     else if (type == WeaponType.WAND){
-      u = LootItems.WAND.getAnimationSpeed();
+      u = LootItems.ICE_WAND.getAnimationSpeed();
       if (p==0) TSGameSound.MAGIC_SOUND.play();
       for (int i = 0; i<u; i++)p++;
       attackP1Animation.draw(290+p, 25, 2.5);
