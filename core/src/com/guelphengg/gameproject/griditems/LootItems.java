@@ -29,7 +29,8 @@ public enum LootItems {
   FIRE_BOW("Final_Fire_Demon_Bow_Pull_0.png", 15, 150, 0, 10000, 0, ItemType.WEAPON, WeaponType.BOW, 9),
   EARTH_BOW("Earth_Bow.png", 5, 50, 0, 10000, 0, ItemType.WEAPON, WeaponType.BOW, 9),
 
-  WAND("TreasureX.png", 2, 100, 0, 10000, 0, ItemType.WEAPON, WeaponType.WAND, 6),
+  // WAND("TreasureX.png", 2, 100, 0, 10000, 0, ItemType.WEAPON, WeaponType.WAND, 6),
+
   ICE_WAND("Ice Wand.png", 10, 100, 0, 10000, 0, ItemType.WEAPON, WeaponType.WAND, 6),
   GOLDEN_WAND("Golden Wand.png", 15, 150, 0, 10000, 0, ItemType.WEAPON, WeaponType.WAND, 6),
   EARTH_WAND("Earth Wand.png", 5, 50, 0, 10000, 0, ItemType.WEAPON, WeaponType.WAND, 6),
@@ -71,12 +72,18 @@ public enum LootItems {
       }
     }
 
+    // If players dont have a weapon, they might find a basic one in a loot house
+    if (player.getWeaponDamage() == 0) {
+      treasures.add(BOW);
+      treasures.add(SWORD);
+    }
+
     Collections.shuffle(treasures);
 
     return treasures.get(0);
   }
 
-  public static List<LootItems> getWeapons(Player player) {
+  public static List<LootItems> getMarketWeapons(Player player) {
     final List<LootItems> weapons = new ArrayList<>();
 
     for (LootItems item : values()) {
@@ -84,6 +91,10 @@ public enum LootItems {
         weapons.add(item);
       }
     }
+
+    // Dont sell regular weapons in the shop
+    weapons.remove(SWORD);
+    weapons.remove(BOW);
 
     return weapons;
   }
