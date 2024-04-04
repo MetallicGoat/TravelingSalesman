@@ -475,14 +475,20 @@ public class GameManager {
     }
 
     if (this.state == GameState.WINSCREEN) {
+      TSGameMusic.MAIN_GAME_MUSIC.stop();
+      TSGameMusic.MAIN_MENU_MUSIC.stop();
+      TSGameMusic.WINNING_MUSIC.play();
       switch (keyCode) {
-        case Input.Keys.SPACE:
+        case Input.Keys.SPACE: {
           // Reset the game manger for new game after a win
           resetManager();
+          TSGameMusic.WINNING_MUSIC.stop();
 
           // Send em to main menu
           smoothlySetState(GameState.MAIN_MENU);
+          TSGameMusic.MAIN_MENU_MUSIC.play();
           break;
+        }
       }
     }
   }

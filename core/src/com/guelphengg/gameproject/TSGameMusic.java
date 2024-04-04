@@ -8,7 +8,8 @@ public enum TSGameMusic {
   MAIN_GAME_MUSIC("MainGameTS.mp3"),
   BATTLE_MUSIC("BattleMusic.mp3"),
   TRAPPED_MUSIC("TrappedMusic.mp3"),
-  MARKET_MUSIC("MarketMusic.mp3");
+  MARKET_MUSIC("MarketMusic.mp3"),
+  WINNING_MUSIC("Celebration.mp3");
 
   final Music music;
 
