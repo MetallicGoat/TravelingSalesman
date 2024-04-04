@@ -14,9 +14,9 @@ public class TrappedScene extends Scene {
 
   @Override
   public void render() {
-    //renderBackground(0.5f);
     final SpriteBatch batch = SceneManager.getSpriteBatch();
     final BitmapFont font = SceneManager.getFont();
+
     renderTrappedBackground();
 
     batch.begin();

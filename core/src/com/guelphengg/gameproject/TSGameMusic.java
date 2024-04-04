@@ -11,6 +11,9 @@ public enum TSGameMusic {
   MARKET_MUSIC("MarketMusic.mp3"),
   WINNING_MUSIC("Celebration.mp3");
 
+
+  public static Music currMusic = null;
+
   final Music music;
 
   TSGameMusic(String musicName) {
@@ -25,11 +28,12 @@ public enum TSGameMusic {
   }
 
   public void play() {
+    if (currMusic != null)
+      currMusic.stop();
+
     music.setLooping(true);
     music.play();
-  }
 
-  public void stop() {
-    music.stop();
+    currMusic = music;
   }
 }

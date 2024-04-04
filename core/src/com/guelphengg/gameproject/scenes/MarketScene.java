@@ -155,7 +155,7 @@ public class MarketScene extends Scene {
   }
 
   // logic that checks if the player can buy the item at a specific index
-  public void canBuy(int index) {
+  public static void canBuy(int index) {
     final GameManager manager = Accessor.getGameManager();
     if ((manager.getPlayingPlayer().getCoins() >= sellItems[index].getSellPrice()) && (!sellItems[index].equals(LootItems.BLANK)) && (!manager.getPlayingPlayer().getItems().contains(sellItems[index]))) {
       manager.getPlayingPlayer().addPower(sellItems[index]);

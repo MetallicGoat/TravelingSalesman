@@ -15,30 +15,39 @@ public class GameManager {
 
   // How many turns before a house can be looted again
   private final int COUNT_MAX = 9;
+
   // for help menu to know where to return to after they press H
   boolean fromMenu;
   boolean fromRunning;
-  MarketScene marketScene = new MarketScene();
+
   // Initialize Default Players
   private Player player1;
   private Player player2;
+
   // This grid defines what exists on what grid tiles (null = empty)
   private GridObject[][] gridObjects;
+
   // IF we are waiting for the user to press R
   // true by default cause first turn is always ready
   private boolean waitingForRoll;
   private int nextRoll; // Used to determine the roll of the dice
   private int turnsLeft; // How many more moves the playing player has left
+
   // The player who is currently playing
   private Player playingPlayer; // Player 1 always starts
+
   // What phase the game is currently in
   private GameState state;
+
   // Keeps track of how long ago a house was looted
   private int[][] houseCounter;
+
   // Weather or not the user is trying to view the large map (By holding V)
   private boolean largeMap;
+
   // If the dice is currently spinning to a predetermined roll
   private boolean diceRolling;
+
   // The last time a user pressed R successfully (in ms)
   private long lastRollTime;
 
@@ -73,7 +82,6 @@ public class GameManager {
 
   public void startGame() {
     // Stop main menu music, and play main game music
-    TSGameMusic.MAIN_MENU_MUSIC.stop();
     TSGameMusic.MAIN_GAME_MUSIC.play();
 
     // Generate all landmarks
@@ -224,7 +232,6 @@ public class GameManager {
     if ((player1.getX() == player2.getX() && player1.getY() == player2.getY()) && !player1.isAtStart()) {
 
       // Start Battle music
-      TSGameMusic.MAIN_GAME_MUSIC.stop();
       TSGameMusic.BATTLE_MUSIC.play();
 
       // Play battle sound
@@ -401,7 +408,6 @@ public class GameManager {
           playingPlayer.removePoints(1);
           smoothlySetState(GameState.RUNNING);
 
-          TSGameMusic.TRAPPED_MUSIC.stop();
           TSGameMusic.MAIN_GAME_MUSIC.play();
 
           break;
@@ -410,7 +416,6 @@ public class GameManager {
           playingPlayer.removeCoins(30);
           smoothlySetState(GameState.RUNNING);
 
-          TSGameMusic.TRAPPED_MUSIC.stop();
           TSGameMusic.MAIN_GAME_MUSIC.play();
 
           break;
@@ -421,7 +426,6 @@ public class GameManager {
           // THE USER HAS EXISTED THE BATTLE
 
           // Return to normal music
-          TSGameMusic.BATTLE_MUSIC.stop();
           TSGameMusic.MAIN_GAME_MUSIC.play();
 
           // It is possible the user entered a battle but is still on a square that opens a scene
@@ -439,36 +443,35 @@ public class GameManager {
         case Input.Keys.SPACE: {
           Accessor.getGameManager().smoothlySetState(GameState.RUNNING);
 
-          TSGameMusic.MARKET_MUSIC.stop();
           TSGameMusic.MAIN_GAME_MUSIC.play();
           break;
         }
         case Input.Keys.NUM_0: {
-          marketScene.canBuy(0);
+          MarketScene.canBuy(0);
           break;
         }
         case Input.Keys.NUM_1: {
-          marketScene.canBuy(1);
+          MarketScene.canBuy(1);
           break;
         }
         case Input.Keys.NUM_2: {
-          marketScene.canBuy(2);
+          MarketScene.canBuy(2);
           break;
         }
         case Input.Keys.NUM_3: {
-          marketScene.canBuy(3);
+          MarketScene.canBuy(3);
           break;
         }
         case Input.Keys.NUM_4: {
-          marketScene.canBuy(4);
+          MarketScene.canBuy(4);
           break;
         }
         case Input.Keys.NUM_5: {
-          marketScene.canBuy(5);
+          MarketScene.canBuy(5);
           break;
         }
         case Input.Keys.NUM_6: {
-          marketScene.canBuy(6);
+          MarketScene.canBuy(6);
           break;
         }
       }
@@ -580,7 +583,6 @@ public class GameManager {
     if (playerOn(GridObject.TRAPPED_HOUSE)) {
       smoothlySetState(GameState.TRAPPED);
 
-      TSGameMusic.MAIN_GAME_MUSIC.stop();
       TSGameMusic.TRAPPED_MUSIC.play();
 
       return true;
@@ -591,7 +593,6 @@ public class GameManager {
       MarketScene.reset();
       smoothlySetState(GameState.MARKET);
 
-      TSGameMusic.MAIN_GAME_MUSIC.stop();
       TSGameMusic.MARKET_MUSIC.play();
 
       return true;
