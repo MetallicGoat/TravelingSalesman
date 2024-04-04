@@ -69,17 +69,28 @@ public class AttackAnimation {
       else if (Accessor.getGameManager().getPlayer1().getWeaponDamage() == 10){
         return AnimationTextures.ICE_SLASH_SHEET;
       }
-      else if (Accessor.getGameManager().getPlayer1().getWeaponDamage() == 10){
+      else if (Accessor.getGameManager().getPlayer1().getWeaponDamage() == 15){
         return AnimationTextures.FIRE_SLASH_SHEET;
       }
     } else if (type == WeaponType.BOW) {
-      return AnimationTextures.ELECTRIC_SPELL_SHEET;
+      return AnimationTextures.RIGHT_ARROW;
 
     } else if (type == WeaponType.WAND) {
-      return AnimationTextures.EARTH_SPELL_SHEET;
+      if (Accessor.getGameManager().getPlayer1().getWeaponDamage() == 2){
+        return AnimationTextures.BASIC_SPELL_SHEET;
+      }
+      else if (Accessor.getGameManager().getPlayer1().getWeaponDamage() == 5){
+        return AnimationTextures.EARTH_SPELL_SHEET;
+      }
+      else if (Accessor.getGameManager().getPlayer1().getWeaponDamage() == 10){
+        return AnimationTextures.ICE_SPELL_SHEET;
+      }
+      else if (Accessor.getGameManager().getPlayer1().getWeaponDamage() == 15){
+        return AnimationTextures.ELECTRIC_SPELL_SHEET;
+      }
 
     } else if (type == null) {
-      return AnimationTextures.FIRE_SLASH_SHEET;
+      return AnimationTextures.BASIC_SLASH_SHEET;
     }
     return AnimationTextures.BASIC_SLASH_SHEET;
   }
@@ -97,17 +108,28 @@ public class AttackAnimation {
       else if (Accessor.getGameManager().getPlayer2().getWeaponDamage() == 10){
         return AnimationTextures.ICE_SLASH_SHEET;
       }
-      else if (Accessor.getGameManager().getPlayer2().getWeaponDamage() == 10){
+      else if (Accessor.getGameManager().getPlayer2().getWeaponDamage() == 15){
         return AnimationTextures.FIRE_SLASH_SHEET;
       }
     } else if (type == WeaponType.BOW) {
-      return AnimationTextures.ELECTRIC_SPELL_SHEET;
+      return AnimationTextures.LEFT_ARROW;
 
     } else if (type == WeaponType.WAND) {
-      return AnimationTextures.EARTH_SPELL_SHEET;
+      if (Accessor.getGameManager().getPlayer1().getWeaponDamage() == 2){
+        return AnimationTextures.BASIC_SPELL_SHEET;
+      }
+      else if (Accessor.getGameManager().getPlayer1().getWeaponDamage() == 5){
+        return AnimationTextures.EARTH_SPELL_SHEET;
+      }
+      else if (Accessor.getGameManager().getPlayer1().getWeaponDamage() == 10){
+        return AnimationTextures.ICE_SPELL_SHEET;
+      }
+      else if (Accessor.getGameManager().getPlayer1().getWeaponDamage() == 15){
+        return AnimationTextures.ELECTRIC_SPELL_SHEET;
+      }
 
     } else if (type == null) {
-      return AnimationTextures.FIRE_SLASH_SHEET;
+      return AnimationTextures.BASIC_SLASH_SHEET;
     }
     return AnimationTextures.BASIC_SLASH_SHEET;
   }
