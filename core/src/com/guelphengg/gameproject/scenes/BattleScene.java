@@ -16,12 +16,12 @@ public class BattleScene extends Scene {
   public boolean player2Attacking;
   int player1Pos;
   int player2Pos;
-  int t;
+  int time;
   int swordAttackWait;
-  int s;
-  int o = 0;
-  int u;
-  int p = 0;
+  int anmSpeed2;
+  int anmTimer2 = 0;
+  int anmSpeed1;
+  int anmTimer1 = 0;
 
   public BattleScene() {
     super(GameState.BATTLE);
@@ -37,7 +37,7 @@ public class BattleScene extends Scene {
     if (player2Pos < 440)
       player2Pos += 2;
 
-    t += 2;
+    time += 2;
 
     final BitmapFont font = SceneManager.getFont();
     final SpriteBatch batch = SceneManager.getSpriteBatch();
@@ -77,7 +77,7 @@ public class BattleScene extends Scene {
     //TODO Finish Attacks
     if (manager.getPlayer1().getPoints() < manager.getPlayer2().getPoints()) {
       player2Win();
-      if (t > 1600) {
+      if (time > 1600) {
 
         font.setColor(Accessor.getGameManager().getPlayer2().getSolidColour());
         font.getData().setScale(4);
@@ -94,7 +94,7 @@ public class BattleScene extends Scene {
     if (manager.getPlayer2().getPoints() < manager.getPlayer1().getPoints()) {
       player1Win();
 
-      if (t > 1600) {
+      if (time > 1600) {
         font.setColor(Accessor.getGameManager().getPlayer1().getSolidColour());
         font.getData().setScale(4);
 
@@ -109,7 +109,7 @@ public class BattleScene extends Scene {
       if (Accessor.getGameManager().getPlayingPlayer() == Accessor.getGameManager().getPlayer1()) {
         player1WinDraw();
 
-        if (t > 1600) {
+        if (time > 1600) {
           font.setColor(Accessor.getGameManager().getPlayer1().getSolidColour());
           font.getData().setScale(4);
 
@@ -123,7 +123,7 @@ public class BattleScene extends Scene {
 
       } else {
         player2WinDraw();
-        if (t > 1600) {
+        if (time > 1600) {
           font.setColor(Accessor.getGameManager().getPlayer2().getSolidColour());
           font.getData().setScale(4);
 
@@ -197,10 +197,10 @@ public class BattleScene extends Scene {
   }
 
   public void player1Win() {
-    if (t > 500 && t < 1000) { //i > 439 previously (when they stop moving)
+    if (time > 500 && time < 1000) { //i > 439 previously (when they stop moving)
       player2Attack();
     }
-    if (t > 1050 && t < 1550) {
+    if (time > 1050 && time < 1550) {
       player1Attack();
     }
 
@@ -220,10 +220,10 @@ public class BattleScene extends Scene {
   }
 
   public void player2Win() {
-    if (t > 500 && t < 1000) { //i > 439 previously (when they stop moving)
+    if (time > 500 && time < 1000) { //i > 439 previously (when they stop moving)
       player1Attack();
     }
-    if (t > 1050 && t < 1550) {
+    if (time > 1050 && time < 1550) {
       player2Attack();
     }
 
@@ -242,10 +242,10 @@ public class BattleScene extends Scene {
   }
 
   public void player1WinDraw() {
-    if (t > 500 && t < 1000) { //i > 439 previously (when they stop moving)
+    if (time > 500 && time < 1000) { //i > 439 previously (when they stop moving)
       player2Attack();
     }
-    if (t > 1050 && t < 1550) {
+    if (time > 1050 && time < 1550) {
       player1Attack();
     }
 
@@ -259,10 +259,10 @@ public class BattleScene extends Scene {
   }
 
   public void player2WinDraw() {
-    if (t > 500 && t < 1000) { //i > 439 previously (when they stop moving)
+    if (time > 500 && time < 1000) { //i > 439 previously (when they stop moving)
       player1Attack();
     }
-    if (t > 1050 && t < 1550) {
+    if (time > 1050 && time < 1550) {
       player2Attack();
     }
 
@@ -280,49 +280,49 @@ public class BattleScene extends Scene {
     swordAttackWait = 0;
     player1Pos = -10;
     player2Pos = -10;
-    t = 0;
-    s = 0;
-    o = 0;
-    u = 0;
-    p = 0;
+    time = 0;
+    anmSpeed2 = 0;
+    anmTimer2 = 0;
+    anmSpeed1 = 0;
+    anmTimer1 = 0;
   }
 
   private void player2Attack() {
 
-    AnimationTextures hey = AttackAnimation.attackP2Animation();
-    AttackAnimation attackP2Animation = new AttackAnimation(hey);
+    AnimationTextures playerAnimation = AttackAnimation.attackP2Animation();
+    AttackAnimation attackP2Animation = new AttackAnimation(playerAnimation);
 
     player2Attacking = true;
     final Player player2 = Accessor.getGameManager().getPlayer2();
     final WeaponType type = player2.weaponCheck();
     if (type == WeaponType.SWORD) {
-      s = LootItems.SWORD.getAnimationSpeed();
-      if (o == 0) TSGameSound.SWORD_SOUND.play();
-      for (int i = 0; i < s; i++) o++;
-      o++;
-      if (t > 600) attackP2Animation.draw(250, 25, 1.5);
+      anmSpeed2 = LootItems.SWORD.getAnimationSpeed();
+      if (anmTimer2 == 0) TSGameSound.SWORD_SOUND.play();
+      for (int i = 0; i < anmSpeed2; i++) anmTimer2++;
+      anmTimer2++;
+      if (time > 600) attackP2Animation.draw(250, 25, 1.5);
       //TODO Cycle through the different types of Swords/Wands/Bows to see specific weapon
     } else if (type == WeaponType.BOW) {
-      s = LootItems.BOW.getAnimationSpeed();
-      if (o == 0) TSGameSound.BOW_SOUND.play();
-      for (int i = 0; i < s; i++) o++;
-      attackP2Animation.draw(600 - o, 45, 0.2);
+      anmSpeed2 = LootItems.BOW.getAnimationSpeed();
+      if (anmTimer2 == 0) TSGameSound.BOW_SOUND.play();
+      for (int i = 0; i < anmSpeed2; i++) anmTimer2++;
+      attackP2Animation.draw(600 - anmTimer2, 45, 0.2);
     } else if (type == WeaponType.WAND) {
-      s = LootItems.ICE_WAND.getAnimationSpeed();
-      if (o == 0) TSGameSound.MAGIC_SOUND.play();
-      for (int i = 0; i < s; i++) o++;
-      attackP2Animation.draw(620 - o, 25, 2.5);
+      anmSpeed2 = LootItems.ICE_WAND.getAnimationSpeed();
+      if (anmTimer2 == 0) TSGameSound.MAGIC_SOUND.play();
+      for (int i = 0; i < anmSpeed2; i++) anmTimer2++;
+      attackP2Animation.draw(620 - anmTimer2, 25, 2.5);
     } else if (type == null) {
-      s = 0;
-      for (int i = 0; i < s; i++) o++;
-      attackP2Animation.draw(620 - o, 25, 1.5);
+      anmSpeed2 = 0;
+      for (int i = 0; i < anmSpeed2; i++) anmTimer2++;
+      attackP2Animation.draw(620 - anmTimer2, 25, 1.5);
     }
     //TODO check which animation used
   }
 
   private void player1Attack() {
-    AnimationTextures hey = AttackAnimation.attackP1Animation();
-    AttackAnimation attackP1Animation = new AttackAnimation(hey);
+    AnimationTextures playerAnimation = AttackAnimation.attackP1Animation();
+    AttackAnimation attackP1Animation = new AttackAnimation(playerAnimation);
 
     player1Attacking = true;
 
@@ -330,29 +330,29 @@ public class BattleScene extends Scene {
     final WeaponType type = player1.weaponCheck();
 
     if (type == WeaponType.SWORD) {
-      u = LootItems.SWORD.getAnimationSpeed();
-      if (p == 0) TSGameSound.SWORD_SOUND.play();
-      for (int i = 0; i < u; i++) p++;
-      p++;
-      if (t > 600) attackP1Animation.draw(730, 25, 1.5);
+      anmSpeed1 = LootItems.SWORD.getAnimationSpeed();
+      if (anmTimer1 == 0) TSGameSound.SWORD_SOUND.play();
+      for (int i = 0; i < anmSpeed1; i++) anmTimer1++;
+      anmTimer1++;
+      if (time > 600) attackP1Animation.draw(730, 25, 1.5);
       //TODO Cycle through the different types of Swords/Wands/Bows to see specific weapon
 
     } else if (type == WeaponType.BOW) {
-      u = LootItems.BOW.getAnimationSpeed();
-      if (p == 0) TSGameSound.BOW_SOUND.play();
-      for (int i = 0; i < u; i++) p++;
-      attackP1Animation.draw(275 + p, 45, 0.2);
+      anmSpeed1 = LootItems.BOW.getAnimationSpeed();
+      if (anmTimer1 == 0) TSGameSound.BOW_SOUND.play();
+      for (int i = 0; i < anmSpeed1; i++) anmTimer1++;
+      attackP1Animation.draw(275 + anmTimer1, 45, 0.2);
 
     } else if (type == WeaponType.WAND) {
-      u = LootItems.ICE_WAND.getAnimationSpeed();
-      if (p == 0) TSGameSound.MAGIC_SOUND.play();
-      for (int i = 0; i < u; i++) p++;
-      attackP1Animation.draw(290 + p, 25, 2.5);
+      anmSpeed1 = LootItems.ICE_WAND.getAnimationSpeed();
+      if (anmTimer1 == 0) TSGameSound.MAGIC_SOUND.play();
+      for (int i = 0; i < anmSpeed1; i++) anmTimer1++;
+      attackP1Animation.draw(290 + anmTimer1, 25, 2.5);
 
     } else if (type == null) {
-      u = 0;
-      for (int i = 0; i < u; i++) p++;
-      attackP1Animation.draw(290 + p, 25, 1.5);
+      anmSpeed1 = 0;
+      for (int i = 0; i < anmSpeed1; i++) anmTimer1++;
+      attackP1Animation.draw(290 + anmTimer1, 25, 1.5);
     }
   }
 }
