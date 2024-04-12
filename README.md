@@ -56,17 +56,17 @@ To run the game, simply clone the project, then run gradle build command, finall
 # Screenshots
 Below are some miscellaneous screenshots from our LibGDX implementation of the game.
 
-### Character Selection
-<img src="readme_images/CharacterSelection.png" width="302" height="210" alt="Character Selection">
+## Character Selection
+<img src="readme_images/CharacterSelection.png" width="403" height="280" alt="Character Selection">
 
-### Mid Game View
-<img src="readme_images/MidGame.png" width="302" height="210" alt="Mid Game View">
+## Mid Game View
+<img src="readme_images/MidGame.png" width="403" height="280" alt="Mid Game View">
 
-### Battle Scene
-<img src="readme_images/BattleScene.png" width="302" height="210" alt="Battle Scene">
+## Battle Scene
+<img src="readme_images/BattleScene.png" width="403" height="280" alt="Battle Scene">
 
-### Market Scene
-<img src="readme_images/Market.png" width="302" height="210" alt="Market Scene">
+## Market Scene
+<img src="readme_images/Market.png" width="403" height="280" alt="Market Scene">
 
-### Help Menu
-<img src="readme_images/HelpMenu.png" width="302" height="210" alt="Help Menu">
+## Help Menu
+<img src="readme_images/HelpMenu.png" width="403" height="280" alt="Help Menu">
