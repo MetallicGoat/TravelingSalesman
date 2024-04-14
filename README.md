@@ -4,7 +4,7 @@ This is a group project for the course "ENGG*1420 - Object-Oriented Programming"
 
 - Jonathan Butterworth
 - Kavin Manaperi
-- Seth deVeries
+- Seth deVries
 - Mark de Lima
 - Emile (Christian) Azzam
 
@@ -54,7 +54,7 @@ This implementation of traveling salesman was made using the java based LibGDX f
 To run the game, simply clone the project, then run gradle build command, finally run gradle run command. That's it! Note you must be using at least Java 17.
 
 # Screenshots
-Below are some miscellaneous screenshots from our LibGDX implementation of the game.
+Below are some miscellaneous screenshots from our implementation of Travelling Salesman.
 
 ## Character Selection
 <img src="readme_images/CharacterSelection.png" width="403" height="280" alt="Character Selection">
